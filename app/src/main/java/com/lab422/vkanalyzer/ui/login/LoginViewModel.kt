@@ -4,14 +4,11 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.lab422.vkanalyzer.utils.SingleLiveEvent
 import com.lab422.vkanalyzer.utils.navigator.Navigator
 import com.lab422.vkanalyzer.utils.settings.AppSettings
+import com.lab422.vkanalyzer.utils.viewState.ViewState
 import com.vk.api.sdk.auth.VKAccessToken
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 
 class LoginViewModel(
@@ -20,20 +17,29 @@ class LoginViewModel(
 ) : ViewModel(), LifecycleObserver {
 
     private val errorState: SingleLiveEvent<String> = SingleLiveEvent()
+    private val state: MutableLiveData<ViewState<Unit>> = MutableLiveData()
 
+    fun getState(): LiveData<ViewState<Unit>> = state
     fun getErrorState(): LiveData<String> = errorState
 
     fun onLoginSuccess(token: VKAccessToken) {
+        state.postValue(ViewState(ViewState.Status.SUCCESS))
         settings.vkToken = token
         settings.setAuthorizationFinished()
         navigator.openMainActivity()
     }
 
+    fun onLoginStart() {
+        state.postValue(ViewState(ViewState.Status.LOADING))
+    }
+
     fun onLoginFailed() {
         errorState.value = "Ошибка авторизации! Попробуйте снова."
+        state.postValue(ViewState(ViewState.Status.ERROR))
     }
 
     fun onLoginCancelled() {
         errorState.value = "Для пользования приложением необходимо авторизироваться!"
+        state.postValue(ViewState(ViewState.Status.ERROR))
     }
 }

@@ -3,36 +3,40 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <TextView
-        android:id="@+id/tv_title_login"
+        android:id="@+id/tv_mutual_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Для использования приложения \nнеобходимо авторизироваться"
-        android:textColor="#000"
-        android:textSize="20sp"
+        android:text="Общие друзья"
         />
 
-    <Button
-        android:id="@+id/btn_auth_by_vk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_title_login"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="Авторизироваться"
-        />
-
-    <ProgressBar
-        android:id="@+id/pb_auth_loading"
+    <TextView
+        android:id="@+id/tv_first_user_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone"
+        android:layout_below="@+id/tv_mutual_title"
+        android:layout_marginTop="20dp"
+
+
+        tools:text="Первый идишник"
+        />
+
+    <TextView
+        android:id="@+id/tv_second_user_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_first_user_id"
+        android:layout_marginTop="20dp"
+
+
+        tools:text="Второй идишник"
         />
 
 </RelativeLayout>

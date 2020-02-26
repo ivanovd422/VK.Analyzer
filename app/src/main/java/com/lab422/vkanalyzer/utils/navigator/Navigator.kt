@@ -8,6 +8,7 @@ import com.lab422.vkanalyzer.ui.main.MainActivity
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.loading.LoadingActivity
 import com.lab422.vkanalyzer.ui.login.LoginActivity
+import com.lab422.vkanalyzer.ui.mutualFriends.MutualFriendsActivity
 import com.lab422.vkanalyzer.utils.extensions.addFlagClearTop
 import com.lab422.vkanalyzer.utils.extensions.addFlagNewTask
 import com.lab422.vkanalyzer.utils.extensions.addFlagsNewTaskWithClear
@@ -33,6 +34,11 @@ class Navigator(val context: Context) {
         intent.addFlagsNewTaskWithClear()
         intent.addFlagClearTop()
         context.startActivity(intent)
+    }
+
+    fun openMutualListActivity(firstId: Long, secondId: Long) {
+        val intent = MutualFriendsActivity.createIntent(context, firstId, secondId)
+        openActivity(intent)
     }
 }
 

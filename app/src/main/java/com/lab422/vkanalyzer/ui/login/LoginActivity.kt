@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.utils.extensions.setVisible
+import com.lab422.vkanalyzer.utils.viewState.isLoading
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
@@ -32,7 +34,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val callback = object: VKAuthCallback {
+        val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
                 viewModel.onLoginSuccess(token)
             }
@@ -49,8 +51,18 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
     private fun initObservers() {
         viewModel.getErrorState().observe(this, Observer {
-           Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
+
+        viewModel.getState().observe(this, Observer { viewState ->
+            showLoading(viewState.isLoading())
+        })
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        tv_title_login.setVisible(!isLoading)
+        btn_auth_by_vk.setVisible(!isLoading)
+        pb_auth_loading.setVisible(isLoading)
     }
 
     private fun initViews() {
@@ -60,6 +72,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     }
 
     private fun authByVk() {
+        viewModel.onLoginStart()
         VK.login(this, arrayListOf(VKScope.FRIENDS))
     }
 }
