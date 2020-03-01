@@ -2,7 +2,9 @@ package com.lab422.vkanalyzer
 
 import android.app.Application
 import com.lab422.vkanalyzer.di.provideAppModule
+import com.lab422.vkanalyzer.di.provideMutualFriendsModule
 import com.lab422.vkanalyzer.di.provideUiModule
+import com.lab422.vkanalyzer.di.provideUtilsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -23,6 +25,8 @@ class AnalyzerApp : Application() {
     private fun configureDiModules() =
         listOf(
             provideAppModule(this),
+            provideUtilsModule(this),
+            provideMutualFriendsModule(),
             provideUiModule()
         )
 }

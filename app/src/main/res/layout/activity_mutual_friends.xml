@@ -1,42 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     >
 
-    <TextView
-        android:id="@+id/tv_mutual_title"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_mutual_friends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_mutual_friends_error_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Общие друзья"
-        />
+        android:orientation="vertical"
+        >
 
-    <TextView
-        android:id="@+id/tv_first_user_id"
+        <TextView
+            android:id="@+id/tv_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            tools:text="Ошибка"
+            />
+
+        <Button
+            android:id="@+id/btn_retry_fetch_friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="ПОВТОРИТЬ"
+            />
+
+        <Button
+            android:id="@+id/btn_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Вернуться назад"
+            />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_mutual_friends_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tv_mutual_title"
-        android:layout_marginTop="20dp"
-
-
-        tools:text="Первый идишник"
+        android:layout_centerVertical="true"
         />
-
-    <TextView
-        android:id="@+id/tv_second_user_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tv_first_user_id"
-        android:layout_marginTop="20dp"
-
-
-        tools:text="Второй идишник"
-        />
-
 </RelativeLayout>

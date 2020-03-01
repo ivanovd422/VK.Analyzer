@@ -7,12 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lab422.vkanalyzer.utils.SingleLiveEvent
 import com.lab422.vkanalyzer.utils.navigator.Navigator
-import com.lab422.vkanalyzer.utils.requests.MutualFriendsRequest
 import com.lab422.vkanalyzer.utils.requests.VKUsersCommand
 import com.lab422.vkanalyzer.utils.settings.AppSettings
 import com.lab422.vkanalyzer.utils.viewState.ViewState
-import com.lab422.vkanalyzer.utils.vkModels.MutualListId
-import com.lab422.vkanalyzer.utils.vkModels.UserModel
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiCallback
 import com.vk.api.sdk.auth.VKAccessToken
@@ -29,23 +26,6 @@ class MainViewModel(
 
 
     fun onSearchClicked(firstUserId: String, secondUserId: String) {
-        // findById(firstUserId, secondUserId)
-        navigator.openMutualListActivity(6492L, 123123L)
+        navigator.openMutualListActivity(*, *)
     }
-
-/*    private fun findById(firstUserId: String, secondUserId: String) {
-        VK.execute(VKUsersCommand("6492", "6492"), object : VKApiCallback<List<UserModel>> {
-            override fun fail(error: Exception) {
-                if (error is VKApiExecutionException) {
-                    error.code
-                }
-                Log.d("tag", error?.message)
-            }
-
-            override fun success(result: List<UserModel>) {
-                Log.d("tag", "success - $result")
-            }
-        })
-        Log.d("tag", "test")
-    }*/
 }
