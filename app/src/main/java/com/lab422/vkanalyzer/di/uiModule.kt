@@ -13,5 +13,5 @@ fun provideUiModule() = module {
     viewModel { LoadingViewModel(get(), get()) }
     viewModel { LoginViewModel(get(), get()) }
     viewModel { MainViewModel(get()) }
-    viewModel { (model: MutualFriendsModel) -> MutualViewModel(get(), model, get()) }
+    viewModel { (model: MutualFriendsModel) -> MutualViewModel(get(), model, get(), get()) }
 }

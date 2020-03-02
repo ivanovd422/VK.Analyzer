@@ -3,6 +3,7 @@ package com.lab422.vkanalyzer.ui.mutualFriends
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +12,6 @@ import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsType
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
-import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewModel
 import com.lab422.vkanalyzer.utils.extensions.hide
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.stringProvider.StringProvider
@@ -30,17 +30,20 @@ class MutualFriendsActivity : AppCompatActivity(R.layout.activity_mutual_friends
     private lateinit var viewModel: MutualViewModel
 
     private val stringProvider: StringProvider = get()
-    private lateinit var activityLayoutManager: LinearLayoutManager
-    //todo rewrite adapter with LiveData inside
-    private lateinit var friendsAdapter: MutualFriendsAdapter
+    private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
+    private var friendsAdapter: MutualFriendsAdapter
 
     companion object {
         private const val mutualModelKey = "mutualModelKey"
-        fun createIntent(context: Context, firstId: Long, secondId: Long): Intent {
+        fun createIntent(context: Context, firstId: String, secondId: String): Intent {
             val intent = Intent(context, MutualFriendsActivity()::class.java)
             intent.putExtra(mutualModelKey, MutualFriendsModel(firstId, secondId))
             return intent
         }
+    }
+
+    init {
+        friendsAdapter = MutualFriendsAdapter(listOf(), stringProvider, this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,8 +57,12 @@ class MutualFriendsActivity : AppCompatActivity(R.layout.activity_mutual_friends
 
     private fun initViews() {
         ll_mutual_friends_error_wrapper.hide()
-        btn_retry_fetch_friends.setOnClickListener { viewModel.retryLoading() }
-        btn_return.setOnClickListener { finishAffinity() }
+        btn_return.setOnClickListener { finish() }
+
+        rv_mutual_friends.run {
+            layoutManager = activityLayoutManager
+            adapter = friendsAdapter
+        }
     }
 
     private fun initObservers() {
@@ -71,16 +78,15 @@ class MutualFriendsActivity : AppCompatActivity(R.layout.activity_mutual_friends
         if (viewState.isSuccess()) {
             setData(viewState.data)
         }
+
+        if (viewState.isError()) {
+           Toast.makeText(this, viewState.error, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setData(data: List<RowDataModel<MutualFriendsType, *>>?) {
         data?.let {
-            activityLayoutManager = LinearLayoutManager(this)
-            friendsAdapter = MutualFriendsAdapter(it, stringProvider)
-            rv_mutual_friends.run {
-                layoutManager = activityLayoutManager
-                adapter = friendsAdapter
-            }
+            friendsAdapter.reload(data)
         }
     }
 }

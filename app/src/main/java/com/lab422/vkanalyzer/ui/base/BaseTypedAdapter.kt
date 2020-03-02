@@ -1,6 +1,7 @@
 package com.lab422.vkanalyzer.ui.base
 
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
@@ -12,16 +13,16 @@ import java.lang.RuntimeException
 abstract class BaseTypedAdapter<T : Rawable>(
     generalDataList: List<RowDataModel<T, *>>,
     private val stringProvider: StringProvider,
-    private val useDiffs: Boolean = true
+    private val useDiffs: Boolean = true,
+    private val lifecycleOwner: LifecycleOwner
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var previousData: List<RowDataModel<T, *>> = generalDataList.toList()
     private val adapterData: MutableLiveData<List<RowDataModel<T, *>>> = MutableLiveData(generalDataList)
     private val viewHolderFactories: MutableMap<Int, ViewHolderFactory> = mutableMapOf()
-    private val myObserver: Observer<List<RowDataModel<T, *>>>
 
     init {
-        myObserver = Observer { data ->
+        adapterData.observe(lifecycleOwner, Observer { data ->
             if (useDiffs) {
                 val diffUtilCallback = RowDataModelDiffUtilCallback(previousData, data)
                 val diffResult = DiffUtil.calculateDiff(diffUtilCallback, true)
@@ -30,7 +31,7 @@ abstract class BaseTypedAdapter<T : Rawable>(
                 notifyDataSetChanged()
             }
             previousData = data
-        }
+        })
     }
 
     fun reload(dataList: List<RowDataModel<T, *>>) {
@@ -86,6 +87,6 @@ abstract class BaseTypedAdapter<T : Rawable>(
 
     override fun unregisterAdapterDataObserver(observer: RecyclerView.AdapterDataObserver) {
         super.unregisterAdapterDataObserver(observer)
-        adapterData.removeObserver(myObserver)
+        adapterData.removeObservers(lifecycleOwner)
     }
 }

@@ -2,6 +2,6 @@
     <string name="app_name">VK Analyzer</string>
 
     <!-- Bottom bar -->
-    <integer name="com_vk_sdk_AppId">*</integer>
+    <integer name="com_vk_sdk_AppId">7200469</integer>
 
 </resources>

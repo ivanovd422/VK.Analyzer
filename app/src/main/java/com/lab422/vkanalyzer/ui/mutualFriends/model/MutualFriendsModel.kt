@@ -4,13 +4,13 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class MutualFriendsModel(
-    val firstId: Long,
-    val secondId: Long
+    val firstId: String,
+    val secondId: String
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-        parcel.readLong(),
-        parcel.readLong()
+        parcel.readString()!!,
+        parcel.readString()!!
     )
 
     companion object CREATOR : Parcelable.Creator<MutualFriendsModel> {
@@ -24,8 +24,8 @@ data class MutualFriendsModel(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeLong(firstId)
-        parcel.writeLong(secondId)
+        parcel.writeString(firstId)
+        parcel.writeString(secondId)
     }
 
     override fun describeContents(): Int {

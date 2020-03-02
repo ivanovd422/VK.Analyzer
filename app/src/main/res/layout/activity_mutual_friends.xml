@@ -31,15 +31,6 @@
             />
 
         <Button
-            android:id="@+id/btn_retry_fetch_friends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="ПОВТОРИТЬ"
-            />
-
-        <Button
             android:id="@+id/btn_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -1,11 +1,10 @@
 package com.lab422.vkanalyzer.utils.requests
 
-import com.google.gson.Gson
-import com.lab422.vkanalyzer.utils.vkModels.mutual.MutualFriendsList
+import com.lab422.vkanalyzer.utils.requests.vkParsers.MutualFriendsParser
+import com.lab422.vkanalyzer.utils.requests.vkParsers.UserParser
 import com.lab422.vkanalyzer.utils.vkModels.user.User
 import com.lab422.vkanalyzer.utils.vkModels.user.UserResponse
 import com.vk.api.sdk.VKApiManager
-import com.vk.api.sdk.VKApiResponseParser
 import com.vk.api.sdk.VKMethodCall
 import com.vk.api.sdk.internal.ApiCommand
 import kotlinx.coroutines.runBlocking
@@ -16,6 +15,18 @@ class VKUsersCommand(
     private val secondId: String
 ) : ApiCommand<List<User>>() {
 
+    companion object {
+        private const val REQUEST_NAME_GET_MUTUAL = "friends.getMutual"
+        private const val PARAMETER_NAME_SOURCE_UID = "source_uid"
+        private const val PARAMETER_NAME_TARGET_UID = "target_uid"
+
+        private const val REQUEST_NAME_USER_GET = "users.get"
+        private const val PARAMETER_NAME_USER_IDS = "user_ids"
+        private const val PARAMETER_KEY_NAME = "fields"
+        private const val PARAMETER_NAME_PHOTO = "photo_200"
+        private const val PARAMETER_NAME_STATUS = "online"
+    }
+
     override fun onExecute(manager: VKApiManager): List<User> = runBlocking {
         val mutualFriends = getMutualFriends(manager, firstId, secondId)
         getUsersList(manager, mutualFriends).response
@@ -23,9 +34,9 @@ class VKUsersCommand(
 
     private fun getMutualFriends(manager: VKApiManager, firstId: String, secondId: String): List<Long> {
         val call = VKMethodCall.Builder()
-            .method("friends.getMutual")
-            .args("source_uid", firstId)
-            .args("target_uid", secondId)
+            .method(REQUEST_NAME_GET_MUTUAL)
+            .args(PARAMETER_NAME_SOURCE_UID, firstId)
+            .args(PARAMETER_NAME_TARGET_UID, secondId)
             .version(manager.config.version)
             .build()
 
@@ -37,29 +48,13 @@ class VKUsersCommand(
         val idString = ids.joinToString(separator = ",")
 
         val call = VKMethodCall.Builder()
-            .method("users.get")
-            .args("user_ids", idString)
-            .args("fields", "photo_200")
-            .args("fields", "online")
+            .method(REQUEST_NAME_USER_GET)
+            .args(PARAMETER_NAME_USER_IDS, idString)
+            .args(PARAMETER_KEY_NAME, PARAMETER_NAME_PHOTO)
+            .args(PARAMETER_KEY_NAME, PARAMETER_NAME_STATUS)
             .version(manager.config.version)
             .build()
 
-        return manager.execute(call, UserResponseParser())
+        return manager.execute(call, UserParser())
     }
-}
-
-private class UserResponseParser : VKApiResponseParser<UserResponse> {
-    override fun parse(response: String): UserResponse {
-        return Gson().fromJson(response, UserResponse::class.java)
-    }
-}
-
-private class MutualFriendsParser : VKApiResponseParser<MutualFriendsList> {
-    override fun parse(response: String): MutualFriendsList {
-        return Gson().fromJson(response, MutualFriendsList::class.java)
-    }
-}
-
-internal inline fun <reified T> parseGeneric(value: String): T {
-    return Gson().fromJson(value, T::class.java)
 }

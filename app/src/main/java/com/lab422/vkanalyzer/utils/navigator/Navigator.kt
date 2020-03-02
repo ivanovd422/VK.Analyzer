@@ -36,7 +36,7 @@ class Navigator(val context: Context) {
         context.startActivity(intent)
     }
 
-    fun openMutualListActivity(firstId: Long, secondId: Long) {
+    fun openMutualListActivity(firstId: String, secondId: String) {
         val intent = MutualFriendsActivity.createIntent(context, firstId, secondId)
         openActivity(intent)
     }
