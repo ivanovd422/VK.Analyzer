@@ -27,6 +27,7 @@
 
         <activity android:name=".ui.main.MainActivity"/>
         <activity android:name=".ui.mutualFriends.MutualFriendsActivity"/>
+        <activity android:name=".ui.friends.FriendsActivity"/>
 
     </application>
 

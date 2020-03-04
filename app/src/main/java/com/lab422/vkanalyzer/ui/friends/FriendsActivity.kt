@@ -1,5 +1,6 @@
-package com.lab422.vkanalyzer.ui.mutualFriends
+package com.lab422.vkanalyzer.ui.friends
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,9 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.RowDataModel
-import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsListAdapter
+import com.lab422.vkanalyzer.ui.friends.adapter.FriendsListAdapter
+import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
-import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.utils.extensions.hide
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.stringProvider.StringProvider
@@ -19,68 +20,65 @@ import com.lab422.vkanalyzer.utils.viewState.ViewState
 import com.lab422.vkanalyzer.utils.viewState.isError
 import com.lab422.vkanalyzer.utils.viewState.isLoading
 import com.lab422.vkanalyzer.utils.viewState.isSuccess
-import kotlinx.android.synthetic.main.activity_mutual_friends.*
+import kotlinx.android.synthetic.main.activity_friends_list.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 
+class FriendsActivity : AppCompatActivity(R.layout.activity_friends_list), FriendViewHolder.Listener {
 
-class MutualFriendsActivity : AppCompatActivity(R.layout.activity_mutual_friends) {
-
-    private lateinit var viewModel: MutualViewModel
+    private lateinit var viewModel: FriendsViewModel
 
     private val stringProvider: StringProvider = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
-    private var friendsAdapter: MutualFriendsListAdapter
+    private var friendsAdapter: FriendsListAdapter
 
     companion object {
-        private const val mutualModelKey = "mutualModelKey"
-        fun createIntent(context: Context, firstId: String, secondId: String): Intent {
-            val intent = Intent(context, MutualFriendsActivity()::class.java)
-            intent.putExtra(mutualModelKey, MutualFriendsModel(firstId, secondId))
-            return intent
-        }
+        fun createIntent(context: Context): Intent = Intent(context, FriendsActivity()::class.java)
+        const val FRIEND_ID_KEY = "friend_id_key"
     }
 
     init {
-        friendsAdapter = MutualFriendsListAdapter(listOf(), stringProvider, this)
+        friendsAdapter = FriendsListAdapter(listOf(), stringProvider, this, this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel {
-            parametersOf(intent.extras?.getParcelable<MutualFriendsModel>(mutualModelKey))
-        }
+        viewModel = getViewModel()
         initViews()
         initObservers()
     }
 
-    private fun initViews() {
-        ll_mutual_friends_error_wrapper.hide()
-        btn_return.setOnClickListener { finish() }
+    override fun onFriendClicked(id: Long) {
+        setResult(Activity.RESULT_OK, Intent().putExtra(FRIEND_ID_KEY, id))
+        finish()
+    }
 
-        rv_mutual_friends.run {
+    private fun initViews() {
+        ll_friends_list_error_wrapper.hide()
+        btn_friends_list_return.setOnClickListener { finish() }
+
+        rv_friends_list.run {
             layoutManager = activityLayoutManager
             adapter = friendsAdapter
         }
     }
 
     private fun initObservers() {
-        viewModel.getState().observe(this, Observer { viewState ->
+        viewModel.getFriendsState().observe(this, Observer { viewState ->
             processState(viewState)
         })
     }
 
     private fun processState(viewState: ViewState<List<RowDataModel<FriendsListType, *>>>) {
-        pb_mutual_friends_loading.setVisible(viewState.isLoading())
-        ll_mutual_friends_error_wrapper.setVisible(viewState.isError())
+        pb_friends_list_loading.setVisible(viewState.isLoading())
+        ll_friends_list_error_wrapper.setVisible(viewState.isError())
 
         if (viewState.isSuccess()) {
             setData(viewState.data)
         }
 
         if (viewState.isError()) {
-           Toast.makeText(this, viewState.error, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, viewState.error, Toast.LENGTH_SHORT).show()
         }
     }
 

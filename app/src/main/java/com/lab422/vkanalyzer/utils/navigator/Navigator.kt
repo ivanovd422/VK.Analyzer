@@ -4,15 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.app.ActivityOptionsCompat
+import androidx.fragment.app.FragmentActivity
 import com.lab422.vkanalyzer.ui.main.MainActivity
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.ui.friends.FriendsActivity
 import com.lab422.vkanalyzer.ui.loading.LoadingActivity
 import com.lab422.vkanalyzer.ui.login.LoginActivity
 import com.lab422.vkanalyzer.ui.mutualFriends.MutualFriendsActivity
 import com.lab422.vkanalyzer.utils.extensions.addFlagClearTop
 import com.lab422.vkanalyzer.utils.extensions.addFlagNewTask
 import com.lab422.vkanalyzer.utils.extensions.addFlagsNewTaskWithClear
-import com.lab422.vkanalyzer.utils.settings.AppSettings
 
 class Navigator(val context: Context) {
 
@@ -40,6 +41,11 @@ class Navigator(val context: Context) {
         val intent = MutualFriendsActivity.createIntent(context, firstId, secondId)
         openActivity(intent)
     }
+
+    fun openFriendsList(activity: FragmentActivity, requestCode: Int) {
+        val intent = FriendsActivity.createIntent(activity)
+        openActivityForResult(activity, intent, requestCode)
+    }
 }
 
 private fun Navigator.openActivity(intent: Intent, animation: Bundle? = makeSlideInAnimation()) {
@@ -47,8 +53,26 @@ private fun Navigator.openActivity(intent: Intent, animation: Bundle? = makeSlid
     openActivityWithoutTask(intent, animation)
 }
 
+private fun Navigator.openActivityForResult(
+    activity: FragmentActivity,
+    intent: Intent,
+    resultCode: Int,
+    animation: Bundle? = makeSlideInAnimation()
+) {
+    openActivityForResultWithoutTask(activity, intent, resultCode, animation)
+}
+
 private fun Navigator.openActivityWithoutTask(intent: Intent, animation: Bundle? = makeSlideInAnimation()) {
     context.startActivity(intent, animation)
+}
+
+private fun Navigator.openActivityForResultWithoutTask(
+    activity: FragmentActivity,
+    intent: Intent,
+    resultCode: Int,
+    animation: Bundle? = makeSlideInAnimation()
+) {
+    activity.startActivityForResult(intent, resultCode, animation)
 }
 
 fun Navigator.makeNoneAnimation(): Bundle? =

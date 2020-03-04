@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lab422.vkanalyzer.ui.base.RowDataModel
-import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsType
-import com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider.MutualFriendsDataProvider
+import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
+import com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider.FriendsListDataProvider
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.utils.navigator.Navigator
 import com.lab422.vkanalyzer.utils.requests.GetUserIdCommand
@@ -22,17 +22,17 @@ import com.vk.api.sdk.exceptions.VKApiExecutionException
 class MutualViewModel(
     private val navigator: Navigator,
     private val model: MutualFriendsModel?,
-    private val dataProvider: MutualFriendsDataProvider,
+    private val dataProvider: FriendsListDataProvider,
     private val validator: UserNameValidator
 ) : ViewModel(), LifecycleObserver {
 
-    private val state: MutableLiveData<ViewState<List<RowDataModel<MutualFriendsType, *>>>> = MutableLiveData()
+    private val state: MutableLiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = MutableLiveData()
 
     init {
         process()
     }
 
-    fun getState(): LiveData<ViewState<List<RowDataModel<MutualFriendsType, *>>>> = state
+    fun getState(): LiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = state
 
     private fun process() {
         state.postValue(ViewState(ViewState.Status.LOADING))
@@ -111,7 +111,7 @@ class MutualViewModel(
 
             override fun success(result: List<User>) {
                 Log.d("tag", "success - $result")
-                val data = dataProvider.generateMutualFriendsData(result)
+                val data = dataProvider.generateFriendsListData(result, FriendsListType.Friends)
                 if (data.isEmpty()) {
                     showError("Нет общих друзей")
                 } else {

@@ -5,13 +5,13 @@ import com.lab422.vkanalyzer.ui.base.BaseTypedAdapter
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.utils.stringProvider.StringProvider
 
-class MutualFriendsAdapter(
-    mutualFriends: List<RowDataModel<MutualFriendsType, *>>,
+class MutualFriendsListAdapter(
+    friends: List<RowDataModel<FriendsListType, *>>,
     stringProvider: StringProvider,
     lifecycleOwner: LifecycleOwner
-) : BaseTypedAdapter<MutualFriendsType>(mutualFriends, stringProvider, true, lifecycleOwner) {
+) : BaseTypedAdapter<FriendsListType>(friends, stringProvider, true, lifecycleOwner) {
 
     init {
-        addFactory(MutualFriendsType.Friends, FriendViewHolder)
+        addFactory(FriendsListType.Friends, FriendViewHolder.getFactory())
     }
 }

@@ -1,19 +1,19 @@
 package com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider
 
 import com.lab422.vkanalyzer.ui.base.RowDataModel
-import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsType
+import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewModel
 import com.lab422.vkanalyzer.utils.vkModels.user.User
 
-class MutualFriendsDataProviderImpl : MutualFriendsDataProvider {
+class FriendsDataProviderImpl : FriendsListDataProvider {
 
-    override fun generateMutualFriendsData(friends: List<User>): List<RowDataModel<MutualFriendsType, *>> {
-        val mutualFriends = mutableListOf<RowDataModel<MutualFriendsType, *>>()
+    override fun generateFriendsListData(friends: List<User>, type: FriendsListType): List<RowDataModel<FriendsListType, *>> {
+        val friendsList = mutableListOf<RowDataModel<FriendsListType, *>>()
 
         friends.forEach {
-            mutualFriends.add(
+            friendsList.add(
                 RowDataModel(
-                    MutualFriendsType.Friends,
+                    type,
                     it.id.toString(),
                     UserViewModel(
                         it.id,
@@ -24,6 +24,6 @@ class MutualFriendsDataProviderImpl : MutualFriendsDataProvider {
             )
         }
 
-        return mutualFriends
+        return friendsList
     }
 }

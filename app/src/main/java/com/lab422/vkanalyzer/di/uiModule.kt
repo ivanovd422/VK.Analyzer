@@ -1,5 +1,6 @@
 package com.lab422.vkanalyzer.di
 
+import com.lab422.vkanalyzer.ui.friends.FriendsViewModel
 import com.lab422.vkanalyzer.ui.loading.LoadingViewModel
 import com.lab422.vkanalyzer.ui.login.LoginViewModel
 import com.lab422.vkanalyzer.ui.main.MainViewModel
@@ -14,4 +15,5 @@ fun provideUiModule() = module {
     viewModel { LoginViewModel(get(), get()) }
     viewModel { MainViewModel(get()) }
     viewModel { (model: MutualFriendsModel) -> MutualViewModel(get(), model, get(), get()) }
+    viewModel { FriendsViewModel(get()) }
 }

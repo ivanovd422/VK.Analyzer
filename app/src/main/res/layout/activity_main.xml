@@ -48,6 +48,28 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_from_friends_list_first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_from_friends_list_second"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+
+        android:text="Взять из друзей1"
+        />
+
+    <Button
+        android:id="@+id/btn_from_friends_list_second"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_find_friends"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+
+        android:text="Взять из друзей2"
+        />
+
+    <Button
         android:id="@+id/btn_find_friends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
