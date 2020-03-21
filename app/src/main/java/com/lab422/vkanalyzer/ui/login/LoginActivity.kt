@@ -73,6 +73,6 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
     private fun authByVk() {
         viewModel.onLoginStart()
-        VK.login(this, arrayListOf(VKScope.FRIENDS))
+        VK.login(this, arrayListOf(VKScope.FRIENDS, VKScope.PHOTOS))
     }
 }

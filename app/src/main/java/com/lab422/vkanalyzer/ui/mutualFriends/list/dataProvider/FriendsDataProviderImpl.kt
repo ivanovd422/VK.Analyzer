@@ -19,7 +19,7 @@ class FriendsDataProviderImpl : FriendsListDataProvider {
                         it.id,
                         "${it.first_name}  ${it.last_name}",
                         it.online != 0,
-                        it.photo_200
+                        it.photoUrl
                     )
                 )
             )

@@ -107,8 +107,6 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    //rrule calendar
-    implementation 'net.sf.biweekly:biweekly:0.6.3'
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"

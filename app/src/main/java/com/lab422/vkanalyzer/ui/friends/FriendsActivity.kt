@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.ui.base.BaseItemDecoration
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.friends.adapter.FriendsListAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
@@ -61,6 +62,9 @@ class FriendsActivity : AppCompatActivity(R.layout.activity_friends_list), Frien
             layoutManager = activityLayoutManager
             adapter = friendsAdapter
         }
+
+        val divider = BaseItemDecoration(this)
+        rv_friends_list.addItemDecoration(divider, 0)
     }
 
     private fun initObservers() {

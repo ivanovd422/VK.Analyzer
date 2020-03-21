@@ -8,4 +8,30 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Widget"/>
+
+    <style name="Widget.Item">
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:background">@drawable/ripple_background</item>
+    </style>
+
+    <style name="Widget.TextView" parent="android:Widget.TextView" />
+
+    <style name="Widget.TextView.Regular">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Widget.TextView.Medium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.TextView.Bold">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.TextView.Light">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
 </resources>

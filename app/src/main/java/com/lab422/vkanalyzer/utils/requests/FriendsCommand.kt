@@ -14,8 +14,9 @@ class FriendsCommand : ApiCommand<List<User>>() {
     companion object {
         private const val REQUEST_NAME_USER_GET = "friends.get"
         private const val PARAMETER_KEY_NAME = "fields"
-        private const val PARAMETER_NAME_PHOTO = "photo_50"
-        private const val PARAMETER_NAME_STATUS = "online"
+        private const val PARAMETER_NAME_PHOTO = "photo_100"
+        private const val PARAMETER_LANGUAGE = "lang"
+        private const val PARAMETER_LANGUAGE_RU = "ru"
     }
 
     override fun onExecute(manager: VKApiManager): List<User> = runBlocking {
@@ -28,7 +29,7 @@ class FriendsCommand : ApiCommand<List<User>>() {
         val call = VKMethodCall.Builder()
             .method(REQUEST_NAME_USER_GET)
             .args(PARAMETER_KEY_NAME, PARAMETER_NAME_PHOTO)
-            .args(PARAMETER_KEY_NAME, PARAMETER_NAME_STATUS)
+            .args(PARAMETER_LANGUAGE, PARAMETER_LANGUAGE_RU)
             .version(manager.config.version)
             .build()
 

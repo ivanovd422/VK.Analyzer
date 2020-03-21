@@ -1,6 +1,8 @@
 package com.lab422.vkanalyzer.utils.vkModels.friends
 
+import com.google.gson.annotations.SerializedName
 import com.lab422.vkanalyzer.utils.vkModels.user.User
+import java.io.Serializable
 
 data class Item(
     val can_access_closed: Boolean,
@@ -9,9 +11,9 @@ data class Item(
     val is_closed: Boolean,
     val last_name: String,
     val online: Int,
-    val photo_50: String?,
+    @SerializedName("photo_100") val photoUrl: String?,
     val track_code: String
-)
+) : Serializable
 
 fun Item.convertToUser(): User =
     User(
@@ -21,5 +23,5 @@ fun Item.convertToUser(): User =
         is_closed,
         last_name,
         online,
-        photo_50
-        )
+        photoUrl
+    )

@@ -24,7 +24,8 @@ class VKUsersCommand(
         private const val PARAMETER_NAME_USER_IDS = "user_ids"
         private const val PARAMETER_KEY_NAME = "fields"
         private const val PARAMETER_NAME_PHOTO = "photo_200"
-        private const val PARAMETER_NAME_STATUS = "online"
+        private const val PARAMETER_LANGUAGE = "lang"
+        private const val PARAMETER_LANGUAGE_RU = "ru"
     }
 
     override fun onExecute(manager: VKApiManager): List<User> = runBlocking {
@@ -51,7 +52,7 @@ class VKUsersCommand(
             .method(REQUEST_NAME_USER_GET)
             .args(PARAMETER_NAME_USER_IDS, idString)
             .args(PARAMETER_KEY_NAME, PARAMETER_NAME_PHOTO)
-            .args(PARAMETER_KEY_NAME, PARAMETER_NAME_STATUS)
+            .args(PARAMETER_LANGUAGE, PARAMETER_LANGUAGE_RU)
             .version(manager.config.version)
             .build()
 

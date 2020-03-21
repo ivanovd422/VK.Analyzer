@@ -8,9 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.ui.base.BaseItemDecoration
 import com.lab422.vkanalyzer.ui.base.RowDataModel
-import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsListAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
+import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsListAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.utils.extensions.hide
 import com.lab422.vkanalyzer.utils.extensions.setVisible
@@ -63,6 +64,8 @@ class MutualFriendsActivity : AppCompatActivity(R.layout.activity_mutual_friends
             layoutManager = activityLayoutManager
             adapter = friendsAdapter
         }
+        val divider = BaseItemDecoration(this)
+        rv_mutual_friends.addItemDecoration(divider, 0)
     }
 
     private fun initObservers() {
@@ -80,7 +83,7 @@ class MutualFriendsActivity : AppCompatActivity(R.layout.activity_mutual_friends
         }
 
         if (viewState.isError()) {
-           Toast.makeText(this, viewState.error, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, viewState.error, Toast.LENGTH_SHORT).show()
         }
     }
 

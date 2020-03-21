@@ -2,36 +2,62 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="20dp"
+    android:clickable="true"
+    android:focusable="true"
     >
 
     <ImageView
         android:id="@+id/iv_friend_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/ic_empty_avatar"
         />
 
     <TextView
         android:id="@+id/tv_user_name"
+        style="@style/Widget.TextView.Bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/iv_friend_photo"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
 
         tools:text="User name"
         />
 
     <TextView
-        android:id="@+id/tv_user_status"
+        android:id="@+id/tv_user_id"
+        style="@style/Widget.TextView.Regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_user_name"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/iv_friend_photo"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+
+        tools:text="Id: "
+        />
+
+    <TextView
+        android:id="@+id/tv_user_status"
+        style="@style/Widget.TextView.Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_user_id"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/iv_friend_photo"
+        android:textSize="16sp"
 
         tools:text="Status: online"
         />
