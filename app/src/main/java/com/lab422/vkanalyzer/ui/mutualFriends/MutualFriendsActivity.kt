@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.amplitude.api.Amplitude
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.base.BaseItemDecoration
@@ -23,6 +24,8 @@ import com.lab422.vkanalyzer.utils.viewState.isError
 import com.lab422.vkanalyzer.utils.viewState.isLoading
 import com.lab422.vkanalyzer.utils.viewState.isSuccess
 import kotlinx.android.synthetic.main.activity_mutual_friends.*
+import org.json.JSONException
+import org.json.JSONObject
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -65,8 +68,17 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
     }
 
     override fun onFriendClicked(id: Long) {
+        val link = String.format("https://vk.com/id%d", id)
+
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("opened_user_link", link)
+        } catch (exception: JSONException) {
+        }
+        Amplitude.getInstance().logEvent("open by link", eventProperties);
+
         val intent =
-            Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/id%d", id)))
+            Intent(Intent.ACTION_VIEW, Uri.parse(link))
         startActivity(intent)
     }
 

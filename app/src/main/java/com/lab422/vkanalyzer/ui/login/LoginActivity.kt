@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.amplitude.api.Amplitude
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.viewState.isLoading
@@ -36,15 +37,18 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
+                Amplitude.getInstance().logEvent("auth by vk success")
                 viewModel.onLoginSuccess(token)
             }
 
             override fun onLoginFailed(errorCode: Int) {
+                Amplitude.getInstance().logEvent("auth by vk failed")
                 viewModel.onLoginFailed()
             }
         }
         if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
             super.onActivityResult(requestCode, resultCode, data)
+            Amplitude.getInstance().logEvent("auth by vk cancelled")
             viewModel.onLoginCancelled()
         }
     }

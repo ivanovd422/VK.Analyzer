@@ -107,6 +107,10 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
+    // analytics
+    implementation 'com.amplitude:android-sdk:2.23.2'
+
+
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"

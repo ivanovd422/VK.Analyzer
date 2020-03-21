@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.amplitude.api.Amplitude
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.friends.FriendsActivity
@@ -69,6 +70,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     private fun openFriendsList(code: Int) {
+        Amplitude.getInstance().logEvent("get user from friend list");
         navigator.openFriendsList(this, code)
     }
 

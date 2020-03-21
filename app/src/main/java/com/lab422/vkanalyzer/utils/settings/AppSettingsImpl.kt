@@ -11,6 +11,7 @@ internal class AppSettingsImpl(app: AnalyzerApp) : AppSettings {
     companion object {
         private const val PREF_KEY_API_TOKEN = "apiTokenKey"
         private const val PREF_KEY_APP_AUTHORIZATION = "authorizationVkAppKey"
+        private const val PREF_KEY_APP_FIRST_LAUNCH = "firstLaunchKey"
     }
 
     private val appSp = app.getSharedPreferences(AppSettings.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
@@ -37,5 +38,13 @@ internal class AppSettingsImpl(app: AnalyzerApp) : AppSettings {
     override fun logOut() {
         keyValueStorage.set(PREF_KEY_APP_AUTHORIZATION, false)
         keyValueStorage.set(PREF_KEY_API_TOKEN, "")
+    }
+
+
+    override val isFirstLaunch: Boolean
+        get() = keyValueStorage.getBoolean(PREF_KEY_APP_FIRST_LAUNCH, true)
+
+    override fun setFirstLaunch() {
+        keyValueStorage.set(PREF_KEY_APP_FIRST_LAUNCH, false)
     }
 }

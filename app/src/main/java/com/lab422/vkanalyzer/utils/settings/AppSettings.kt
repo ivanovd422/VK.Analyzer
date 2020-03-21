@@ -14,4 +14,7 @@ interface AppSettings {
     val isAuthorized: Boolean
     fun setAuthorizationFinished()
     fun logOut()
+
+    val isFirstLaunch: Boolean
+    fun setFirstLaunch()
 }

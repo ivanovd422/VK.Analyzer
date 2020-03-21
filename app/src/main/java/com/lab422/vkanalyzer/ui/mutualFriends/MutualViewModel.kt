@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.amplitude.api.Amplitude
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider.FriendsListDataProvider
@@ -17,6 +18,8 @@ import com.lab422.vkanalyzer.utils.vkModels.user.User
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiCallback
 import com.vk.api.sdk.exceptions.VKApiExecutionException
+import org.json.JSONException
+import org.json.JSONObject
 
 class MutualViewModel(
     private val navigator: Navigator,
@@ -71,6 +74,13 @@ class MutualViewModel(
                         error = error.message ?: "some error"
                     )
                 )
+
+                val eventProperties = JSONObject()
+                try {
+                    eventProperties.put("error", error.localizedMessage ?: "unknown error")
+                } catch (exception: JSONException) {
+                }
+                Amplitude.getInstance().logEvent("failed load users id", eventProperties);
             }
 
             override fun success(result: List<String>) {
@@ -104,6 +114,12 @@ class MutualViewModel(
                         error = error.message ?: "some error"
                     )
                 )
+                val eventProperties = JSONObject()
+                try {
+                    eventProperties.put("error", error.localizedMessage ?: "unknown error")
+                } catch (exception: JSONException) {
+                }
+                Amplitude.getInstance().logEvent("failed load mutual friends", eventProperties);
             }
 
             override fun success(result: List<User>) {
@@ -113,6 +129,7 @@ class MutualViewModel(
                 } else {
                     state.postValue(ViewState(ViewState.Status.SUCCESS, data))
                 }
+                Amplitude.getInstance().logEvent("success load mutual friends");
             }
         })
     }
