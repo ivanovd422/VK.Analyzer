@@ -1,6 +1,5 @@
 package com.lab422.vkanalyzer.ui.mutualFriends
 
-import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -66,7 +65,6 @@ class MutualViewModel(
                 if (error is VKApiExecutionException) {
                     error.code
                 }
-                Log.d("tag", error.message ?: "")
                 state.postValue(
                     ViewState(
                         status = ViewState.Status.ERROR,
@@ -100,7 +98,6 @@ class MutualViewModel(
                 if (error is VKApiExecutionException) {
                     error.code
                 }
-                Log.d("tag", error.message ?: "")
                 state.postValue(
                     ViewState(
                         status = ViewState.Status.ERROR,
@@ -110,7 +107,6 @@ class MutualViewModel(
             }
 
             override fun success(result: List<User>) {
-                Log.d("tag", "success - $result")
                 val data = dataProvider.generateFriendsListData(result, FriendsListType.Friends)
                 if (data.isEmpty()) {
                     showError("Нет общих друзей")

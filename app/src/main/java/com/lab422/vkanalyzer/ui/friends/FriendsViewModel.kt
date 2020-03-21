@@ -1,6 +1,5 @@
 package com.lab422.vkanalyzer.ui.friends
 
-import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,12 +32,10 @@ class FriendsViewModel(
                 if (error is VKApiExecutionException) {
                     error.code
                 }
-                Log.d("tag", error.message ?: "")
                 showError(error.message ?: "some error")
             }
 
             override fun success(result: List<User>) {
-                Log.d("tag", "success - $result")
                 val data = dataProvider.generateFriendsListData(result, FriendsListType.SelectableFriends)
                 if (data.isEmpty()) {
                     showError("Нет общих друзей")

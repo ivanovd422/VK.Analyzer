@@ -3,11 +3,11 @@ package com.lab422.vkanalyzer.ui.main
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.friends.FriendsActivity
 import com.lab422.vkanalyzer.utils.navigator.Navigator
 import com.lab422.vkanalyzer.utils.viewState.isError
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.android.get
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private val viewModel: MainViewModel by inject()
     private val navigator: Navigator = get()
@@ -29,8 +29,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         private const val REQUEST_CODE_GET_SECOND_FRIEND = 10002
     }
 
+    override fun getToolBarViewId(): Int = R.id.toolbar_main
+
+    override val toolbarName: Int = R.string.main_screen
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setToolBar(false)
 
         initViews()
         initObservers()
@@ -51,8 +56,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             )
         }
 
-        btn_from_friends_list_first.setOnClickListener { openFriendsList(REQUEST_CODE_GET_FIRST_FRIEND) }
-        btn_from_friends_list_second.setOnClickListener { openFriendsList(REQUEST_CODE_GET_SECOND_FRIEND) }
+        iv_from_friends_list_first.setOnClickListener { openFriendsList(REQUEST_CODE_GET_FIRST_FRIEND) }
+        iv_from_friends_list_second.setOnClickListener { openFriendsList(REQUEST_CODE_GET_SECOND_FRIEND) }
     }
 
     private fun initObservers() {

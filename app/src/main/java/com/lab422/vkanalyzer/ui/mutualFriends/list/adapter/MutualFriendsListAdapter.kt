@@ -8,10 +8,11 @@ import com.lab422.vkanalyzer.utils.stringProvider.StringProvider
 class MutualFriendsListAdapter(
     friends: List<RowDataModel<FriendsListType, *>>,
     stringProvider: StringProvider,
-    lifecycleOwner: LifecycleOwner
+    lifecycleOwner: LifecycleOwner,
+    onFriendClicked: FriendViewHolder.Listener
 ) : BaseTypedAdapter<FriendsListType>(friends, stringProvider, true, lifecycleOwner) {
 
     init {
-        addFactory(FriendsListType.Friends, FriendViewHolder.getFactory())
+        addFactory(FriendsListType.Friends, FriendViewHolder.getFactory(onFriendClicked))
     }
 }

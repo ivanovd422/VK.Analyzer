@@ -5,10 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.base.BaseItemDecoration
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.friends.adapter.FriendsListAdapter
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_friends_list.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-class FriendsActivity : AppCompatActivity(R.layout.activity_friends_list), FriendViewHolder.Listener {
+class FriendsActivity : BaseActivity(R.layout.activity_friends_list), FriendViewHolder.Listener {
 
     private lateinit var viewModel: FriendsViewModel
 
@@ -42,8 +42,13 @@ class FriendsActivity : AppCompatActivity(R.layout.activity_friends_list), Frien
         friendsAdapter = FriendsListAdapter(listOf(), stringProvider, this, this)
     }
 
+    override fun getToolBarViewId(): Int = R.id.toolbar_friends_list
+
+    override val toolbarName: Int = R.string.friends_list
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setToolBar()
         viewModel = getViewModel()
         initViews()
         initObservers()

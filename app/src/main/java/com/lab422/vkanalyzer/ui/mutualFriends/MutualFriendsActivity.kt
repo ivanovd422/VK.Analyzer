@@ -2,14 +2,16 @@ package com.lab422.vkanalyzer.ui.mutualFriends
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.base.BaseItemDecoration
 import com.lab422.vkanalyzer.ui.base.RowDataModel
+import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsListAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
@@ -26,7 +28,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
 
-class MutualFriendsActivity : AppCompatActivity(R.layout.activity_mutual_friends) {
+
+class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), FriendViewHolder.Listener {
 
     private lateinit var viewModel: MutualViewModel
 
@@ -44,11 +47,16 @@ class MutualFriendsActivity : AppCompatActivity(R.layout.activity_mutual_friends
     }
 
     init {
-        friendsAdapter = MutualFriendsListAdapter(listOf(), stringProvider, this)
+        friendsAdapter = MutualFriendsListAdapter(listOf(), stringProvider, this, this)
     }
+
+    override fun getToolBarViewId(): Int = R.id.toolbar_mutual_friends_list
+
+    override val toolbarName: Int = R.string.mutual_friends_list
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setToolBar()
         viewModel = getViewModel {
             parametersOf(intent.extras?.getParcelable<MutualFriendsModel>(mutualModelKey))
         }
@@ -56,9 +64,15 @@ class MutualFriendsActivity : AppCompatActivity(R.layout.activity_mutual_friends
         initObservers()
     }
 
+    override fun onFriendClicked(id: Long) {
+        val intent =
+            Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/id%d", id)))
+        startActivity(intent)
+    }
+
     private fun initViews() {
         ll_mutual_friends_error_wrapper.hide()
-        btn_return.setOnClickListener { finish() }
+        btn_return.setOnClickListener { onSupportNavigateUp() }
 
         rv_mutual_friends.run {
             layoutManager = activityLayoutManager

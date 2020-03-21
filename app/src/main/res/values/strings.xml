@@ -4,4 +4,10 @@
     <!-- id -->
     <integer name="com_vk_sdk_AppId">7200469</integer>
 
+
+    <string name="main_screen">Анализатор ВК</string>
+    <string name="friends_list">Список друзей</string>
+    <string name="mutual_friends_list">Общие друзья</string>
+    <string name="search">ПОИСК</string>
+
 </resources>

@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AnalyzerTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -15,7 +15,9 @@
         <item name="android:background">@drawable/ripple_background</item>
     </style>
 
-    <style name="Widget.TextView" parent="android:Widget.TextView" />
+    <style name="Widget.TextView" parent="android:Widget.TextView" >
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
 
     <style name="Widget.TextView.Regular">
         <item name="android:fontFamily">sans-serif</item>
@@ -33,5 +35,9 @@
     <style name="Widget.TextView.Light">
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
+
+    <style name="Analyzer.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="Analyzer.Toolbar.Popup" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>

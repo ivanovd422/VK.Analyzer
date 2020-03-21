@@ -6,10 +6,15 @@
     android:layout_height="match_parent"
     >
 
+    <include
+        android:id="@+id/toolbar_friends_list"
+        layout="@layout/view_toolbar" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_friends_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_friends_list"
         />
 
     <LinearLayout

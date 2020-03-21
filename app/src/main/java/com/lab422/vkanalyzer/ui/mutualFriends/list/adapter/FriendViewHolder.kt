@@ -14,6 +14,7 @@ import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewModel
+import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.stringProvider.StringProvider
 import kotlinx.android.synthetic.main.item_mutual_friend.view.*
 
@@ -25,6 +26,7 @@ class FriendViewHolder(
     private val tvUserStatus = view.tv_user_status
     private val ivUserPhoto = view.iv_friend_photo
     private val tvUserId = view.tv_user_id
+    private val ivSearch = view.iv_search
 
     interface Listener {
         fun onFriendClicked(id: Long)
@@ -61,12 +63,15 @@ class FriendViewHolder(
     override fun onBind(model: RowDataModel<FriendsListType, *>) {
         super.onBind(model)
         val item = model.value as UserViewModel
+        val isClickable = model.rowType == FriendsListType.Friends
 
         val status = if (item.isOnline) textIsOnline else textIsOffline
         val statusColor = if (item.isOnline) colorGreenRes else colorRedRes
         val textStatus = String.format(onlineStatusPattern, status)
 
         view.setOnClickListener { listener?.onFriendClicked(item.id) }
+
+        ivSearch.setVisible(isClickable)
 
         tvUserName.text = item.userName
 
