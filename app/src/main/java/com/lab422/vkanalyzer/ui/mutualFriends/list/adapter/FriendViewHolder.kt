@@ -1,9 +1,11 @@
 package com.lab422.vkanalyzer.ui.mutualFriends.list.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
@@ -18,6 +20,7 @@ class FriendViewHolder(
 ) : BaseTypedViewHolder<FriendsListType>(view) {
     private val tvUserName = view.tv_user_name
     private val tvUserStatus = view.tv_user_status
+    private val ivUserPhoto = view.iv_friend_photo
 
     interface Listener {
         fun onFriendClicked(id: Long)
@@ -55,6 +58,13 @@ class FriendViewHolder(
 
         if (isClickable) {
             view.setOnClickListener { listener?.onFriendClicked(item.id) }
+        }
+
+        if (item.photoUrl.isNullOrEmpty().not()) {
+            Glide.with(itemView.context)
+                .asBitmap()
+                .load(Uri.parse(item.photoUrl))
+                .into(ivUserPhoto)
         }
     }
 }

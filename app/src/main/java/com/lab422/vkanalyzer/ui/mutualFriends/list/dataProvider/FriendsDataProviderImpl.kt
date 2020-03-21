@@ -18,7 +18,8 @@ class FriendsDataProviderImpl : FriendsListDataProvider {
                     UserViewModel(
                         it.id,
                         "${it.first_name}  ${it.last_name}",
-                        it.online != 0
+                        it.online != 0,
+                        it.photo_200
                     )
                 )
             )

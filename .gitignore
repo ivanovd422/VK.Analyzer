@@ -12,3 +12,9 @@
 /captures
 .externalNativeBuild
 .cxx
+
+# key stores
+analyzer.debug.keystore
+
+# key properties
+keystore.properties
