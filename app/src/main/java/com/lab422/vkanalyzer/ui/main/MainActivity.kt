@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.amplitude.api.Amplitude
+import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.CrashlyticsRegistrar
+import com.google.firebase.crashlytics.core.CrashlyticsCore
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.friends.FriendsActivity

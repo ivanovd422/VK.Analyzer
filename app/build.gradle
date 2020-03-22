@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 ext {
 
@@ -107,17 +109,23 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    // analytics
-    implementation 'com.amplitude:android-sdk:2.23.2'
-
-
-
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
+    // Vk SDK
     implementation 'com.vk:androidsdk:2.2.1'
+
+    // Analytics
+    implementation 'com.amplitude:android-sdk:2.23.2'
+
+    // Firebase
+    implementation 'com.google.firebase:firebase-analytics:17.2.3'
+    implementation 'com.google.firebase:firebase-analytics:17.2.3'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta02'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
 
     // tests
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
