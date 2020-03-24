@@ -4,7 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.vkanalyzer.R
@@ -25,7 +29,8 @@ import kotlinx.android.synthetic.main.activity_friends_list.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-class FriendsActivity : BaseActivity(R.layout.activity_friends_list), FriendViewHolder.Listener {
+class FriendsActivity : BaseActivity(R.layout.activity_friends_list), FriendViewHolder.Listener,
+    SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: FriendsViewModel
 
@@ -52,6 +57,22 @@ class FriendsActivity : BaseActivity(R.layout.activity_friends_list), FriendView
         viewModel = getViewModel()
         initViews()
         initObservers()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_friends_list, menu)
+        val searchItem: MenuItem = menu.findItem(R.id.menu_search)
+        val searchView = searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(this)
+
+        return true
+    }
+
+    override fun onQueryTextSubmit(query: String): Boolean = true
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        viewModel.onSearchQueryTyped(newText)
+        return true
     }
 
     override fun onFriendClicked(id: Long) {

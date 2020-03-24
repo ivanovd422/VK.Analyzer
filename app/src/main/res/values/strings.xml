@@ -10,4 +10,7 @@
     <string name="mutual_friends_list">Общие друзья</string>
     <string name="search">ПОИСК</string>
 
+
+    <string name="menu_search">Поиск</string>
+
 </resources>
