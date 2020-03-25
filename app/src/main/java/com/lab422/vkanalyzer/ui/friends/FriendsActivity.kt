@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -33,10 +32,10 @@ class FriendsActivity : BaseActivity(R.layout.activity_friends_list), FriendView
     SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: FriendsViewModel
-
     private val stringProvider: StringProvider = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
     private var friendsAdapter: FriendsListAdapter
+    private lateinit var searchItem: SearchView
 
     companion object {
         fun createIntent(context: Context): Intent = Intent(context, FriendsActivity()::class.java)
@@ -61,11 +60,20 @@ class FriendsActivity : BaseActivity(R.layout.activity_friends_list), FriendView
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_friends_list, menu)
-        val searchItem: MenuItem = menu.findItem(R.id.menu_search)
-        val searchView = searchItem.actionView as SearchView
-        searchView.setOnQueryTextListener(this)
+        val menuItem: MenuItem = menu.findItem(R.id.menu_search)
+        searchItem = menuItem.actionView as SearchView
+        searchItem.setOnQueryTextListener(this)
 
         return true
+    }
+
+    override fun onBackPressed() {
+        if (searchItem.isIconified.not()) {
+            searchItem.isIconified = true
+            return
+        }
+
+        super.onBackPressed()
     }
 
     override fun onQueryTextSubmit(query: String): Boolean = true

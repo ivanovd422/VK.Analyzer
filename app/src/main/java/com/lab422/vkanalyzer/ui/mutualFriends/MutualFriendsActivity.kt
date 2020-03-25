@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amplitude.api.Amplitude
@@ -32,13 +35,15 @@ import org.koin.core.parameter.parametersOf
 
 
 
-class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), FriendViewHolder.Listener {
+class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), FriendViewHolder.Listener,
+    SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: MutualViewModel
 
     private val stringProvider: StringProvider = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
     private var friendsAdapter: MutualFriendsListAdapter
+    private lateinit var searchItem: SearchView
 
     companion object {
         private const val mutualModelKey = "mutualModelKey"
@@ -67,6 +72,15 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
         initObservers()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_friends_list, menu)
+        val menuItem: MenuItem = menu.findItem(R.id.menu_search)
+        searchItem = menuItem.actionView as SearchView
+        searchItem.setOnQueryTextListener(this)
+
+        return true
+    }
+
     override fun onFriendClicked(id: Long) {
         val link = String.format("https://vk.com/id%d", id)
 
@@ -80,6 +94,22 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
         val intent =
             Intent(Intent.ACTION_VIEW, Uri.parse(link))
         startActivity(intent)
+    }
+
+    override fun onQueryTextSubmit(query: String): Boolean = true
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        viewModel.onSearchQueryTyped(newText)
+        return true
+    }
+
+    override fun onBackPressed() {
+        if (searchItem.isIconified.not()) {
+            searchItem.isIconified = true
+            return
+        }
+
+        super.onBackPressed()
     }
 
     private fun initViews() {

@@ -2,13 +2,16 @@ package com.lab422.vkanalyzer.ui.mutualFriends
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.amplitude.api.Amplitude
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider.FriendsListDataProvider
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
+import com.lab422.vkanalyzer.utils.extensions.debounce
 import com.lab422.vkanalyzer.utils.navigator.Navigator
 import com.lab422.vkanalyzer.utils.requests.GetUserIdCommand
 import com.lab422.vkanalyzer.utils.requests.VKUsersCommand
@@ -18,6 +21,10 @@ import com.lab422.vkanalyzer.utils.vkModels.user.User
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiCallback
 import com.vk.api.sdk.exceptions.VKApiExecutionException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -28,13 +35,30 @@ class MutualViewModel(
     private val validator: UserNameValidator
 ) : ViewModel(), LifecycleObserver {
 
-    private val state: MutableLiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = MutableLiveData()
+    private val state: MediatorLiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = MediatorLiveData()
+    private val queryLiveData: MutableLiveData<String> = MutableLiveData()
+
+    private val viewModelJob = SupervisorJob()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private var rowData: MutableList<User> = mutableListOf()
 
     init {
         process()
+
+        state.addSource(queryLiveData.debounce(300, viewModelScope)) {
+            uiScope.launch {
+                val data = dataProvider.filterByQuery(rowData, FriendsListType.Friends, it)
+                state.postValue(ViewState(ViewState.Status.SUCCESS, data))
+            }
+        }
     }
 
     fun getState(): LiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = state
+
+    fun onSearchQueryTyped(text: String) {
+        queryLiveData.postValue(text.toLowerCase())
+    }
 
     private fun process() {
         state.postValue(ViewState(ViewState.Status.LOADING))
@@ -123,13 +147,7 @@ class MutualViewModel(
             }
 
             override fun success(result: List<User>) {
-                val data = dataProvider.generateFriendsListData(result, FriendsListType.Friends)
-                if (data.isEmpty()) {
-                    showError("Нет общих друзей")
-                } else {
-                    state.postValue(ViewState(ViewState.Status.SUCCESS, data))
-                }
-                Amplitude.getInstance().logEvent("success load mutual friends");
+                onSuccessLoadUsers(result)
             }
         })
     }
@@ -141,5 +159,18 @@ class MutualViewModel(
                 error = textError
             )
         )
+    }
+
+    private fun onSuccessLoadUsers(result: List<User>) {
+        rowData.clear()
+        rowData.addAll(result)
+
+        val data = dataProvider.generateFriendsListData(rowData, FriendsListType.Friends)
+        if (data.isEmpty()) {
+            showError("Нет общих друзей")
+        } else {
+            state.postValue(ViewState(ViewState.Status.SUCCESS, data))
+        }
+        Amplitude.getInstance().logEvent("success load mutual friends");
     }
 }
