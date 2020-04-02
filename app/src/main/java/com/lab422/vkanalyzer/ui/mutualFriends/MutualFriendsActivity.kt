@@ -81,7 +81,7 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
         return true
     }
 
-    override fun onFriendClicked(id: Long) {
+    override fun onFriendClicked(id: Long, name: String) {
         val link = String.format("https://vk.com/id%d", id)
 
         val eventProperties = JSONObject()

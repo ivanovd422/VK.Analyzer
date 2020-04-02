@@ -27,4 +27,11 @@
     <string name="dialog_auth_info_btn">Понятно</string>
 
 
+    <!-- Main -->
+    <string name="first_user_hint">Введите id первого пользователя</string>
+    <string name="first_user_title">Первый пользователь:</string>
+    <string name="second_user_title">Второй пользователь:</string>
+    <string name="second_user_hint">Введите id второго пользователя</string>
+    <string name="error_back">Вернуться назад</string>
+
 </resources>

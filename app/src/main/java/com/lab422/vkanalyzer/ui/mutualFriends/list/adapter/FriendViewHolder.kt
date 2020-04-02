@@ -29,7 +29,7 @@ class FriendViewHolder(
     private val ivSearch = view.iv_search
 
     interface Listener {
-        fun onFriendClicked(id: Long)
+        fun onFriendClicked(id: Long, name: String)
     }
 
     companion object {
@@ -69,7 +69,7 @@ class FriendViewHolder(
         val statusColor = if (item.isOnline) colorGreenRes else colorRedRes
         val textStatus = String.format(onlineStatusPattern, status)
 
-        view.setOnClickListener { listener?.onFriendClicked(item.id) }
+        view.setOnClickListener { listener?.onFriendClicked(item.id, item.userName) }
 
         ivSearch.setVisible(isClickable)
 

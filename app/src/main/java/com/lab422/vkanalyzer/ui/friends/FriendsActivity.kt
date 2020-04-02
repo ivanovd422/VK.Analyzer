@@ -83,8 +83,8 @@ class FriendsActivity : BaseActivity(R.layout.activity_friends_list), FriendView
         return true
     }
 
-    override fun onFriendClicked(id: Long) {
-        setResult(Activity.RESULT_OK, Intent().putExtra(FRIEND_ID_KEY, id))
+    override fun onFriendClicked(id: Long, name: String) {
+        setResult(Activity.RESULT_OK, Intent().putExtra(FRIEND_ID_KEY, FriendModel(id, name)))
         finish()
     }
 

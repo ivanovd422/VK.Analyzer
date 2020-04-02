@@ -2,6 +2,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAlphaPrimaryLight"
@@ -34,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:text="Первый пользователь:"
+            android:text="@string/first_user_title"
             android:textSize="16sp"
 
             app:layout_constraintBottom_toTopOf="@+id/et_first_user"
@@ -48,16 +49,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:hint="Введите id первого пользователя"
+            android:hint="@string/first_user_hint"
             android:inputType="text"
             android:lines="1"
             android:maxLines="1"
+
+            app:layout_constraintBottom_toTopOf="@+id/tv_first_user_name"
+            app:layout_constraintEnd_toStartOf="@+id/iv_from_friends_list_first"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/tv_title_first_user"
+            />
+
+        <TextView
+            android:id="@+id/tv_first_user_name"
+            style="@style/Widget.TextView.Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorDisabled"
+            android:visibility="invisible"
 
             app:layout_constraintBottom_toTopOf="@+id/view_helper"
             app:layout_constraintEnd_toStartOf="@+id/iv_from_friends_list_first"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="@+id/tv_title_first_user"
+
+            tools:text="Имя Фамилия"
+            tools:visibility="visible"
             />
 
         <TextView
@@ -67,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
-            android:text="Второй пользователь:"
+            android:text="@string/second_user_title"
             android:textSize="16sp"
 
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:hint="Введите id второго пользователя"
+            android:hint="@string/second_user_hint"
             android:inputType="text"
             android:lines="1"
             android:maxLines="1"
@@ -91,6 +108,23 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="@+id/tv_title_second_user"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_second_user"
+            />
+
+        <TextView
+            android:id="@+id/tv_second_user_name"
+            style="@style/Widget.TextView.Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorDisabled"
+            android:visibility="invisible"
+
+            app:layout_constraintEnd_toStartOf="@+id/iv_from_friends_list_second"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/tv_title_second_user"
+            app:layout_constraintTop_toBottomOf="@+id/et_second_user"
+
+            tools:text="Имя Фамилия"
+            tools:visibility="visible"
             />
 
         <ImageView

@@ -43,7 +43,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="Вернуться назад"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="@string/error_back"
             />
     </LinearLayout>
 
