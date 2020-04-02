@@ -9,8 +9,22 @@
     <string name="friends_list">Список друзей</string>
     <string name="mutual_friends_list">Общие друзья</string>
     <string name="search">ПОИСК</string>
+    <string name="toolbar_text_login">Авторизация</string>
 
 
+    <!-- Login -->
+    <string name="login_info_text">
+        Многие пользователи сервиса «vk.com» скрыли свои страницы, поэтому чтобы узнать общих друзей
+        \nнеобходимо авторизироваться через официальное\u00A0приложение\u00A0VK.
+        \n\nВы всегда можете выйти из аккаунта в разделе «Настройки\u00A0приложений» на официальном сайте «vk.com».
+    </string>
+    <string name="login_main_text">Анализатор общих друзей VK</string>
     <string name="menu_search">Поиск</string>
+    <string name="auth_by_vk">Авторизироваться</string>
+    <string name="login_why_should_auth">Зачем нужна авторизация?</string>
+
+    <string name="dialog_auth_info_text">Авторизироваться</string>
+    <string name="dialog_auth_info_btn">Понятно</string>
+
 
 </resources>

@@ -19,9 +19,18 @@ class LoginViewModel(
 
     private val errorState: SingleLiveEvent<String> = SingleLiveEvent()
     private val state: MutableLiveData<ViewState<Unit>> = MutableLiveData()
+    private val dialogAuthInfoState: SingleLiveEvent<Unit> = SingleLiveEvent()
+
+    init {
+        if (settings.shouldShowAuthInfo) {
+            dialogAuthInfoState.call()
+            settings.setShowedAuthInfo()
+        }
+    }
 
     fun getState(): LiveData<ViewState<Unit>> = state
     fun getErrorState(): LiveData<String> = errorState
+    fun getAuthInfoDialog(): LiveData<Unit> = dialogAuthInfoState
 
     fun onLoginSuccess(token: VKAccessToken) {
         state.postValue(ViewState(ViewState.Status.SUCCESS))
@@ -41,7 +50,7 @@ class LoginViewModel(
     }
 
     fun onLoginCancelled() {
-        errorState.value = "Для пользования приложением необходимо авторизироваться!"
+        errorState.value = "Для работы приложения необходимо авторизироваться!"
         state.postValue(ViewState(ViewState.Status.ERROR))
     }
 }

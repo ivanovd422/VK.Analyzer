@@ -12,6 +12,7 @@ internal class AppSettingsImpl(app: AnalyzerApp) : AppSettings {
         private const val PREF_KEY_API_TOKEN = "apiTokenKey"
         private const val PREF_KEY_APP_AUTHORIZATION = "authorizationVkAppKey"
         private const val PREF_KEY_APP_FIRST_LAUNCH = "firstLaunchKey"
+        private const val PREF_KEY_APP_SHOW_AUTH_INFO = "firstShowAuthInfo"
     }
 
     private val appSp = app.getSharedPreferences(AppSettings.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
@@ -46,5 +47,12 @@ internal class AppSettingsImpl(app: AnalyzerApp) : AppSettings {
 
     override fun setFirstLaunch() {
         keyValueStorage.set(PREF_KEY_APP_FIRST_LAUNCH, false)
+    }
+
+    override val shouldShowAuthInfo: Boolean
+        get() = keyValueStorage.getBoolean(PREF_KEY_APP_SHOW_AUTH_INFO, true)
+
+    override fun setShowedAuthInfo() {
+        keyValueStorage.set(PREF_KEY_APP_SHOW_AUTH_INFO, false)
     }
 }

@@ -17,4 +17,7 @@ interface AppSettings {
 
     val isFirstLaunch: Boolean
     fun setFirstLaunch()
+
+    val shouldShowAuthInfo: Boolean
+    fun setShowedAuthInfo()
 }

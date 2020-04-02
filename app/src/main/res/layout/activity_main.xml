@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAlphaPrimaryLight"
     android:fillViewport="true"
     >
 
@@ -118,16 +119,18 @@
 
         <Button
             android:id="@+id/btn_find_friends"
+            style="@style/MaterialButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:text="@string/search"
 
             app:layout_constraintBottom_toBottomOf="parent"
             />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

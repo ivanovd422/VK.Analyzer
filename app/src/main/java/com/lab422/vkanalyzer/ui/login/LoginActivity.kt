@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.amplitude.api.Amplitude
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.viewState.isLoading
 import com.vk.api.sdk.VK
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.inject
 
 
-class LoginActivity : AppCompatActivity(R.layout.activity_login) {
+class LoginActivity : BaseActivity(R.layout.activity_login) {
 
     private val viewModel: LoginViewModel by inject()
 
@@ -28,8 +28,13 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
         }
     }
 
+    override fun getToolBarViewId(): Int = R.id.toolbar_login
+
+    override val toolbarName: Int = R.string.toolbar_text_login
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setToolBar(false)
         initViews()
         initObservers()
     }
@@ -61,11 +66,16 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
         viewModel.getState().observe(this, Observer { viewState ->
             showLoading(viewState.isLoading())
         })
+
+        viewModel.getAuthInfoDialog().observe(this, Observer {
+            showAuthInfoDialog()
+        })
     }
 
     private fun showLoading(isLoading: Boolean) {
         tv_title_login.setVisible(!isLoading)
         btn_auth_by_vk.setVisible(!isLoading)
+        btn_why_should_auth.setVisible(!isLoading)
         pb_auth_loading.setVisible(isLoading)
     }
 
@@ -73,10 +83,17 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
         btn_auth_by_vk.setOnClickListener {
             authByVk()
         }
+        btn_why_should_auth.setOnClickListener {
+            showAuthInfoDialog()
+        }
     }
 
     private fun authByVk() {
         viewModel.onLoginStart()
         VK.login(this, arrayListOf(VKScope.FRIENDS, VKScope.PHOTOS))
+    }
+
+    private fun showAuthInfoDialog() {
+        DialogAuthInfo().show(supportFragmentManager, null)
     }
 }

@@ -38,10 +38,10 @@ abstract class BaseActivity(@LayoutRes layout: Int) : AppCompatActivity(layout) 
         return true
     }
 
-    fun setToolBar(showHomeBtn: Boolean? = true) {
+    fun setToolBar(showHomeBtn: Boolean = true) {
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(showHomeBtn!!)
-        supportActionBar?.setHomeButtonEnabled(showHomeBtn!!)
+        supportActionBar?.setDisplayHomeAsUpEnabled(showHomeBtn)
+        supportActionBar?.setHomeButtonEnabled(showHomeBtn)
         supportActionBar?.title = getString(toolbarName)
     }
 }

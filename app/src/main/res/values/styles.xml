@@ -8,14 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Widget"/>
+    <style name="Widget" />
 
     <style name="Widget.Item">
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:background">@drawable/ripple_background</item>
     </style>
 
-    <style name="Widget.TextView" parent="android:Widget.TextView" >
+    <style name="Widget.TextView" parent="android:Widget.TextView">
         <item name="android:textColor">@color/colorBlack</item>
     </style>
 
@@ -36,8 +36,22 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
-    <style name="Analyzer.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="Analyzer.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Analyzer.Toolbar.Popup" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="Analyzer.Toolbar.Popup" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">88dip</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="MaterialButton.Borderless" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
 </resources>
