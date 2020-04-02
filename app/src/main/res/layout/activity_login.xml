@@ -13,6 +13,19 @@
         layout="@layout/view_toolbar"
         />
 
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_spy"
+
+        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
     <TextView
         android:id="@+id/tv_title_login"
         style="@style/Widget.TextView.Regular"
@@ -20,13 +33,13 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/login_main_text"
-        android:textColor="#000"
-        android:textSize="20sp"
+        android:textColor="@color/colorBlack"
+        android:textSize="25sp"
+        android:layout_marginTop="30dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         />
 
     <Button
@@ -72,7 +85,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
-        tools:visibility="visible"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

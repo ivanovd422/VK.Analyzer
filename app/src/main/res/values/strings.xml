@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VK Analyzer</string>
+    <string name="app_name">Анализатор VK</string>
 
     <!-- id -->
     <integer name="com_vk_sdk_AppId">7200469</integer>
@@ -18,7 +18,7 @@
         \nнеобходимо авторизироваться через официальное\u00A0приложение\u00A0VK.
         \n\nВы всегда можете выйти из аккаунта в разделе «Настройки\u00A0приложений» на официальном сайте «vk.com».
     </string>
-    <string name="login_main_text">Анализатор общих друзей VK</string>
+    <string name="login_main_text">Анализ общих друзей VK</string>
     <string name="menu_search">Поиск</string>
     <string name="auth_by_vk">Авторизироваться</string>
     <string name="login_why_should_auth">Зачем нужна авторизация?</string>
