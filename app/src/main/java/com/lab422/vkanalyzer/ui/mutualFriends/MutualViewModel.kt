@@ -67,7 +67,7 @@ class MutualViewModel(
             val secondName = validator.validate(model.secondId)
 
             if (validator.isId(firstName) && validator.isId(secondName)) {
-                findMutualById(it.firstId, it.secondId)
+                findMutualById(firstName, secondName)
             } else {
                 getIdByUserName(firstName, secondName)
             }
