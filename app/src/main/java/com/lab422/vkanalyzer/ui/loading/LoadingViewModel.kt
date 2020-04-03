@@ -1,23 +1,24 @@
 package com.lab422.vkanalyzer.ui.loading
 
 import androidx.lifecycle.ViewModel
-import com.amplitude.api.Amplitude
+import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.navigator.Navigator
 import com.lab422.vkanalyzer.utils.settings.AppSettings
 
 
 class LoadingViewModel(
     private val appSettings: AppSettings,
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    private val tracker: TrackerService
 ) : ViewModel() {
 
     fun onCreated() {
-        if (appSettings.isFirstLaunch) {
-            Amplitude.getInstance().logEvent("first launch");
+        val isFirstLaunch = appSettings.isFirstLaunch
+        if (isFirstLaunch) {
             appSettings.setFirstLaunch()
         }
 
-        Amplitude.getInstance().logEvent("launch");
+        tracker.launch(isFirstLaunch)
 
         if (appSettings.isAuthorized && isTokenValid()) {
             navigator.openMainActivity()

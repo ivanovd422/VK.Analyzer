@@ -5,9 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.amplitude.api.Amplitude
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
+import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.viewState.isLoading
 import com.vk.api.sdk.VK
@@ -21,6 +21,7 @@ import org.koin.android.ext.android.inject
 class LoginActivity : BaseActivity(R.layout.activity_login) {
 
     private val viewModel: LoginViewModel by inject()
+    private val tracker: TrackerService by inject()
 
     companion object {
         fun createIntent(context: Context): Intent {
@@ -42,18 +43,18 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-                Amplitude.getInstance().logEvent("auth by vk success")
+                tracker.authByVkSuccess()
                 viewModel.onLoginSuccess(token)
             }
 
             override fun onLoginFailed(errorCode: Int) {
-                Amplitude.getInstance().logEvent("auth by vk failed")
+                tracker.authByVkFailed()
                 viewModel.onLoginFailed()
             }
         }
         if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
             super.onActivityResult(requestCode, resultCode, data)
-            Amplitude.getInstance().logEvent("auth by vk cancelled")
+            tracker.authByVkCancelled()
             viewModel.onLoginCancelled()
         }
     }

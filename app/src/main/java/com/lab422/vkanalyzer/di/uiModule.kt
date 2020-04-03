@@ -11,9 +11,9 @@ import org.koin.dsl.module
 
 
 fun provideUiModule() = module {
-    viewModel { LoadingViewModel(get(), get()) }
-    viewModel { LoginViewModel(get(), get()) }
-    viewModel { MainViewModel(get()) }
-    viewModel { (model: MutualFriendsModel) -> MutualViewModel(get(), model, get(), get()) }
+    viewModel { LoadingViewModel(get(), get(), get()) }
+    viewModel { LoginViewModel(get(), get(), get()) }
+    viewModel { MainViewModel(get(), get()) }
+    viewModel { (model: MutualFriendsModel) -> MutualViewModel(get(), model, get(), get(), get()) }
     viewModel { FriendsViewModel(get()) }
 }

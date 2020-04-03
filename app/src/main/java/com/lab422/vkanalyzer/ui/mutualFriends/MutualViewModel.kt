@@ -6,11 +6,11 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.amplitude.api.Amplitude
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider.FriendsListDataProvider
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
+import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.debounce
 import com.lab422.vkanalyzer.utils.navigator.Navigator
 import com.lab422.vkanalyzer.utils.requests.GetUserIdCommand
@@ -32,7 +32,8 @@ class MutualViewModel(
     private val navigator: Navigator,
     private val model: MutualFriendsModel?,
     private val dataProvider: FriendsListDataProvider,
-    private val validator: UserNameValidator
+    private val validator: UserNameValidator,
+    private val tracker: TrackerService
 ) : ViewModel(), LifecycleObserver {
 
     private val state: MediatorLiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = MediatorLiveData()
@@ -98,13 +99,7 @@ class MutualViewModel(
                         error = error.message ?: "some error"
                     )
                 )
-
-                val eventProperties = JSONObject()
-                try {
-                    eventProperties.put("error", error.localizedMessage ?: "unknown error")
-                } catch (exception: JSONException) {
-                }
-                Amplitude.getInstance().logEvent("failed load users id", eventProperties);
+                tracker.failedLoadUserId(error.localizedMessage ?: "unknown error")
             }
 
             override fun success(result: List<String>) {
@@ -138,12 +133,8 @@ class MutualViewModel(
                         error = error.message ?: "some error"
                     )
                 )
-                val eventProperties = JSONObject()
-                try {
-                    eventProperties.put("error", error.localizedMessage ?: "unknown error")
-                } catch (exception: JSONException) {
-                }
-                Amplitude.getInstance().logEvent("failed load mutual friends", eventProperties);
+
+                tracker.failedLoadMutualFriends(error.localizedMessage ?: "unknown error")
             }
 
             override fun success(result: List<User>) {
@@ -171,6 +162,6 @@ class MutualViewModel(
         } else {
             state.postValue(ViewState(ViewState.Status.SUCCESS, data))
         }
-        Amplitude.getInstance().logEvent("success load mutual friends");
+        tracker.successLoadMutualFriends()
     }
 }

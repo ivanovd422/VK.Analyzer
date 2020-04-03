@@ -4,8 +4,8 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.amplitude.api.Amplitude
 import com.lab422.vkanalyzer.utils.SingleLiveEvent
+import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.navigator.Navigator
 import com.lab422.vkanalyzer.utils.settings.AppSettings
 import com.lab422.vkanalyzer.utils.viewState.ViewState
@@ -14,7 +14,8 @@ import com.vk.api.sdk.auth.VKAccessToken
 
 class LoginViewModel(
     private val navigator: Navigator,
-    private val settings: AppSettings
+    private val settings: AppSettings,
+    private val tracker: TrackerService
 ) : ViewModel(), LifecycleObserver {
 
     private val errorState: SingleLiveEvent<String> = SingleLiveEvent()
@@ -40,7 +41,7 @@ class LoginViewModel(
     }
 
     fun onLoginStart() {
-        Amplitude.getInstance().logEvent("auth by vk clicked");
+        tracker.onAuthByVkClicked()
         state.postValue(ViewState(ViewState.Status.LOADING))
     }
 

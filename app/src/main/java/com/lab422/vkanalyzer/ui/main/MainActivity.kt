@@ -5,16 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
-import com.amplitude.api.Amplitude
-import com.crashlytics.android.Crashlytics
-import com.google.firebase.crashlytics.CrashlyticsRegistrar
-import com.google.firebase.crashlytics.core.CrashlyticsCore
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.friends.FriendModel
 import com.lab422.vkanalyzer.ui.friends.FriendsActivity
+import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.afterTextChanged
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.navigator.Navigator
@@ -27,6 +23,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private val viewModel: MainViewModel by inject()
     private val navigator: Navigator = get()
+    private val tracker: TrackerService by inject()
 
     companion object {
         fun createIntent(context: Context): Intent {
@@ -90,7 +87,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     private fun openFriendsList(code: Int) {
-        Amplitude.getInstance().logEvent("get user from friend list");
+        tracker.getUserFromFriendListClicked()
         navigator.openFriendsList(this, code)
     }
 

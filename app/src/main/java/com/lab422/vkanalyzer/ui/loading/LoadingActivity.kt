@@ -5,12 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.lab422.vkanalyzer.R
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
 
 class LoadingActivity : AppCompatActivity(R.layout.activity_loading_screen) {
 
-    private val model: LoadingViewModel by viewModel()
+    private val model: LoadingViewModel by inject()
 
     companion object {
         fun createIntent(context: Context): Intent {
