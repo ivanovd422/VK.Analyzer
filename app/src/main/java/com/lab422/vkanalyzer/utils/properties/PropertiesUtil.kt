@@ -15,8 +15,16 @@ object PropertiesUtil {
     private const val amplitudeDebugKey = "amplitudeDebugKey"
     private const val amplitudeReleaseKey = "amplitudeReleaseKey"
 
+    private const val yandexMetricaDebugKey = "yandexMetricaDebugKey"
+    private const val  yandexMetricaReleaseKey = "yandexMetricaReleaseKey"
+
     fun getAmplitudeKey(context: Context): String {
         val key = if (BuildConfig.DEBUG) amplitudeDebugKey else amplitudeReleaseKey
+        return getProperty(key, analyticsPropertiesFile, context)
+    }
+
+    fun getYandexMetricaKey(context: Context): String {
+        val key = if (BuildConfig.DEBUG) yandexMetricaDebugKey else yandexMetricaReleaseKey
         return getProperty(key, analyticsPropertiesFile, context)
     }
 
