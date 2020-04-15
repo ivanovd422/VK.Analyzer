@@ -1,32 +1,27 @@
 package com.lab422.analyzerapi
 
+import com.lab422.analyzerapi.models.mutualFriendsList.MutualFriendsList
+import com.lab422.analyzerapi.models.friendsList.FriendsResponse
+import com.lab422.analyzerapi.models.users.UserResponse
+import retrofit2.http.GET
+import retrofit2.http.Query
+
 interface AnalyzerApi {
 
-/*    @GET("services")
-    suspend fun getServicesList(): ServicesList
+    @GET("friends.getMutual")
+    suspend fun getMutualFriends(
+        @Query("source_uid") sourceUid: String,
+        @Query("target_uid") targetUid: String
+    ): MutualFriendsList
 
-    @FormUrlEncoded
-    @POST("services")
-    suspend fun createService(
-        @Field("title") title: String,
-        @Field("duration") duration: Int
-    ): ServiceModel
+    @GET("friends.get")
+    suspend fun getFriendsList(
+        @Query("fields") fields: String = "photo_100",
+        @Query("lang") lang: String = "ru"
+    ): FriendsResponse
 
-    @GET("services/{id}")
-    suspend fun getService(
-        @Path("id") serviceId: Long
-    ): ServiceModel
-
-    @FormUrlEncoded
-    @PUT("services/{id}")
-    suspend fun updateService(
-        @Path("id") serviceId: Long,
-        @Field("title") title: String,
-        @Field("duration") duration: Int
-    ): ServiceModel
-
-    @DELETE("services/{id}")
-    suspend fun deleteService(
-        @Path("id") serviceId: Long
-    ): ServiceModel*/
+    @GET("users.get")
+    suspend fun getUsersByIds(
+        @Query("user_ids") listUsersIds: String
+    ): UserResponse
 }

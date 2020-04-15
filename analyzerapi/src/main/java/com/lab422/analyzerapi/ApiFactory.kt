@@ -59,7 +59,7 @@ class ApiFactory(
             .addInterceptor(loggingInterceptor)
             .connectionPool(ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
             .apply {
-                val token = appSettings.vkToken?.accessToken
+                val token = appSettings.accessToken
                 if (token.isNullOrEmpty().not()) {
                     addInterceptor(OAuthInterceptor(token!!))
                 }
@@ -74,7 +74,6 @@ class ApiFactory(
         clientBuilder.addInterceptor(ResponseInterceptor(stringProvider, logger))
         clientBuilder.build()
     }
-
 
 
     fun createAnalyzerApi(): AnalyzerApi = createApi()

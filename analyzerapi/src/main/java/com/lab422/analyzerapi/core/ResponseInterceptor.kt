@@ -11,6 +11,7 @@ internal class ResponseInterceptor(
 ) : ResponseInterceptorBase(StringProvider, logger) {
 
     override fun processResponse(response: Response) {
+
         // TODO: add hack for redirect caching and network error.
         if (!response.isSuccessful) {
             throw AnalyzerApiException.unknownException(

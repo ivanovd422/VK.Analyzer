@@ -11,6 +11,7 @@ interface AppSettings {
         const val SHARED_PREFERENCES_NAME_VK = "VK SDK SP"
     }
 
+    var accessToken: String?
     var vkToken: VKAccessToken?
     val isAuthorized: Boolean
     fun setAuthorizationFinished()
