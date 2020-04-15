@@ -21,7 +21,7 @@ import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.hide
 import com.lab422.vkanalyzer.utils.extensions.setVisible
-import com.lab422.vkanalyzer.utils.stringProvider.StringProvider
+import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.utils.viewState.ViewState
 import com.lab422.vkanalyzer.utils.viewState.isError
 import com.lab422.vkanalyzer.utils.viewState.isLoading
@@ -39,7 +39,7 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
 
     private lateinit var viewModel: MutualViewModel
 
-    private val stringProvider: StringProvider = get()
+    private val stringProvider: com.lab422.common.StringProvider = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
     private var friendsAdapter: MutualFriendsListAdapter
     private lateinit var searchItem: SearchView

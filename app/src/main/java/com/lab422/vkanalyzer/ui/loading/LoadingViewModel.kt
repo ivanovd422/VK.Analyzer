@@ -3,11 +3,11 @@ package com.lab422.vkanalyzer.ui.loading
 import androidx.lifecycle.ViewModel
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.navigator.Navigator
-import com.lab422.vkanalyzer.utils.settings.AppSettings
+import com.lab422.common.AppSettings
 
 
 class LoadingViewModel(
-    private val appSettings: AppSettings,
+    private val appSettings: com.lab422.common.AppSettings,
     private val navigator: Navigator,
     private val tracker: TrackerService
 ) : ViewModel() {

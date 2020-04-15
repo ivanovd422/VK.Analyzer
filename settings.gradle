@@ -1,2 +1,4 @@
 include ':app'
 rootProject.name='VK Analyzer'
+include ':analyzerapi'
+include ':common'

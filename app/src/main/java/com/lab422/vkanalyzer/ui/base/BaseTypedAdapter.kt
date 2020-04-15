@@ -6,13 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.lab422.vkanalyzer.utils.stringProvider.StringProvider
+import com.lab422.common.StringProvider
 import java.lang.RuntimeException
 
 //todo rewrite adapter with LiveData inside
 abstract class BaseTypedAdapter<T : Rawable>(
     generalDataList: List<RowDataModel<T, *>>,
-    private val stringProvider: StringProvider,
+    private val stringProvider: com.lab422.common.StringProvider,
     private val useDiffs: Boolean = true,
     private val lifecycleOwner: LifecycleOwner
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

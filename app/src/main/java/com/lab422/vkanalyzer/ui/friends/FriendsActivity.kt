@@ -19,7 +19,7 @@ import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.utils.extensions.hide
 import com.lab422.vkanalyzer.utils.extensions.setVisible
-import com.lab422.vkanalyzer.utils.stringProvider.StringProvider
+import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.utils.viewState.ViewState
 import com.lab422.vkanalyzer.utils.viewState.isError
 import com.lab422.vkanalyzer.utils.viewState.isLoading
@@ -32,7 +32,7 @@ class FriendsActivity : BaseActivity(R.layout.activity_friends_list), FriendView
     SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: FriendsViewModel
-    private val stringProvider: StringProvider = get()
+    private val stringProvider: com.lab422.common.StringProvider = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
     private var friendsAdapter: FriendsListAdapter
     private lateinit var searchItem: SearchView

@@ -2,6 +2,7 @@ package com.lab422.vkanalyzer
 
 import android.app.Application
 import com.lab422.vkanalyzer.di.provideAnalyticsModule
+import com.lab422.vkanalyzer.di.provideApiModule
 import com.lab422.vkanalyzer.di.provideAppModule
 import com.lab422.vkanalyzer.di.provideMutualFriendsModule
 import com.lab422.vkanalyzer.di.provideUiModule
@@ -34,7 +35,8 @@ class AnalyzerApp : Application() {
             provideAnalyticsModule(),
             provideUtilsModule(this),
             provideMutualFriendsModule(),
-            provideUiModule()
+            provideUiModule(),
+            provideApiModule()
         )
 
     private fun startAnalytics() {

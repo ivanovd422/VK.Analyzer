@@ -15,7 +15,7 @@ import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewModel
 import com.lab422.vkanalyzer.utils.extensions.setVisible
-import com.lab422.vkanalyzer.utils.stringProvider.StringProvider
+import com.lab422.common.StringProvider
 import kotlinx.android.synthetic.main.item_mutual_friend.view.*
 
 class FriendViewHolder(
@@ -38,7 +38,7 @@ class FriendViewHolder(
             override fun <T> createViewHolder(
                 parent: ViewGroup,
                 viewType: Int,
-                stringProvider: StringProvider
+                stringProvider: com.lab422.common.StringProvider
             ): RecyclerView.ViewHolder {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_mutual_friend, parent, false)
                 return FriendViewHolder(view, listener)
