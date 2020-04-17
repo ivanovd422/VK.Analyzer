@@ -25,12 +25,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import org.json.JSONException
-import org.json.JSONObject
 
 class MutualViewModel(
     private val navigator: Navigator,
-    private val model: MutualFriendsModel?,
+    model: MutualFriendsModel?,
     private val dataProvider: FriendsListDataProvider,
     private val validator: UserNameValidator,
     private val tracker: TrackerService
@@ -45,7 +43,7 @@ class MutualViewModel(
     private var rowData: MutableList<User> = mutableListOf()
 
     init {
-        process()
+        findMutualFriends(model)
 
         state.addSource(queryLiveData.debounce(300, viewModelScope)) {
             uiScope.launch {
@@ -61,17 +59,20 @@ class MutualViewModel(
         queryLiveData.postValue(text.toLowerCase())
     }
 
-    private fun process() {
-        state.postValue(ViewState(ViewState.Status.LOADING))
-        model?.let {
-            val firstName = validator.validate(model.firstId)
-            val secondName = validator.validate(model.secondId)
+    private fun findMutualFriends(model: MutualFriendsModel?) {
+        if (model == null) {
+            showError("Что-то пошло не так..")
+            return
+        }
 
-            if (validator.isId(firstName) && validator.isId(secondName)) {
-                findMutualById(firstName, secondName)
-            } else {
-                getIdByUserName(firstName, secondName)
-            }
+        state.postValue(ViewState(ViewState.Status.LOADING))
+        val firstName = validator.validate(model.firstId)
+        val secondName = validator.validate(model.secondId)
+
+        if (validator.isId(firstName) && validator.isId(secondName)) {
+            findMutualById(firstName, secondName)
+        } else {
+            getIdByUserName(firstName, secondName)
         }
     }
 

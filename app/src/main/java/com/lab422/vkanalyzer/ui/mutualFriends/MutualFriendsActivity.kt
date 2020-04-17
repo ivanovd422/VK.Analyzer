@@ -43,6 +43,7 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
     private var friendsAdapter: MutualFriendsListAdapter
     private lateinit var searchItem: SearchView
+    private lateinit var menuItem: MenuItem
 
     private val tracker: TrackerService by inject()
 
@@ -75,13 +76,13 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_friends_list, menu)
-        val menuItem: MenuItem = menu.findItem(R.id.menu_search)
+        menuItem = menu.findItem(R.id.menu_search)
         searchItem = menuItem.actionView as SearchView
         searchItem.setOnQueryTextListener(this)
+        menuItem.isVisible = false
 
-        return true
+       return super.onCreateOptionsMenu(menu)
     }
-
     override fun onFriendClicked(id: Long, name: String) {
         val link = String.format("https://vk.com/id%d", id)
 
@@ -142,6 +143,7 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
     private fun setData(data: List<RowDataModel<FriendsListType, *>>?) {
         data?.let {
             friendsAdapter.reload(data)
+            menuItem.isVisible = data.isNotEmpty()
         }
     }
 }

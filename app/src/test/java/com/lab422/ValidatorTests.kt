@@ -7,6 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -22,7 +23,7 @@ class CardDateValidatorTest {
     }
 
     @Test
-    fun `should correct validate`() {
+    fun `should correct return `() {
         assertTrue(validator.isId("123"), "should be true")
         assertTrue(validator.isId("https://vk.com/id123"), "should be true")
         assertTrue(validator.isId("https://vk.com/id123"), "should be true")
@@ -31,5 +32,14 @@ class CardDateValidatorTest {
         assertTrue(validator.isId("id321312311231"), "should be true")
         assertFalse(validator.isId("321312fsa311231"), "should be false")
         assertFalse(validator.isId("dsadsa312fsa311dsa"), "should be false")
+    }
+
+    @Test
+    fun `should correct validate link `() {
+        val expectedId = "12345"
+        assertEquals(validator.validate("https://vk.com/id$expectedId"), expectedId, "should be true")
+        assertEquals(validator.validate("vk.com/id$expectedId"), expectedId, "should be true")
+        assertEquals(validator.validate("id$expectedId"), expectedId, "should be true")
+        assertEquals(validator.validate("http://id$expectedId"), expectedId, "should be true")
     }
 }
