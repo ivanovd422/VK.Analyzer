@@ -8,7 +8,7 @@ open class TestBase {
         ApiFactory(TestsConfiguration.baseAddress, TestAppSettings(), mock(), mock())
     }
 
-    val analyzerApi: AnalyzerApi by lazy {
+    val usersApi: UsersApi by lazy {
         apiFactory.createAnalyzerApi()
     }
 }

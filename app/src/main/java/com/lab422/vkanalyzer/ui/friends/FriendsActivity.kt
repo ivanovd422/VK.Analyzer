@@ -20,10 +20,10 @@ import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.utils.extensions.hide
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.common.StringProvider
-import com.lab422.vkanalyzer.utils.viewState.ViewState
-import com.lab422.vkanalyzer.utils.viewState.isError
-import com.lab422.vkanalyzer.utils.viewState.isLoading
-import com.lab422.vkanalyzer.utils.viewState.isSuccess
+import com.lab422.common.viewState.ViewState
+import com.lab422.common.viewState.isError
+import com.lab422.common.viewState.isLoading
+import com.lab422.common.viewState.isSuccess
 import kotlinx.android.synthetic.main.activity_friends_list.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -32,7 +32,7 @@ class FriendsActivity : BaseActivity(R.layout.activity_friends_list), FriendView
     SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: FriendsViewModel
-    private val stringProvider: com.lab422.common.StringProvider = get()
+    private val stringProvider: StringProvider = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
     private var friendsAdapter: FriendsListAdapter
     private lateinit var searchItem: SearchView

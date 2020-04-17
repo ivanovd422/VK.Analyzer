@@ -12,19 +12,19 @@ class RegTest : TestBase() {
 
     @Test
     fun `mutual friends should be not empty`() = runBlocking {
-        val result = analyzerApi.getMutualFriends("6492", "2745")
+        val result = usersApi.getMutualFriends("6492", "2745")
         assertTrue(result.response.isNullOrEmpty().not(), "should be not empty")
     }
 
     @Test
     fun `friends should be not empty`() = runBlocking {
-        val result = analyzerApi.getFriendsList().response
+        val result = usersApi.getFriendsList().response
         assertTrue(result.items.isNullOrEmpty().not(), "should be not empty")
     }
 
     @Test
     fun `users list should be not empty`() = runBlocking {
-        val result = analyzerApi.getUsersByIds("34,243,952,1568").response
+        val result = usersApi.getUsersByIds("34,243,952,1568").response
         assertTrue(result.isNullOrEmpty().not(), "should be not empty")
     }
 }

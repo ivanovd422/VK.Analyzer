@@ -73,13 +73,18 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':common')
     implementation project(':analyzerapi')
-    
+    implementation project(':repository')
+
     // core
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     // For loading and tinting drawables on older versions of the platform

@@ -16,7 +16,7 @@ import com.lab422.vkanalyzer.utils.navigator.Navigator
 import com.lab422.vkanalyzer.utils.requests.GetUserIdCommand
 import com.lab422.vkanalyzer.utils.requests.VKUsersCommand
 import com.lab422.vkanalyzer.utils.validator.UserNameValidator
-import com.lab422.vkanalyzer.utils.viewState.ViewState
+import com.lab422.common.viewState.ViewState
 import com.lab422.vkanalyzer.utils.vkModels.user.User
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiCallback
@@ -25,8 +25,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import org.json.JSONException
-import org.json.JSONObject
 
 class MutualViewModel(
     private val navigator: Navigator,

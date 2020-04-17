@@ -7,8 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.lab422.vkanalyzer.utils.SingleLiveEvent
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.navigator.Navigator
-import com.lab422.common.AppSettings
-import com.lab422.vkanalyzer.utils.viewState.ViewState
+import com.lab422.common.viewState.ViewState
 import com.vk.api.sdk.auth.VKAccessToken
 
 

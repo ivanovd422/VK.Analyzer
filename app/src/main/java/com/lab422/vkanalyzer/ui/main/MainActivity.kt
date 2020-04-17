@@ -14,7 +14,7 @@ import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.afterTextChanged
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.navigator.Navigator
-import com.lab422.vkanalyzer.utils.viewState.isError
+import com.lab422.common.viewState.isError
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.android.get

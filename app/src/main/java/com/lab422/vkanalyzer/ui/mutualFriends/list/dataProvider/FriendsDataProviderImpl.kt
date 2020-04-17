@@ -1,9 +1,9 @@
 package com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider
 
+import com.lab422.analyzerapi.models.users.User
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewModel
-import com.lab422.vkanalyzer.utils.vkModels.user.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

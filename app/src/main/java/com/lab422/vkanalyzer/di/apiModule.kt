@@ -1,6 +1,6 @@
 package com.lab422.vkanalyzer.di
 
-import com.lab422.analyzerapi.AnalyzerApi
+import com.lab422.analyzerapi.UsersApi
 import com.lab422.analyzerapi.ApiFactory
 import org.koin.dsl.module
 
@@ -17,6 +17,6 @@ fun provideApiModule() = module(true) {
 }
 
 
-fun provideAnalyzerApi(apiFactory: ApiFactory): AnalyzerApi {
+fun provideAnalyzerApi(apiFactory: ApiFactory): UsersApi {
     return apiFactory.createAnalyzerApi()
 }

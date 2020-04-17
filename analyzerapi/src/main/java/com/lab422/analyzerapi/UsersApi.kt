@@ -6,7 +6,7 @@ import com.lab422.analyzerapi.models.users.UserResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface AnalyzerApi {
+interface UsersApi {
 
     @GET("friends.getMutual")
     suspend fun getMutualFriends(

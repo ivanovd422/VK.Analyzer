@@ -1,4 +1,4 @@
-package com.lab422.vkanalyzer.utils.viewState
+package com.lab422.common.viewState
 
 class ViewState<D>(
     val status: Status,

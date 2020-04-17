@@ -21,11 +21,10 @@ import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.hide
 import com.lab422.vkanalyzer.utils.extensions.setVisible
-import com.lab422.common.StringProvider
-import com.lab422.vkanalyzer.utils.viewState.ViewState
-import com.lab422.vkanalyzer.utils.viewState.isError
-import com.lab422.vkanalyzer.utils.viewState.isLoading
-import com.lab422.vkanalyzer.utils.viewState.isSuccess
+import com.lab422.common.viewState.ViewState
+import com.lab422.common.viewState.isError
+import com.lab422.common.viewState.isLoading
+import com.lab422.common.viewState.isSuccess
 import kotlinx.android.synthetic.main.activity_mutual_friends.*
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject

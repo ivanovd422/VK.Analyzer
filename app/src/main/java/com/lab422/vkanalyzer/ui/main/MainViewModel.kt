@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.lab422.vkanalyzer.ui.friends.FriendModel
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.navigator.Navigator
-import com.lab422.vkanalyzer.utils.viewState.ViewState
+import com.lab422.common.viewState.ViewState
 
 class MainViewModel(
     private val navigator: Navigator,

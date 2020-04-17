@@ -1,6 +1,7 @@
 package com.lab422.analyzerapi.models.friendsList
 
 import com.google.gson.annotations.SerializedName
+import com.lab422.analyzerapi.models.users.User
 import java.io.Serializable
 
 data class Item(
@@ -13,3 +14,14 @@ data class Item(
     @SerializedName("photo_100") val photoUrl: String?,
     val track_code: String
 ) : Serializable
+
+fun Item.convertToUser(): User =
+    User(
+        can_access_closed,
+        first_name,
+        id,
+        is_closed,
+        last_name,
+        online,
+        photoUrl
+    )

@@ -76,5 +76,5 @@ class ApiFactory(
     }
 
 
-    fun createAnalyzerApi(): AnalyzerApi = createApi()
+    fun createAnalyzerApi(): UsersApi = createApi()
 }
