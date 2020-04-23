@@ -12,7 +12,7 @@ class RegTest : TestBase() {
 
     @Test
     fun `mutual friends should be not empty`() = runBlocking {
-        val result = usersApi.getMutualFriends("6492", "2745")
+        val result = usersApi.getMutualFriendsId("6492", "2745")
         assertTrue(result.response.isNullOrEmpty().not(), "should be not empty")
     }
 

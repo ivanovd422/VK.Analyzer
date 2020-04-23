@@ -4,5 +4,5 @@ import com.lab422.repository.UserRepository
 import org.koin.dsl.module
 
 fun provideRepositoryModule() = module {
-    single { UserRepository(get()) }
+    single { UserRepository(get(), get()) }
 }

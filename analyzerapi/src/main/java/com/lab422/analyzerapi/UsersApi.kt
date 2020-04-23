@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface UsersApi {
 
     @GET("friends.getMutual")
-    suspend fun getMutualFriends(
+    suspend fun getMutualFriendsId(
         @Query("source_uid") sourceUid: String,
         @Query("target_uid") targetUid: String
     ): MutualFriendsList
@@ -23,5 +23,12 @@ interface UsersApi {
     @GET("users.get")
     suspend fun getUsersByIds(
         @Query("user_ids") listUsersIds: String
+    ): UserResponse
+
+    @GET("users.get")
+    suspend fun getUsersWithInfoByIds(
+        @Query("user_ids") listUsersIds: String,
+        @Query("fields") photo: String = "photo_200",
+        @Query("lang") lang: String = "ru"
     ): UserResponse
 }

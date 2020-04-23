@@ -1,6 +1,6 @@
 package com.lab422
 
-import com.lab422.vkanalyzer.utils.validator.UserNameValidator
+import com.lab422.common.UserNameValidator
 import com.lab422.vkanalyzer.utils.validator.UserNameValidatorImpl
 import org.junit.Before
 import org.junit.Test

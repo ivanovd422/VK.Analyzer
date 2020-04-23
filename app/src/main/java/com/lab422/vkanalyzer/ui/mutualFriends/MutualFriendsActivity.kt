@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.base.BaseItemDecoration
@@ -38,7 +39,7 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
 
     private lateinit var viewModel: MutualViewModel
 
-    private val stringProvider: com.lab422.common.StringProvider = get()
+    private val stringProvider: StringProvider = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
     private var friendsAdapter: MutualFriendsListAdapter
     private lateinit var searchItem: SearchView

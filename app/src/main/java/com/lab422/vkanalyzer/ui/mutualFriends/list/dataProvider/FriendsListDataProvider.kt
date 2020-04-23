@@ -8,7 +8,4 @@ import com.lab422.vkanalyzer.utils.vkModels.user.User
 interface FriendsListDataProvider {
     fun generateFriendsListData(friends: List<NewUser>, type: FriendsListType): List<RowDataModel<FriendsListType, *>>
     suspend fun filterByQuery(friends: List<NewUser>, type: FriendsListType, query: String): List<RowDataModel<FriendsListType, *>>
-
-    fun generateFriendsListDataOld(friends: List<User>, type: FriendsListType): List<RowDataModel<FriendsListType, *>>
-    suspend fun filterByQueryOld(friends: List<User>, type: FriendsListType, query: String): List<RowDataModel<FriendsListType, *>>
 }

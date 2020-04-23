@@ -1,4 +1,4 @@
-package com.lab422.vkanalyzer.utils.validator
+package com.lab422.common
 
 interface UserNameValidator {
     fun isId(userName: String): Boolean
