@@ -3,7 +3,7 @@ package com.lab422.analyzerapi.models.users
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class User(
+data class NewUser(
     val can_access_closed: Boolean,
     val first_name: String,
     val id: Long,

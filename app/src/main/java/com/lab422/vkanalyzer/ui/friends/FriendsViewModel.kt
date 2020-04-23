@@ -6,7 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.lab422.analyzerapi.models.users.User
+import com.lab422.analyzerapi.models.users.NewUser
 import com.lab422.repository.UserRepository
 import com.lab422.vkanalyzer.ui.base.BaseViewModel
 import com.lab422.vkanalyzer.ui.base.RowDataModel
@@ -14,6 +14,7 @@ import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider.FriendsListDataProvider
 import com.lab422.vkanalyzer.utils.extensions.debounce
 import com.lab422.common.viewState.ViewState
+import com.lab422.common.viewState.isSuccess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -28,19 +29,12 @@ class FriendsViewModel(
 
     private val state: MediatorLiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = MediatorLiveData()
     private val queryLiveData: MutableLiveData<String> = MutableLiveData()
-
-    private var rowData: MutableList<User> = mutableListOf()
-
+    private var rowData: MutableList<NewUser> = mutableListOf()
     private val viewModelJob = SupervisorJob()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
-    private val usersListLiveData: LiveData<ViewState<List<User>>>
     private val userFetchingLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
-
     init {
-        startLoadingFriendsList()
-
         state.addSource(queryLiveData.debounce(300, viewModelScope)) {
             uiScope.launch {
                 val data = dataProvider.filterByQuery(rowData, FriendsListType.SelectableFriends, it)
@@ -48,11 +42,19 @@ class FriendsViewModel(
             }
         }
 
-        usersListLiveData = userFetchingLiveData.switchMap {
+        userFetchingLiveData.switchMap {
             launchOnViewModelScope {
                 userRepository.getFriendsList()
             }
+        }.observeForever {
+            if (it.isSuccess()) {
+                onSuccessLoadUsers(it.data)
+            } else {
+                showError("some error")
+            }
         }
+
+        startLoadingFriendsList()
     }
 
     fun getFriendsState(): LiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = state
@@ -63,18 +65,6 @@ class FriendsViewModel(
 
     private fun startLoadingFriendsList() {
         userFetchingLiveData.postValue(true)
-/*        VK.execute(FriendsCommand(), object : VKApiCallback<List<User>> {
-            override fun fail(error: Exception) {
-                if (error is VKApiExecutionException) {
-                    error.code
-                }
-                showError(error.message ?: "some error")
-            }
-
-            override fun success(result: List<User>) {
-                onSuccessLoadUsers(result)
-            }
-        })*/
     }
 
     private fun showError(textError: String) {
@@ -92,7 +82,8 @@ class FriendsViewModel(
         viewModelJob.cancel()
     }
 
-    private fun onSuccessLoadUsers(result: List<User>) {
+    private fun onSuccessLoadUsers(result: List<NewUser>?) {
+        if (result == null) return
         rowData.clear()
         rowData.addAll(result)
 

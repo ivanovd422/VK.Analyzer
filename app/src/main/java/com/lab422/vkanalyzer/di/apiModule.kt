@@ -4,7 +4,7 @@ import com.lab422.analyzerapi.UsersApi
 import com.lab422.analyzerapi.ApiFactory
 import org.koin.dsl.module
 
-fun provideApiModule() = module(true) {
+fun provideApiModule() = module {
     single {
         ApiFactory(
             "https://api.vk.com/method/",

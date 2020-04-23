@@ -35,6 +35,7 @@ class LoginViewModel(
     fun onLoginSuccess(token: VKAccessToken) {
         state.postValue(ViewState(ViewState.Status.SUCCESS))
         settings.vkToken = token
+        settings.accessToken = token.accessToken
         settings.setAuthorizationFinished()
         navigator.openMainActivity()
     }

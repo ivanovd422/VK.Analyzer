@@ -1,7 +1,7 @@
 package com.lab422.analyzerapi.models.friendsList
 
 import com.google.gson.annotations.SerializedName
-import com.lab422.analyzerapi.models.users.User
+import com.lab422.analyzerapi.models.users.NewUser
 import java.io.Serializable
 
 data class Item(
@@ -15,8 +15,8 @@ data class Item(
     val track_code: String
 ) : Serializable
 
-fun Item.convertToUser(): User =
-    User(
+fun Item.convertToUser(): NewUser =
+    NewUser(
         can_access_closed,
         first_name,
         id,

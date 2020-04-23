@@ -47,7 +47,7 @@ class MutualViewModel(
 
         state.addSource(queryLiveData.debounce(300, viewModelScope)) {
             uiScope.launch {
-                val data = dataProvider.filterByQuery(rowData, FriendsListType.Friends, it)
+                val data = dataProvider.filterByQueryOld(rowData, FriendsListType.Friends, it)
                 state.postValue(ViewState(ViewState.Status.SUCCESS, data))
             }
         }
@@ -154,7 +154,7 @@ class MutualViewModel(
         rowData.clear()
         rowData.addAll(result)
 
-        val data = dataProvider.generateFriendsListData(rowData, FriendsListType.Friends)
+        val data = dataProvider.generateFriendsListDataOld(rowData, FriendsListType.Friends)
         if (data.isEmpty()) {
             showError("Нет общих друзей")
         } else {
