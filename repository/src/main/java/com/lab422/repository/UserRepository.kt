@@ -1,9 +1,9 @@
 package com.lab422.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.lab422.analyzerapi.UsersApi
+import com.lab422.analyzerapi.core.AnalyzerApiException
 import com.lab422.analyzerapi.models.friendsList.convertToUser
 import com.lab422.analyzerapi.models.users.NewUser
 import com.lab422.common.UserNameValidator
@@ -13,20 +13,20 @@ class UserRepository constructor(
     private val usersApi: UsersApi,
     private val validator: UserNameValidator
 ) {
-    suspend fun getFriendsList(): LiveData<ViewState<List<NewUser>>> {
+    suspend fun getFriendsList(): LiveData<ViewState<List<NewUser>>> = invokeBlock {
         val liveData = MutableLiveData<ViewState<List<NewUser>>>()
-        try {
-            val friendsList = mutableListOf<NewUser>()
-            val result = usersApi.getFriendsList()
-            result.response.items.forEach { friendsList.add(it.convertToUser()) }
-            liveData.postValue(ViewState(ViewState.Status.SUCCESS, friendsList))
-        } catch (e: Exception) {
-            liveData.postValue(ViewState(ViewState.Status.ERROR, error = "Ошибка"))
-        }
-        return liveData
+        val friendsList = mutableListOf<NewUser>()
+        val result = usersApi.getFriendsList()
+        result.response.items.forEach { friendsList.add(it.convertToUser()) }
+        liveData.postValue(ViewState(ViewState.Status.SUCCESS, friendsList))
+
+        return@invokeBlock liveData
     }
 
-    suspend fun findMutualFriendsByUsersId(firstName: String, secondName: String): LiveData<ViewState<List<NewUser>>> {
+    suspend fun findMutualFriendsByUsersId(
+        firstName: String,
+        secondName: String
+    ): LiveData<ViewState<List<NewUser>>> = invokeBlock {
         val liveData = MutableLiveData<ViewState<List<NewUser>>>()
         var firstUserId: String = validator.validate(firstName)
         var secondUserId: String = validator.validate(secondName)
@@ -45,18 +45,16 @@ class UserRepository constructor(
             }
 
             val idString = nicknames.joinToString(separator = ",")
+            val usersId = usersApi.getUsersByIds(idString).response.map { it.id.toString() }
 
-            val userResponse = usersApi.getUsersByIds(idString).response
-
-            if (userResponse.isNullOrEmpty()) {
+            //todo throw app exception
+            if (usersId.isEmpty()) {
                 liveData.postValue(ViewState(ViewState.Status.ERROR, error = "Проверьте правильность полей"))
-                return liveData
+                return@invokeBlock liveData
             }
 
-            val usersId = userResponse.map { it.id.toString() }
-
-             firstUserId = if (isKnowFirstUserId) firstUserId else usersId.first()
-             secondUserId = if (isKnowSecondUserId) secondUserId else {
+            firstUserId = if (isKnowFirstUserId) firstUserId else usersId.first()
+            secondUserId = if (isKnowSecondUserId) secondUserId else {
                 if (usersId.size == 1) {
                     usersId.first()
                 } else {
@@ -65,19 +63,32 @@ class UserRepository constructor(
             }
         }
 
-        val mutualFriendsIds = usersApi.getMutualFriendsId(firstUserId, secondUserId).response
+        val mutualFriendsResponse = usersApi.getMutualFriendsId(firstUserId, secondUserId)
+        val usersId = mutualFriendsResponse.response.joinToString(",")
+        val usersList = usersApi.getUsersWithInfoByIds(usersId).response
 
-        if (mutualFriendsIds == null) {
-            //todo show error here
-            Log.d("tag", "some error")
-            liveData.postValue(ViewState(ViewState.Status.ERROR, error = "Ошибка"))
+        liveData.postValue(ViewState(ViewState.Status.SUCCESS, usersList))
+        return@invokeBlock liveData
+    }
+
+    private suspend fun <T> invokeBlock(block: suspend () -> LiveData<ViewState<T>>): LiveData<ViewState<T>> {
+        val liveData: MutableLiveData<ViewState<T>> = MutableLiveData<ViewState<T>>()
+        var errorMessage = "Ошибка сети, попробуйте позже"
+        try {
+            return block()
+        } catch (error: Throwable) {
+            if (error is AnalyzerApiException) {
+
+                if (error.code == "30") {
+                    errorMessage = "Один из профилей скрыт"
+                }
+
+                if (error.code == "113") {
+                    errorMessage = "Проверьте правильность полей"
+                }
+            }
+            liveData.postValue(ViewState(ViewState.Status.ERROR, error = errorMessage))
             return liveData
         }
-
-        val usersId = mutualFriendsIds.joinToString(",")
-        val usersList = usersApi.getUsersWithInfoByIds(usersId).response
-        liveData.postValue(ViewState(ViewState.Status.SUCCESS, usersList))
-
-        return liveData
     }
 }

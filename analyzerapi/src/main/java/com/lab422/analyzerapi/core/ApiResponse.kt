@@ -1,22 +1,16 @@
 package com.lab422.analyzerapi.core
 
-open class ApiResponse (
-    val errors: Array<ApiError>? = null,
-    val success: Boolean = true
-){
+open class ApiResponse(
+    val error: Error? = null
+)
 
-    val error: ApiError?
-        get() = errors?.get(0)
+data class Error(
+    val error_code: Int,
+    val error_msg: String,
+    val request_params: List<RequestParam>
+)
 
-    val errorCode: String?
-        get() = error?.code
-
-    open val errorDescription: String?
-        get() = error?.description
-
-    val userDescription: String?
-        get() = error?.userDescription ?: error?.description
-
-    open val errorTitle: String?
-        get() = error?.title
-}
+data class RequestParam(
+    val key: String,
+    val value: String
+)

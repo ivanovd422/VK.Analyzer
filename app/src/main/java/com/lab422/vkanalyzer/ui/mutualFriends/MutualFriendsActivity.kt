@@ -2,7 +2,6 @@ package com.lab422.vkanalyzer.ui.mutualFriends
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -21,6 +20,7 @@ import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsListAdap
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.hide
+import com.lab422.vkanalyzer.utils.extensions.openLink
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.common.viewState.ViewState
 import com.lab422.common.viewState.isError
@@ -43,6 +43,7 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
     private var friendsAdapter: MutualFriendsListAdapter
     private lateinit var searchItem: SearchView
+    private var menuItem: MenuItem? = null
 
     private val tracker: TrackerService by inject()
 
@@ -75,21 +76,21 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_friends_list, menu)
-        val menuItem: MenuItem = menu.findItem(R.id.menu_search)
-        searchItem = menuItem.actionView as SearchView
-        searchItem.setOnQueryTextListener(this)
-
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menuItem = menu.findItem(R.id.menu_search)
+        searchItem = menuItem?.actionView as SearchView
+        searchItem.setOnQueryTextListener(this)
+        menuItem?.isVisible = false
+
+        return super.onCreateOptionsMenu(menu)
+    }
     override fun onFriendClicked(id: Long, name: String) {
         val link = String.format("https://vk.com/id%d", id)
-
         tracker.openUserByLink(link)
-
-        val intent =
-            Intent(Intent.ACTION_VIEW, Uri.parse(link))
-        startActivity(intent)
+        openLink(link)
     }
 
     override fun onQueryTextSubmit(query: String): Boolean = true
@@ -129,6 +130,7 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
     private fun processState(viewState: ViewState<List<RowDataModel<FriendsListType, *>>>) {
         pb_mutual_friends_loading.setVisible(viewState.isLoading())
         ll_mutual_friends_error_wrapper.setVisible(viewState.isError())
+        menuItem?.isVisible = viewState.isSuccess()
 
         if (viewState.isSuccess()) {
             setData(viewState.data)

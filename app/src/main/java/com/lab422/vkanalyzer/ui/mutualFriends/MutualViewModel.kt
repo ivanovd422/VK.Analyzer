@@ -18,7 +18,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import com.lab422.analyzerapi.models.users.NewUser
-import com.lab422.common.UserNameValidator
 import com.lab422.common.viewState.isSuccess
 import com.lab422.repository.UserRepository
 import com.lab422.vkanalyzer.ui.base.BaseViewModel

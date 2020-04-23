@@ -26,11 +26,6 @@ class UserNameValidatorImpl : UserNameValidator {
         if (trimmed.contains("/")) {
             trimmed = trimmed.split("/").last()
         }
-        trimmed = trimmed.replace(prefix1, "")
-        trimmed = trimmed.replace(prefix2, "")
-        trimmed = trimmed.replace(prefix3, "")
-        trimmed = trimmed.replace(prefix5, "")
-        trimmed = trimmed.replace(prefix6, "")
 
         if (trimmed.contains(prefix4)) {
             val number = trimmed.replace(prefix4, "")
@@ -38,6 +33,12 @@ class UserNameValidatorImpl : UserNameValidator {
                 trimmed = trimmed.replace(prefix4, "")
             }
         }
+
+        trimmed = trimmed.replace(prefix1, "")
+        trimmed = trimmed.replace(prefix2, "")
+        trimmed = trimmed.replace(prefix3, "")
+        trimmed = trimmed.replace(prefix5, "")
+        trimmed = trimmed.replace(prefix6, "")
 
         return trimmed
     }

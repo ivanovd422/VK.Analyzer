@@ -23,10 +23,12 @@ internal class ResponseInterceptor(
         val responseBody = copy(response.body!!, Long.MAX_VALUE)
         val resp = Gson().fromJson(responseBody.charStream(), ApiResponse::class.java)
 
-        if (!resp.success) {
+        val apiError = resp.error
+        if (apiError != null) {
             throw AnalyzerApiException.apiException(
-                resp.errorCode
-                    ?: "System_Unknown", resp.errorTitle, resp.userDescription
+                code = apiError.error_code.toString(),
+                title = apiError.error_msg,
+                userDescription = apiError.error_msg
             )
         }
     }
