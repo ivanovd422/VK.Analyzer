@@ -19,14 +19,14 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import com.lab422.analyzerapi.models.users.NewUser
 import com.lab422.common.viewState.isSuccess
-import com.lab422.repository.UserRepository
+import com.lab422.interactor.UserInteractor
 import com.lab422.vkanalyzer.ui.base.BaseViewModel
 
 class MutualViewModel(
     model: MutualFriendsModel?,
     private val dataProvider: FriendsListDataProvider,
     private val tracker: TrackerService,
-    private val userRepository: UserRepository
+    private val userInteractor: UserInteractor
 ) : BaseViewModel(), LifecycleObserver {
 
     private val state: MediatorLiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = MediatorLiveData()
@@ -63,7 +63,7 @@ class MutualViewModel(
         state.postValue(ViewState(ViewState.Status.LOADING))
         userFetchingLiveData.switchMap {
             launchOnViewModelScope {
-                userRepository.findMutualFriendsByUsersId(
+                userInteractor.findMutualFriendsByUsersId(
                     model.firstId,
                     model.secondId
                 )
@@ -101,6 +101,6 @@ class MutualViewModel(
         } else {
             state.postValue(ViewState(ViewState.Status.SUCCESS, data))
         }
-        tracker.successLoadMutualFriends()
+        tracker.successLoadMutualFriends(result.size)
     }
 }

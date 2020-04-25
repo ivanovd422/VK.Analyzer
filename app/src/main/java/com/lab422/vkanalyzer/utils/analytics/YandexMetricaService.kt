@@ -27,12 +27,16 @@ class YandexMetricaService : TrackerService {
         logEvent(TrackerConstants.EVENT_AUTH_BY_VK_CLICKED)
     }
 
-    override fun authByVkSuccess() {
-        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_SUCCESS)
+    override fun authByVkSuccess(userId: Int) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["userId"] = userId.toString()
+        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_SUCCESS, eventParameters)
     }
 
-    override fun authByVkFailed() {
-        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_FAILED)
+    override fun authByVkFailed(errorCode: Int) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["errorCode"] = errorCode.toString()
+        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_FAILED, eventParameters)
     }
 
     override fun authByVkCancelled() {
@@ -72,8 +76,10 @@ class YandexMetricaService : TrackerService {
         logEvent(TrackerConstants.EVENT_FAILED_LOAD_MUTUAL_FRIENDS, eventParameters)
     }
 
-    override fun successLoadMutualFriends() {
-        logEvent(TrackerConstants.EVENT_SUCCESS_LOAD_MUTUAL_FRIENDS)
+    override fun successLoadMutualFriends(friendsCount: Int) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["friendsCount"] = friendsCount.toString()
+        logEvent(TrackerConstants.EVENT_SUCCESS_LOAD_MUTUAL_FRIENDS, eventParameters)
     }
 
     private fun logEvent(eventName: String) {

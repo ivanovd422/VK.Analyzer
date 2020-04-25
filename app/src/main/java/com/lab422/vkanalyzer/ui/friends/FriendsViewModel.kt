@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.lab422.analyzerapi.models.users.NewUser
-import com.lab422.repository.UserRepository
+import com.lab422.interactor.UserInteractor
 import com.lab422.vkanalyzer.ui.base.BaseViewModel
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 class FriendsViewModel(
     private val dataProvider: FriendsListDataProvider,
-    private val userRepository: UserRepository
+    private val userInteractor: UserInteractor
 ) : BaseViewModel(), LifecycleObserver {
 
     private val state: MediatorLiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = MediatorLiveData()
@@ -44,7 +44,7 @@ class FriendsViewModel(
 
         userFetchingLiveData.switchMap {
             launchOnViewModelScope {
-                userRepository.getFriendsList()
+                userInteractor.getFriendsList()
             }
         }.observeForever {
             if (it.isSuccess()) {

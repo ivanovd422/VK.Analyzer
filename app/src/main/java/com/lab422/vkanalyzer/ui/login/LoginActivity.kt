@@ -43,12 +43,12 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-                tracker.authByVkSuccess()
+                tracker.authByVkSuccess(token.userId)
                 viewModel.onLoginSuccess(token)
             }
 
             override fun onLoginFailed(errorCode: Int) {
-                tracker.authByVkFailed()
+                tracker.authByVkFailed(errorCode)
                 viewModel.onLoginFailed()
             }
         }

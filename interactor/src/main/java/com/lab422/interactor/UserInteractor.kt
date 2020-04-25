@@ -1,4 +1,4 @@
-package com.lab422.repository
+package com.lab422.interactor
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,7 @@ import com.lab422.analyzerapi.models.users.NewUser
 import com.lab422.common.UserNameValidator
 import com.lab422.common.viewState.ViewState
 
-class UserRepository constructor(
+class UserInteractor constructor(
     private val usersApi: UsersApi,
     private val validator: UserNameValidator
 ) {

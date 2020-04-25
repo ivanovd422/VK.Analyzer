@@ -1,8 +1,8 @@
 package com.lab422.vkanalyzer.di
 
-import com.lab422.repository.UserRepository
+import com.lab422.interactor.UserInteractor
 import org.koin.dsl.module
 
-fun provideRepositoryModule() = module {
-    single { UserRepository(get(), get()) }
+fun provideInteractorModule() = module {
+    single { UserInteractor(get(), get()) }
 }

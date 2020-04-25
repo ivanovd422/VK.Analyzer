@@ -13,12 +13,12 @@ class CompositeTrackerService(private val trackerServices: List<TrackerService>)
         trackerServices.forEach { it.launch(firstTime) }
     }
 
-    override fun authByVkSuccess() {
-        trackerServices.forEach { it.authByVkSuccess() }
+    override fun authByVkSuccess(userId: Int) {
+        trackerServices.forEach { it.authByVkSuccess(userId) }
     }
 
-    override fun authByVkFailed() {
-        trackerServices.forEach { it.authByVkFailed() }
+    override fun authByVkFailed(errorCode: Int) {
+        trackerServices.forEach { it.authByVkFailed(errorCode) }
     }
 
     override fun authByVkCancelled() {
@@ -49,7 +49,7 @@ class CompositeTrackerService(private val trackerServices: List<TrackerService>)
         trackerServices.forEach { it.failedLoadMutualFriends(error) }
     }
 
-    override fun successLoadMutualFriends() {
-        trackerServices.forEach { it.successLoadMutualFriends() }
+    override fun successLoadMutualFriends(friendsCount: Int) {
+        trackerServices.forEach { it.successLoadMutualFriends(friendsCount) }
     }
 }

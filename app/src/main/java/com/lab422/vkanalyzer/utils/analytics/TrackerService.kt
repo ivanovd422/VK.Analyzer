@@ -6,8 +6,8 @@ interface TrackerService {
 
     fun initialize(context: Application)
     fun launch(firstTime: Boolean)
-    fun authByVkSuccess()
-    fun authByVkFailed()
+    fun authByVkSuccess(userId: Int)
+    fun authByVkFailed(errorCode: Int)
     fun authByVkCancelled()
     fun getUserFromFriendListClicked()
     fun onSearchFriendsClicked(firstUser: String, secondUser: String)
@@ -15,5 +15,5 @@ interface TrackerService {
     fun openUserByLink(link: String)
     fun failedLoadUserId(error: String)
     fun failedLoadMutualFriends(error: String)
-    fun successLoadMutualFriends()
+    fun successLoadMutualFriends(friendsCount: Int)
 }

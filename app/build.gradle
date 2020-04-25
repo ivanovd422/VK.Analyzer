@@ -83,7 +83,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':common')
     implementation project(':analyzerapi')
-    implementation project(':repository')
+    implementation project(':interactor')
 
     // core
     implementation "androidx.appcompat:appcompat:$appcompat_version"

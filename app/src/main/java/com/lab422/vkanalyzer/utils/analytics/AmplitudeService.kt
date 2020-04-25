@@ -25,12 +25,22 @@ class AmplitudeService : TrackerService {
         logEvent(TrackerConstants.EVENT_AUTH_BY_VK_CLICKED)
     }
 
-    override fun authByVkSuccess() {
-        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_SUCCESS)
+    override fun authByVkSuccess(userId: Int) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("userId", userId)
+        } catch (exception: JSONException) { }
+
+        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_SUCCESS, eventProperties)
     }
 
-    override fun authByVkFailed() {
-        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_FAILED)
+    override fun authByVkFailed(errorCode: Int) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("errorCode", errorCode)
+        } catch (exception: JSONException) {
+        }
+        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_FAILED, eventProperties)
     }
 
     override fun authByVkCancelled() {
@@ -80,8 +90,13 @@ class AmplitudeService : TrackerService {
         logEvent(TrackerConstants.EVENT_FAILED_LOAD_MUTUAL_FRIENDS, eventProperties)
     }
 
-    override fun successLoadMutualFriends() {
-        logEvent(TrackerConstants.EVENT_SUCCESS_LOAD_MUTUAL_FRIENDS)
+    override fun successLoadMutualFriends(friendsCount: Int) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("friends count", friendsCount)
+        } catch (exception: JSONException) {
+        }
+        logEvent(TrackerConstants.EVENT_SUCCESS_LOAD_MUTUAL_FRIENDS, eventProperties)
     }
 
     private fun logEvent(eventName: String, jsonObject: JSONObject) {

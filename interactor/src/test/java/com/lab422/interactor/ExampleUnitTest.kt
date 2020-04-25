@@ -1,4 +1,4 @@
-package com.lab422.repository
+package com.lab422.interactor
 
 import org.junit.Test
 
