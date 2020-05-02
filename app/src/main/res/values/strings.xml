@@ -33,5 +33,8 @@
     <string name="second_user_title">Второй пользователь:</string>
     <string name="second_user_hint">Введите id второго пользователя</string>
     <string name="error_back">Вернуться назад</string>
+    <string name="bottom_menu_friends">Friends</string>
+    <string name="bottom_menu_photos_near">Near Photos</string>
+    <string name="bottom_menu_settings">Settings</string>
 
 </resources>

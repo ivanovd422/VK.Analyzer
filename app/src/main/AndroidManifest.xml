@@ -27,9 +27,10 @@
             android:name=".ui.login.LoginActivity"
             android:windowSoftInputMode="adjustPan|adjustResize" />
 
-        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.friends.FriendsFragment" />
+        <activity android:name=".ui.mainScreen.MainActivity" />
         <activity android:name=".ui.mutualFriends.MutualFriendsActivity" />
-        <activity android:name=".ui.friends.FriendsActivity" />
+        <activity android:name=".ui.friendsList.FriendsListActivity" />
 
     </application>
 

@@ -1,4 +1,4 @@
-package com.lab422.vkanalyzer.ui.friends
+package com.lab422.vkanalyzer.ui.friendsList
 
 import android.app.Activity
 import android.content.Context
@@ -14,7 +14,7 @@ import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.base.BaseItemDecoration
 import com.lab422.vkanalyzer.ui.base.RowDataModel
-import com.lab422.vkanalyzer.ui.friends.adapter.FriendsListAdapter
+import com.lab422.vkanalyzer.ui.friendsList.adapter.FriendsListAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.utils.extensions.hide
@@ -28,17 +28,17 @@ import kotlinx.android.synthetic.main.activity_friends_list.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-class FriendsActivity : BaseActivity(R.layout.activity_friends_list), FriendViewHolder.Listener,
+class FriendsListActivity : BaseActivity(R.layout.activity_friends_list), FriendViewHolder.Listener,
     SearchView.OnQueryTextListener {
 
-    private lateinit var viewModel: FriendsViewModel
+    private lateinit var viewModel: FriendsListViewModel
     private val stringProvider: StringProvider = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
     private var friendsAdapter: FriendsListAdapter
     private lateinit var searchItem: SearchView
 
     companion object {
-        fun createIntent(context: Context): Intent = Intent(context, FriendsActivity()::class.java)
+        fun createIntent(context: Context): Intent = Intent(context, FriendsListActivity()::class.java)
         const val FRIEND_ID_KEY = "friend_id_key"
     }
 

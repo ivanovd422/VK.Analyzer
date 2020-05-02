@@ -1,4 +1,4 @@
-package com.lab422.vkanalyzer.ui.friends
+package com.lab422.vkanalyzer.ui.friendsList
 
 import java.io.Serializable
 

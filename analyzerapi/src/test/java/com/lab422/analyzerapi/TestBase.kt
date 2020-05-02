@@ -9,6 +9,6 @@ open class TestBase {
     }
 
     val usersApi: UsersApi by lazy {
-        apiFactory.createAnalyzerApi()
+        apiFactory.createUserApi()
     }
 }

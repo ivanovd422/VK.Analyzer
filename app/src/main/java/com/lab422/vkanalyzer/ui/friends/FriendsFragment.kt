@@ -1,46 +1,44 @@
-package com.lab422.vkanalyzer.ui.main
+package com.lab422.vkanalyzer.ui.friends
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.lab422.common.viewState.isError
 import com.lab422.vkanalyzer.R
-import com.lab422.vkanalyzer.ui.base.BaseActivity
-import com.lab422.vkanalyzer.ui.friends.FriendModel
-import com.lab422.vkanalyzer.ui.friends.FriendsActivity
+import com.lab422.vkanalyzer.ui.friendsList.FriendModel
+import com.lab422.vkanalyzer.ui.friendsList.FriendsListActivity
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.afterTextChanged
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.navigator.Navigator
-import com.lab422.common.viewState.isError
-import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
+import kotlinx.android.synthetic.main.fragment_friends.*
 import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 
-class MainActivity : BaseActivity(R.layout.activity_main) {
+class FriendsFragment : Fragment(R.layout.fragment_friends) {
 
-    private val viewModel: MainViewModel by inject()
+    private val viewModel: FriendsViewModel by inject()
     private val navigator: Navigator = get()
     private val tracker: TrackerService by inject()
 
     companion object {
-        fun createIntent(context: Context): Intent {
-            return Intent(context, MainActivity()::class.java)
-        }
+        const val TAG = "FriendsFragment"
+        fun newInstance() = FriendsFragment()
 
         private const val REQUEST_CODE_GET_FIRST_FRIEND = 10001
         private const val REQUEST_CODE_GET_SECOND_FRIEND = 10002
     }
 
-    override fun getToolBarViewId(): Int = R.id.toolbar_main
 
-    override val toolbarName: Int = R.string.main_screen
+    // override fun getToolBarViewId(): Int = R.id.toolbar_main
+    //
+    // override val toolbarName: Int = R.string.main_screen
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setToolBar(false)
 
         initViews()
         initObservers()
@@ -71,7 +69,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     private fun initObservers() {
         viewModel.getState().observe(this, Observer { viewState ->
             if (viewState.isError()) {
-                Toast.makeText(this, viewState.error, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, viewState.error, Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -87,8 +85,11 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     private fun openFriendsList(code: Int) {
-        tracker.getUserFromFriendListClicked()
-        navigator.openFriendsList(this, code)
+        activity?.let {
+            tracker.getUserFromFriendListClicked()
+            val intent = FriendsListActivity.createIntent(it)
+            startActivityForResult(intent, code)
+        }
     }
 
     private fun processData(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -97,7 +98,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 if (data == null) {
                     return
                 }
-                data.extras?.getSerializable(FriendsActivity.FRIEND_ID_KEY)?.let {friend ->
+                data.extras?.getSerializable(FriendsListActivity.FRIEND_ID_KEY)?.let {friend ->
                     friend as FriendModel
                     if (requestCode == REQUEST_CODE_GET_FIRST_FRIEND) {
                         et_first_user.setText(friend.id.toString())

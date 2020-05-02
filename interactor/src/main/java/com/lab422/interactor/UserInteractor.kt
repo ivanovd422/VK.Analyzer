@@ -12,7 +12,7 @@ import com.lab422.common.viewState.ViewState
 class UserInteractor constructor(
     private val usersApi: UsersApi,
     private val validator: UserNameValidator
-) {
+): BaseInteractor() {
     suspend fun getFriendsList(): LiveData<ViewState<List<NewUser>>> = invokeBlock {
         val liveData = MutableLiveData<ViewState<List<NewUser>>>()
         val friendsList = mutableListOf<NewUser>()
@@ -69,26 +69,5 @@ class UserInteractor constructor(
 
         liveData.postValue(ViewState(ViewState.Status.SUCCESS, usersList))
         return@invokeBlock liveData
-    }
-
-    private suspend fun <T> invokeBlock(block: suspend () -> LiveData<ViewState<T>>): LiveData<ViewState<T>> {
-        val liveData: MutableLiveData<ViewState<T>> = MutableLiveData<ViewState<T>>()
-        var errorMessage = "Ошибка сети, попробуйте позже"
-        try {
-            return block()
-        } catch (error: Throwable) {
-            if (error is AnalyzerApiException) {
-
-                if (error.code == "30") {
-                    errorMessage = "Один из профилей скрыт"
-                }
-
-                if (error.code == "113") {
-                    errorMessage = "Проверьте правильность полей"
-                }
-            }
-            liveData.postValue(ViewState(ViewState.Status.ERROR, error = errorMessage))
-            return liveData
-        }
     }
 }

@@ -2,96 +2,71 @@ package com.lab422.vkanalyzer.ui.friends
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
-import com.lab422.analyzerapi.models.users.NewUser
-import com.lab422.interactor.UserInteractor
-import com.lab422.vkanalyzer.ui.base.BaseViewModel
-import com.lab422.vkanalyzer.ui.base.RowDataModel
-import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
-import com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider.FriendsListDataProvider
-import com.lab422.vkanalyzer.utils.extensions.debounce
+import androidx.lifecycle.ViewModel
+import com.lab422.vkanalyzer.ui.friendsList.FriendModel
+import com.lab422.vkanalyzer.utils.analytics.TrackerService
+import com.lab422.vkanalyzer.utils.navigator.Navigator
 import com.lab422.common.viewState.ViewState
-import com.lab422.common.viewState.isSuccess
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-
-
 
 class FriendsViewModel(
-    private val dataProvider: FriendsListDataProvider,
-    private val userInteractor: UserInteractor
-) : BaseViewModel(), LifecycleObserver {
+    private val navigator: Navigator,
+    private val tracker: TrackerService
+) : ViewModel(), LifecycleObserver {
 
-    private val state: MediatorLiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = MediatorLiveData()
-    private val queryLiveData: MutableLiveData<String> = MutableLiveData()
-    private var rowData: MutableList<NewUser> = mutableListOf()
-    private val viewModelJob = SupervisorJob()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    private val userFetchingLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    private val state: MutableLiveData<ViewState<Unit>> = MutableLiveData()
+    private val firstUserNameLiveData: MutableLiveData<String> = MutableLiveData()
+    private val secondUserNameLiveData: MutableLiveData<String> = MutableLiveData()
 
-    init {
-        state.addSource(queryLiveData.debounce(300, viewModelScope)) {
-            uiScope.launch {
-                val data = dataProvider.filterByQuery(rowData, FriendsListType.SelectableFriends, it)
-                state.postValue(ViewState(ViewState.Status.SUCCESS, data))
-            }
-        }
+    private var firstFriend: FriendModel? = null
+    private var secondFriend: FriendModel? = null
 
-        userFetchingLiveData.switchMap {
-            launchOnViewModelScope {
-                userInteractor.getFriendsList()
-            }
-        }.observeForever {
-            if (it.isSuccess()) {
-                onSuccessLoadUsers(it.data)
-            } else {
-                showError("some error")
-            }
-        }
+    fun getState(): LiveData<ViewState<Unit>> = state
+    fun getFirstUserName(): LiveData<String> = firstUserNameLiveData
+    fun getSecondUserName(): LiveData<String> = secondUserNameLiveData
 
-        startLoadingFriendsList()
-    }
-
-    fun getFriendsState(): LiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = state
-
-    fun onSearchQueryTyped(text: String) {
-        queryLiveData.postValue(text.toLowerCase())
-    }
-
-    private fun startLoadingFriendsList() {
-        userFetchingLiveData.postValue(true)
-    }
-
-    private fun showError(textError: String) {
-        state.postValue(
-            ViewState(
-                status = ViewState.Status.ERROR,
-                error = textError
+    fun onSearchClicked(firstUserId: String, secondUserId: String) {
+        if (firstUserId.isEmpty() || secondUserId.isEmpty()) {
+            tracker.getUserFromFriendListClicked()
+            state.postValue(
+                ViewState(
+                    status = ViewState.Status.ERROR,
+                    error = "Заполните все поля"
+                )
             )
-        )
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        state.removeSource(queryLiveData)
-        viewModelJob.cancel()
-    }
-
-    private fun onSuccessLoadUsers(result: List<NewUser>?) {
-        if (result == null) return
-        rowData.clear()
-        rowData.addAll(result)
-
-        val data = dataProvider.generateFriendsListData(rowData, FriendsListType.SelectableFriends)
-        if (data.isEmpty()) {
-            showError("Нет общих друзей")
         } else {
-            state.postValue(ViewState(ViewState.Status.SUCCESS, data))
+            tracker.onSearchFriendsClicked(firstUserId, secondUserId)
+            navigator.openMutualListActivity(firstUserId, secondUserId)
+        }
+    }
+
+    fun onFirstFriendFromList(firstFriend: FriendModel) {
+        this.firstFriend = firstFriend
+        firstUserNameLiveData.value = firstFriend.name
+    }
+
+    fun onSecondFriendFromList(secondFriend: FriendModel) {
+        this.secondFriend = secondFriend
+        secondUserNameLiveData.value = secondFriend.name
+    }
+
+    fun onFirstIdEntered(firstId: String) {
+        firstFriend?.let {
+            if (it.id.toString() == firstId) {
+                firstUserNameLiveData.value = it.name
+            } else {
+                firstUserNameLiveData.value = ""
+            }
+        }
+    }
+
+    fun onSecondIdEntered(secondId: String) {
+        secondFriend?.let {
+            if (it.id.toString() == secondId) {
+                secondUserNameLiveData.value = it.name
+            } else {
+                secondUserNameLiveData.value = ""
+            }
         }
     }
 }

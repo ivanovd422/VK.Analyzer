@@ -2,6 +2,7 @@ package com.lab422.vkanalyzer.di
 
 import com.lab422.analyzerapi.UsersApi
 import com.lab422.analyzerapi.ApiFactory
+import com.lab422.analyzerapi.PhotosApi
 import org.koin.dsl.module
 
 fun provideApiModule() = module {
@@ -14,9 +15,14 @@ fun provideApiModule() = module {
         )
     }
     single { provideAnalyzerApi(get()) }
+    single { providePhotosApi(get()) }
 }
 
 
 fun provideAnalyzerApi(apiFactory: ApiFactory): UsersApi {
-    return apiFactory.createAnalyzerApi()
+    return apiFactory.createUserApi()
+}
+
+fun providePhotosApi(apiFactory: ApiFactory): PhotosApi {
+    return apiFactory.createPhotosApi()
 }
