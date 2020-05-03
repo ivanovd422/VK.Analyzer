@@ -4,5 +4,7 @@ data class UserInfoModel(
     val userId: String,
     val userName: String,
     val userStatus: Boolean,
-    val userPhotoUrl: String
+    val userPhotoUrl: String,
+    val lat: Double?,
+    val long: Double?
 )

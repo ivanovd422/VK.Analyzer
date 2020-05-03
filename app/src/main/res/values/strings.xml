@@ -51,4 +51,9 @@
     </string>
     <string name="photos_near_permissions_never_ask_dialog_accept">Разрешить</string>
 
+    <!-- User near -->
+    <string name="user_info_close_dialog">Хорошо</string>
+    <string name="user_info_error_text_dialog">Ошибка загрузки профиля.\nПовторите пожалуйста позже</string>
+    <string name="user_info_open_vk">Открыть страницу в VK</string>
+
 </resources>

@@ -3,7 +3,6 @@ package com.lab422.interactor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.lab422.analyzerapi.UsersApi
-import com.lab422.analyzerapi.core.AnalyzerApiException
 import com.lab422.analyzerapi.models.friendsList.convertToUser
 import com.lab422.analyzerapi.models.users.NewUser
 import com.lab422.common.UserNameValidator
@@ -71,8 +70,11 @@ class UserInteractor constructor(
         return@invokeBlock liveData
     }
 
-    suspend fun getUserInfoById(userId: String): ViewState<NewUser>  {
+    suspend fun getUserInfoById(userId: String): LiveData<ViewState<NewUser>> = invokeBlock {
+        val liveData = MutableLiveData<ViewState<NewUser>>()
         val newUser = usersApi.getUsersWithInfoByIds(userId).response.first()
-        return ViewState<NewUser>(ViewState.Status.SUCCESS, newUser)
+        liveData.postValue(ViewState(ViewState.Status.SUCCESS, newUser))
+
+        return@invokeBlock liveData
     }
 }

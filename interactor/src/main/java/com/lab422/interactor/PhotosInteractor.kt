@@ -1,5 +1,6 @@
 package com.lab422.interactor
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.lab422.analyzerapi.PhotosApi
@@ -13,6 +14,7 @@ class PhotosInteractor constructor(
 ) : BaseInteractor() {
 
     suspend fun getPhotosByLocation(lat: String, long: String, offset: String, radius: String): LiveData<ViewState<UserPhotoResponse>> = invokeBlock {
+        Log.d("tag", "getPhotosByLocation")
         val liveData = MutableLiveData<ViewState<UserPhotoResponse>>()
         val photosList = mutableListOf<UserPhotoData>()
         val result = photosApi.getPhotosByLocation(lat, long, offset, radius)
@@ -37,5 +39,7 @@ private fun PhotosItemResponse.convertToUserPhotoModel(): UserPhotoData =
         owner_id,
         sizes.last().url,
         date.toLong(),
-        user_id
+        user_id,
+        lat,
+        long
     )

@@ -27,7 +27,9 @@ data class UserPhotoRowModel(
 data class UserPhotoCellModel(
     val userId: Int,
     val date: String,
-    val photoUrl: String
+    val photoUrl: String,
+    val lat: Double?,
+    val long: Double?
 ) : Diffable {
 
     override fun isSame(same: Diffable): Boolean {
@@ -36,7 +38,9 @@ data class UserPhotoCellModel(
         }
         return same.userId == userId &&
             same.date == date &&
-            same.photoUrl == photoUrl
+            same.photoUrl == photoUrl &&
+            same.lat == lat &&
+            same.long == long
     }
 
     override fun isContentSame(same: Diffable): Boolean {
@@ -45,6 +49,8 @@ data class UserPhotoCellModel(
         }
         return same.userId == userId &&
             same.date == date &&
-            same.photoUrl == photoUrl
+            same.photoUrl == photoUrl &&
+            same.lat == lat &&
+            same.long == long
     }
 }

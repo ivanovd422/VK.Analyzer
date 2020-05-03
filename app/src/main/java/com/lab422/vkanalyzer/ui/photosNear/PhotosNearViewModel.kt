@@ -1,10 +1,12 @@
 package com.lab422.vkanalyzer.ui.photosNear
 
+import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import com.lab422.common.viewState.ViewState
 import com.lab422.common.viewState.isSuccess
 import com.lab422.interactor.PhotosInteractor
@@ -13,6 +15,7 @@ import com.lab422.vkanalyzer.ui.base.BaseViewModel
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.dataProvider.UserPhotoDataProvider
+import com.lab422.vkanalyzer.utils.extensions.debounce
 
 
 class PhotosNearViewModel(
@@ -52,8 +55,9 @@ class PhotosNearViewModel(
             data = false
         )
 
-        userFetchingLiveData.switchMap {
+        userFetchingLiveData.debounce(1000, viewModelScope).switchMap {
             launchOnViewModelScope {
+                Log.d("tag", "launchOnViewModelScope")
                 photosInteractor.getPhotosByLocation(
                     currentLat,
                     currentLong,
@@ -74,6 +78,7 @@ class PhotosNearViewModel(
     }
 
     fun onCoordinatesReceived(lat: String, long: String) {
+        Log.d("tag", "onCoordinatesReceived")
         currentLat = lat
         currentLong = long
         coordinatesState.value = true
@@ -82,15 +87,17 @@ class PhotosNearViewModel(
     }
 
     fun onReloadClicked() {
+        Log.d("tag", "onReloadClicked")
         if (currentLat.isEmpty() || currentLong.isEmpty()) return
         rawData.clear()
-        offset = 0
+        offset = START_OFFSET
         currentRadius = radiusList.first()
-        userPhotosData.postValue(ViewState(ViewState.Status.LOADING, data = listOf()))
+        userPhotosData.postValue(ViewState(ViewState.Status.LOADING))
         userFetchingLiveData.value = Unit
     }
 
     fun onNextPhotosLoad() {
+        Log.d("tag", "onNextPhotosLoad")
         if (currentLat.isEmpty() || currentLong.isEmpty()) return
         this.userFetchingLiveData.value = Unit
     }

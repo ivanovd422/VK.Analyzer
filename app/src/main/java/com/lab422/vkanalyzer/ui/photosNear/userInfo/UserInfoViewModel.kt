@@ -1,70 +1,51 @@
 package com.lab422.vkanalyzer.ui.photosNear.userInfo
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import androidx.lifecycle.switchMap
 import com.lab422.analyzerapi.models.users.NewUser
 import com.lab422.common.viewState.ViewState
 import com.lab422.common.viewState.isSuccess
 import com.lab422.interactor.UserInteractor
 import com.lab422.vkanalyzer.ui.base.BaseViewModel
+import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.PhotoInfoModel
 import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.UserInfoModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
 class UserInfoViewModel(
-    private val userId: String,
+    private val photoModel: PhotoInfoModel,
     private val userInteractor: UserInteractor
 ) : BaseViewModel() {
 
-    private val viewModelJob = SupervisorJob()
-    private val jobScope = CoroutineScope(Dispatchers.IO + viewModelJob)
-
-    private val userInfoState: MutableLiveData<ViewState<UserInfoModel>> = MutableLiveData()
+    private val userInfoState: MediatorLiveData<ViewState<UserInfoModel>> = MediatorLiveData()
     fun getUserInfoState(): LiveData<ViewState<UserInfoModel>> = userInfoState
 
+    private val userFetchingLiveData: MutableLiveData<ViewState<UserInfoModel>> = MutableLiveData()
 
     init {
-        userInfoState.value = ViewState(ViewState.Status.LOADING)
-
-
-        jobScope.launch {
-            val viewState = userInteractor.getUserInfoById(userId)
-            if (viewState.isSuccess() && viewState.data != null) {
-                val data = viewState.data!!
-                userInfoState.postValue(
-                    ViewState(ViewState.Status.SUCCESS, data.convertToUserInfoModel())
-                )
+        userInfoState.addSource(userFetchingLiveData) { userInfoState.value = it }
+        userInfoState.addSource(launchOnViewModelScope {
+            userInteractor.getUserInfoById(photoModel.userId)
+        }.map {
+            return@map if (it.isSuccess() && it.data != null) {
+                ViewState(ViewState.Status.SUCCESS, it.data!!.convertToUserInfoModel(photoModel))
+            } else {
+                ViewState(ViewState.Status.ERROR, error = "Ошибка")
             }
+        }) {
+            userInfoState.value = it
         }
 
+        userFetchingLiveData.value = ViewState(ViewState.Status.LOADING)
     }
-
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
-
-
-    private fun showError(textError: String) {
-        userInfoState.postValue(
-            ViewState(
-                status = ViewState.Status.ERROR,
-                error = textError
-            )
-        )
-    }
-
 }
 
-private fun NewUser.convertToUserInfoModel() : UserInfoModel =
+private fun NewUser.convertToUserInfoModel(photoModel: PhotoInfoModel): UserInfoModel =
     UserInfoModel(
         id.toString(),
         "$first_name $last_name",
         online != 0,
-        photoUrl ?: ""
+        photoUrl ?: "",
+        photoModel.lat,
+        photoModel.long
     )

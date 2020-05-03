@@ -37,6 +37,8 @@ ext {
 
     // Google
     playServicesLocation = '17.0.0'
+    googleMapsVersion = '17.0.0'
+    playServicesGcmVersion = '17.0.0'
 }
 
 
@@ -101,6 +103,8 @@ dependencies {
 
 
     implementation "com.google.android.gms:play-services-location:$playServicesLocation"
+    implementation "com.google.android.gms:play-services-gcm:$playServicesGcmVersion"
+    implementation "com.google.android.gms:play-services-maps:$googleMapsVersion"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
@@ -160,3 +164,5 @@ dependencies {
     })
     androidTestImplementation 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'

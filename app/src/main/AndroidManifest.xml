@@ -35,6 +35,10 @@
         <activity android:name=".ui.mutualFriends.MutualFriendsActivity" />
         <activity android:name=".ui.friendsList.FriendsListActivity" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDVnvIuaf1M-jKY-nWB0fp-D9oRNEbJTfM"/>
+
     </application>
 
 </manifest>

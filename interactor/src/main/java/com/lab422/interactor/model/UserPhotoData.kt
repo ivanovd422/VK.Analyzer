@@ -4,5 +4,7 @@ data class UserPhotoData(
     val ownerId: Int,
     val photoUrl: String,
     val photoPostDate: Long,
-    val userId: Int?
+    val userId: Int?,
+    val lat: Double?,
+    val long: Double?
 )

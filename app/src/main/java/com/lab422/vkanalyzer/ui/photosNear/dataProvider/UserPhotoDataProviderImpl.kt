@@ -30,7 +30,9 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
                 UserPhotoCellModel(
                     userId,
                     userPhotoData.photoPostDate.toString(),
-                    userPhotoData.photoUrl
+                    userPhotoData.photoUrl,
+                    userPhotoData.lat,
+                    userPhotoData.long
                 )
             )
 
