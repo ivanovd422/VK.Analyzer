@@ -7,7 +7,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -26,9 +25,10 @@ import com.lab422.common.viewState.isLoading
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.PhotosAdapter
-import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.PhotosViewHolder
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.LoadingViewHolder
+import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.PhotosViewHolder
+import com.lab422.vkanalyzer.ui.photosNear.userInfo.UserInfoBottomSheet
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_photos_near.*
 import org.koin.android.ext.android.get
@@ -97,7 +97,7 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
     }
 
     override fun onPhotoClicked(id: Int) {
-        Log.d("tag", "Open user with id = $id")
+        showBottomSheetDialogFragment(id.toString())
     }
 
     override fun onNextLoading() {
@@ -236,6 +236,11 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
 
     private fun showPermissionsNeverAskDialog() {
         PermissionsNeverAskDialog().show(childFragmentManager, null)
+    }
+
+    private fun showBottomSheetDialogFragment(userId: String) {
+        val bottomSheetFragment = UserInfoBottomSheet.newInstance(userId)
+        bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
     }
 
     private inner class PhotosLocationCallback : LocationCallback() {

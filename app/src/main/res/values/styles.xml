@@ -54,4 +54,15 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="strokeWidth">0dp</item>
     </style>
+
+    <style name="MaterialButton.Borderless.Medium" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+
+    <style name="MaterialButton.Borderless.Bold" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

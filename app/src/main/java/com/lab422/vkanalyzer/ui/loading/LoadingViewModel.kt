@@ -7,7 +7,7 @@ import com.lab422.common.AppSettings
 
 
 class LoadingViewModel(
-    private val appSettings: com.lab422.common.AppSettings,
+    private val appSettings: AppSettings,
     private val navigator: Navigator,
     private val tracker: TrackerService
 ) : ViewModel() {

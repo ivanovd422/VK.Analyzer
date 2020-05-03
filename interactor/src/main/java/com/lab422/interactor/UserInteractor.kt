@@ -12,7 +12,7 @@ import com.lab422.common.viewState.ViewState
 class UserInteractor constructor(
     private val usersApi: UsersApi,
     private val validator: UserNameValidator
-): BaseInteractor() {
+) : BaseInteractor() {
     suspend fun getFriendsList(): LiveData<ViewState<List<NewUser>>> = invokeBlock {
         val liveData = MutableLiveData<ViewState<List<NewUser>>>()
         val friendsList = mutableListOf<NewUser>()
@@ -69,5 +69,10 @@ class UserInteractor constructor(
 
         liveData.postValue(ViewState(ViewState.Status.SUCCESS, usersList))
         return@invokeBlock liveData
+    }
+
+    suspend fun getUserInfoById(userId: String): ViewState<NewUser>  {
+        val newUser = usersApi.getUsersWithInfoByIds(userId).response.first()
+        return ViewState<NewUser>(ViewState.Status.SUCCESS, newUser)
     }
 }

@@ -8,6 +8,7 @@ import com.lab422.vkanalyzer.ui.mainScreen.MainViewModel
 import com.lab422.vkanalyzer.ui.mutualFriends.MutualViewModel
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.ui.photosNear.PhotosNearViewModel
+import com.lab422.vkanalyzer.ui.photosNear.userInfo.UserInfoViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -20,4 +21,5 @@ fun provideUiModule() = module {
     viewModel { (model: MutualFriendsModel) -> MutualViewModel(model, get(), get(), get()) }
     viewModel { FriendsListViewModel(get(), get()) }
     viewModel { PhotosNearViewModel(get(), get()) }
+    viewModel { (userId: String) -> UserInfoViewModel(userId, get()) }
 }
