@@ -6,5 +6,4 @@ import org.koin.dsl.module
 
 fun provideMutualFriendsModule() = module {
     single<FriendsListDataProvider> { FriendsDataProviderImpl() }
-
 }

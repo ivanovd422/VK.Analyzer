@@ -5,26 +5,37 @@ import androidx.lifecycle.MutableLiveData
 import com.lab422.analyzerapi.PhotosApi
 import com.lab422.analyzerapi.models.photos.PhotosItemResponse
 import com.lab422.common.viewState.ViewState
-import com.lab422.interactor.model.UserPhotoModel
+import com.lab422.interactor.model.UserPhotoData
+import com.lab422.interactor.model.UserPhotoResponse
 
 class PhotosInteractor constructor(
     private val photosApi: PhotosApi
 ) : BaseInteractor() {
 
-    suspend fun getPhotosByLocation(lat: Long, long: Long): LiveData<ViewState<List<UserPhotoModel>>> = invokeBlock {
-        val liveData = MutableLiveData<ViewState<List<UserPhotoModel>>>()
-        val photosList = mutableListOf<UserPhotoModel>()
-        val result = photosApi.getPhotosByLocation(lat.toString(), long.toString())
+    suspend fun getPhotosByLocation(lat: String, long: String, offset: String, radius: String): LiveData<ViewState<UserPhotoResponse>> = invokeBlock {
+        val liveData = MutableLiveData<ViewState<UserPhotoResponse>>()
+        val photosList = mutableListOf<UserPhotoData>()
+        val result = photosApi.getPhotosByLocation(lat, long, offset, radius)
         result.response.items.forEach { photosList.add(it.convertToUserPhotoModel()) }
-        liveData.postValue(ViewState(ViewState.Status.SUCCESS, photosList))
+        val count = result.response.count
+
+        liveData.postValue(
+            ViewState(
+                ViewState.Status.SUCCESS, UserPhotoResponse(
+                    photosList,
+                    count
+                )
+            )
+        )
 
         return@invokeBlock liveData
     }
 }
 
-private fun PhotosItemResponse.convertToUserPhotoModel(): UserPhotoModel =
-    UserPhotoModel(
-        owner_id.toLong(),
+private fun PhotosItemResponse.convertToUserPhotoModel(): UserPhotoData =
+    UserPhotoData(
+        owner_id,
         sizes.last().url,
-        date.toLong()
+        date.toLong(),
+        user_id
     )

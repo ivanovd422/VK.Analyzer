@@ -9,6 +9,9 @@ interface PhotosApi {
     @GET("photos.search")
     suspend fun getPhotosByLocation(
         @Query("lat") lat: String,
-        @Query("long") long: String
+        @Query("long") long: String,
+        @Query("offset") offset: String = "0",
+        @Query("radius") radius: String,
+        @Query("sort") sort: String = "0"
     ): PhotosResponse
 }

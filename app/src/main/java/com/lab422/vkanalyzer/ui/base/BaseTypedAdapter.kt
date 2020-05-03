@@ -12,7 +12,7 @@ import java.lang.RuntimeException
 //todo rewrite adapter with LiveData inside
 abstract class BaseTypedAdapter<T : Rawable>(
     generalDataList: List<RowDataModel<T, *>>,
-    private val stringProvider: com.lab422.common.StringProvider,
+    private val stringProvider: StringProvider,
     private val useDiffs: Boolean = true,
     private val lifecycleOwner: LifecycleOwner
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

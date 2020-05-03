@@ -7,30 +7,58 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.lab422.common.StringProvider
+import com.lab422.common.viewState.ViewState
+import com.lab422.common.viewState.isError
+import com.lab422.common.viewState.isLoading
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.ui.base.RowDataModel
+import com.lab422.vkanalyzer.ui.photosNear.adapter.PhotosAdapter
+import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.PhotosViewHolder
+import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
+import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.LoadingViewHolder
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_photos_near.*
+import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
-class PhotosNearFragment : Fragment(R.layout.fragment_photos_near), PermissionsNeverAskDialog.OpenPermissionsSettingsAction {
+class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
+    PermissionsNeverAskDialog.OpenPermissionsSettingsAction,
+    PhotosViewHolder.Listener,
+    LoadingViewHolder.Listener {
 
     private var viewModel: PhotosNearViewModel? = null
     private var locationClientManager: FusedLocationProviderClient? = null
+    private var photosAdapter: PhotosAdapter
+    private val stringProvider: StringProvider = get()
 
     companion object {
         const val TAG = "PhotosNearFragment"
         const val LOCATION_PERMISSION_ID = 10001
         fun newInstance() = PhotosNearFragment()
+    }
+
+    init {
+        photosAdapter = PhotosAdapter(
+            listOf(),
+            stringProvider,
+            this,
+            this,
+            this
+        )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -50,16 +78,60 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near), PermissionsN
     private fun initObservers() {
         viewModel?.getLocationStateAvailability()?.observe(viewLifecycleOwner, Observer { viewState ->
             viewState.data?.let { isLocationAvailable ->
-                tv_permission_needs_title.setVisible(isLocationAvailable.not())
-                btn_request_permissions.setVisible(isLocationAvailable.not())
-                tv_test_title.setVisible(isLocationAvailable)
+                container_permissions.setVisible(isLocationAvailable.not())
+                container_main.setVisible(isLocationAvailable)
             }
         })
+
+        viewModel?.getUserPhotosDataState()?.observe(viewLifecycleOwner, Observer { viewState ->
+            processState(viewState)
+        })
+
+        viewModel?.isCoordinatesExist()?.observe(viewLifecycleOwner, Observer { isCoordinatesExist ->
+            if (isCoordinatesExist.not()) {
+                if (checkPermissions()) {
+                    getLastLocation()
+                }
+            }
+        })
+    }
+
+    override fun onPhotoClicked(id: Int) {
+        Log.d("tag", "Open user with id = $id")
+    }
+
+    override fun onNextLoading() {
+       viewModel?.onNextPhotosLoad()
+    }
+
+    private fun processState(viewState: ViewState<List<RowDataModel<UserPhotoRowType, *>>>) {
+        swipe_to_refresh_photos.isRefreshing = viewState.isLoading()
+
+        setData(viewState.data)
+
+        if (viewState.isError()) {
+            Toast.makeText(requireContext(), viewState.error, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setData(data: List<RowDataModel<UserPhotoRowType, *>>?) {
+        data?.let {
+            photosAdapter.reload(data)
+        }
     }
 
     private fun initViews() {
         btn_request_permissions.setOnClickListener {
             requestLocationPermissions()
+        }
+
+        rv_photos_near.run {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = photosAdapter
+        }
+
+        swipe_to_refresh_photos.setOnRefreshListener {
+            viewModel?.onReloadClicked()
         }
     }
 
@@ -102,7 +174,7 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near), PermissionsN
                     if (location == null) {
                         requestNewLocationData()
                     } else {
-                        viewModel?.onCurrentLocationReceived(
+                        viewModel?.onCoordinatesReceived(
                             location.latitude.toString(),
                             location.longitude.toString()
                         )
@@ -154,7 +226,8 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near), PermissionsN
         try {
             val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivity(intent)
-        } catch (e: Exception) {}
+        } catch (e: Exception) {
+        }
     }
 
     private fun showPermissionsInfoDialog() {
@@ -167,7 +240,7 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near), PermissionsN
 
     private inner class PhotosLocationCallback : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            viewModel?.onCurrentLocationReceived(
+            viewModel?.onCoordinatesReceived(
                 locationResult.lastLocation.latitude.toString(),
                 locationResult.lastLocation.longitude.toString()
             )

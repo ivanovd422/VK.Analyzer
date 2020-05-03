@@ -10,5 +10,5 @@ data class PhotosItemResponse(
     val post_id: Int,
     val sizes: List<Size>,
     val text: String,
-    val user_id: Int
+    val user_id: Int?
 )
