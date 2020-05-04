@@ -2,7 +2,7 @@ package com.lab422.analyzerapi.models.photos
 
 data class PhotosItemResponse(
     val album_id: Int,
-    val date: Int,
+    val date: Long,
     val id: Int,
     val lat: Double,
     val long: Double,

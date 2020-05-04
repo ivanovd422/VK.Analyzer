@@ -6,5 +6,6 @@ data class UserPhotoData(
     val photoPostDate: Long,
     val userId: Int?,
     val lat: Double?,
-    val long: Double?
+    val long: Double?,
+    val date: Long
 )

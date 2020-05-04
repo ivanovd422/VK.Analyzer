@@ -39,5 +39,6 @@ private fun PhotosItemResponse.convertToUserPhotoModel(): UserPhotoData =
         date.toLong(),
         user_id,
         lat,
-        long
+        long,
+        date
     )
