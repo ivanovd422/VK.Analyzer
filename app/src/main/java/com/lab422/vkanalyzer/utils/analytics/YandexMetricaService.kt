@@ -82,6 +82,27 @@ class YandexMetricaService : TrackerService {
         logEvent(TrackerConstants.EVENT_SUCCESS_LOAD_MUTUAL_FRIENDS, eventParameters)
     }
 
+    override fun loadPhotoNearby(isSuccess: Boolean, photosCount: Int?, errorMessage: String?) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["isSuccess"] = isSuccess.toString()
+        if (photosCount != null) {
+            eventParameters["photosCount"] = photosCount.toString()
+        }
+
+        if (errorMessage != null) {
+            eventParameters["errorMessage"] = errorMessage.toString()
+        }
+
+        logEvent(TrackerConstants.EVENT_NEARBY_PHOTOS_LOADED, eventParameters)
+    }
+
+    override fun coordinatesReceived(lat: String, long: String) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["lat"] = lat
+        eventParameters["long"] = long
+        logEvent(TrackerConstants.EVENT_CURRENT_COORDINATES_RECEIVED, eventParameters)
+    }
+
     private fun logEvent(eventName: String) {
         YandexMetrica.reportEvent(eventName)
     }

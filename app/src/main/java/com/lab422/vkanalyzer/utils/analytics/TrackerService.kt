@@ -16,4 +16,6 @@ interface TrackerService {
     fun failedLoadUserId(error: String)
     fun failedLoadMutualFriends(error: String)
     fun successLoadMutualFriends(friendsCount: Int)
+    fun loadPhotoNearby(isSuccess: Boolean, photosCount: Int? = null, errorMessage: String? = null)
+    fun coordinatesReceived(lat: String, long: String)
 }

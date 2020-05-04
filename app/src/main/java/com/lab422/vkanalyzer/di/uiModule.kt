@@ -21,6 +21,6 @@ fun provideUiModule() = module {
     viewModel { MainViewModel() }
     viewModel { (model: MutualFriendsModel) -> MutualViewModel(model, get(), get(), get()) }
     viewModel { FriendsListViewModel(get(), get()) }
-    viewModel { PhotosNearViewModel(get(), get()) }
+    viewModel { PhotosNearViewModel(get(), get(), get()) }
     viewModel { (model: PhotoInfoModel) -> UserInfoViewModel(model, get()) }
 }

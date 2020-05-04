@@ -29,7 +29,8 @@ class AmplitudeService : TrackerService {
         val eventProperties = JSONObject()
         try {
             eventProperties.put("userId", userId)
-        } catch (exception: JSONException) { }
+        } catch (exception: JSONException) {
+        }
 
         logEvent(TrackerConstants.EVENT_AUTH_BY_VK_SUCCESS, eventProperties)
     }
@@ -97,6 +98,32 @@ class AmplitudeService : TrackerService {
         } catch (exception: JSONException) {
         }
         logEvent(TrackerConstants.EVENT_SUCCESS_LOAD_MUTUAL_FRIENDS, eventProperties)
+    }
+
+    override fun loadPhotoNearby(isSuccess: Boolean, photosCount: Int?, errorMessage: String?) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("isSuccess", isSuccess)
+            if (photosCount != null) {
+                eventProperties.put("photos count", photosCount)
+            }
+
+            if (errorMessage != null) {
+                eventProperties.put("error", errorMessage)
+            }
+        } catch (exception: JSONException) {
+        }
+        logEvent(TrackerConstants.EVENT_NEARBY_PHOTOS_LOADED, eventProperties)
+    }
+
+    override fun coordinatesReceived(lat: String, long: String) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("lat", lat)
+            eventProperties.put("long", long)
+        } catch (exception: JSONException) {
+        }
+        logEvent(TrackerConstants.EVENT_CURRENT_COORDINATES_RECEIVED, eventProperties)
     }
 
     private fun logEvent(eventName: String, jsonObject: JSONObject) {

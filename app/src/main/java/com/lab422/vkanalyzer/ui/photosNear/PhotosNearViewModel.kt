@@ -14,13 +14,15 @@ import com.lab422.vkanalyzer.ui.base.BaseViewModel
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.dataProvider.UserPhotoDataProvider
+import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.debounce
 import kotlinx.coroutines.cancelChildren
 
 
 class PhotosNearViewModel(
     private val photosInteractor: PhotosInteractor,
-    private val dataProvider: UserPhotoDataProvider
+    private val dataProvider: UserPhotoDataProvider,
+    private val tracker: TrackerService
 ) : BaseViewModel(), LifecycleObserver {
 
     private companion object {
@@ -80,14 +82,17 @@ class PhotosNearViewModel(
 
                 if (data.isEmpty()) {
                     if (currentRadius == radiusList.last()) {
+                        tracker.loadPhotoNearby(false, errorMessage = it.error)
                         userPhotosData.postValue(ViewState(ViewState.Status.ERROR, error = it.error))
                     } else {
                         repeatSearchWithIncreasedRadius()
                     }
                 } else {
+                    tracker.loadPhotoNearby(true, data.size)
                     userPhotosData.postValue(ViewState(ViewState.Status.SUCCESS, data))
                 }
             } else {
+                tracker.loadPhotoNearby(false, errorMessage = it.error)
                 userPhotosData.postValue(ViewState(ViewState.Status.ERROR, error = it.error))
             }
         }
@@ -96,6 +101,7 @@ class PhotosNearViewModel(
     }
 
     fun onCoordinatesReceived(lat: String, long: String) {
+        tracker.coordinatesReceived(lat, long)
         currentLat = lat
         currentLong = long
         coordinatesState.value = true

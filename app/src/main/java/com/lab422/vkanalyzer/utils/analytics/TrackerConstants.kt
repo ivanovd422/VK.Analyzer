@@ -13,4 +13,8 @@ object TrackerConstants {
     const val EVENT_FAILED_LOAD_USERS_ID = "Failed load users id"
     const val EVENT_FAILED_LOAD_MUTUAL_FRIENDS = "Failed load mutual friends"
     const val EVENT_SUCCESS_LOAD_MUTUAL_FRIENDS = "Success load mutual friends"
+
+    // Photos Near
+    const val EVENT_NEARBY_PHOTOS_LOADED = "Nearby photos loaded"
+    const val EVENT_CURRENT_COORDINATES_RECEIVED = "Current coordinates received"
 }

@@ -52,4 +52,12 @@ class CompositeTrackerService(private val trackerServices: List<TrackerService>)
     override fun successLoadMutualFriends(friendsCount: Int) {
         trackerServices.forEach { it.successLoadMutualFriends(friendsCount) }
     }
+
+    override fun loadPhotoNearby(isSuccess: Boolean, photosCount: Int?, errorMessage: String?) {
+        trackerServices.forEach { it.loadPhotoNearby(isSuccess, photosCount, errorMessage) }
+    }
+
+    override fun coordinatesReceived(lat: String, long: String) {
+        trackerServices.forEach { it.coordinatesReceived(lat, long) }
+    }
 }
