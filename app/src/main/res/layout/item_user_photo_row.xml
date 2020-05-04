@@ -18,6 +18,8 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_empty_avatar"
+
+        android:visibility="invisible"
         />
 
     <ImageView
@@ -30,6 +32,8 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_empty_avatar"
+
+        android:visibility="invisible"
         />
 
     <ImageView
@@ -42,5 +46,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_empty_avatar"
+
+        android:visibility="invisible"
         />
 </LinearLayout>

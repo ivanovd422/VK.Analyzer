@@ -19,7 +19,7 @@ import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsListAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
-import com.lab422.vkanalyzer.utils.extensions.hide
+import com.lab422.vkanalyzer.utils.extensions.gone
 import com.lab422.vkanalyzer.utils.extensions.openLink
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.common.viewState.ViewState
@@ -110,7 +110,7 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
     }
 
     private fun initViews() {
-        ll_mutual_friends_error_wrapper.hide()
+        ll_mutual_friends_error_wrapper.gone()
         btn_return.setOnClickListener { onSupportNavigateUp() }
 
         rv_mutual_friends.run {

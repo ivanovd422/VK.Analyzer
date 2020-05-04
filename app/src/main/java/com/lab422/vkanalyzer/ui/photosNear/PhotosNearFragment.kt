@@ -7,6 +7,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -42,7 +43,7 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
 
     private var viewModel: PhotosNearViewModel? = null
     private var locationClientManager: FusedLocationProviderClient? = null
-    private var photosAdapter: PhotosAdapter
+    private var photosAdapter: PhotosAdapter? = null
     private val stringProvider: StringProvider = get()
 
     companion object {
@@ -51,21 +52,10 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
         fun newInstance() = PhotosNearFragment()
     }
 
-    init {
-        photosAdapter = PhotosAdapter(
-            listOf(),
-            stringProvider,
-            this,
-            this,
-            this
-        )
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        locationClientManager = LocationServices.getFusedLocationProviderClient(requireContext())
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        context?.let { locationClientManager = LocationServices.getFusedLocationProviderClient(it) }
         viewModel = getViewModel()
-
         initObservers()
         initViews()
     }
@@ -116,11 +106,19 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
 
     private fun setData(data: List<RowDataModel<UserPhotoRowType, *>>?) {
         data?.let {
-            photosAdapter.reload(data)
+            photosAdapter?.reload(data)
         }
     }
 
     private fun initViews() {
+        photosAdapter = PhotosAdapter(
+            listOf(),
+            stringProvider,
+            this,
+            this,
+            this
+        )
+
         btn_request_permissions.setOnClickListener {
             requestLocationPermissions()
         }
@@ -202,24 +200,28 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
     }
 
     private fun isLocationEnabled(): Boolean {
-        val locationManager = ContextCompat.getSystemService(requireContext(), LocationManager::class.java)
-        return locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false || locationManager?.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        ) ?: false
+        return context?.let {
+            val locationManager = ContextCompat.getSystemService(it, LocationManager::class.java)
+            return locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false || locationManager?.isProviderEnabled(
+                LocationManager.NETWORK_PROVIDER
+            ) ?: false
+        } ?: false
     }
 
     private fun requestNewLocationData() {
-        val mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = 0
-        mLocationRequest.fastestInterval = 0
-        mLocationRequest.numUpdates = 1
-        locationClientManager = LocationServices.getFusedLocationProviderClient(requireContext())
-        locationClientManager!!.requestLocationUpdates(
-            mLocationRequest,
-            PhotosLocationCallback(),
-            Looper.myLooper()
-        )
+        context?.let {
+            val mLocationRequest = LocationRequest()
+            mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            mLocationRequest.interval = 0
+            mLocationRequest.fastestInterval = 0
+            mLocationRequest.numUpdates = 1
+            locationClientManager = LocationServices.getFusedLocationProviderClient(it)
+            locationClientManager!!.requestLocationUpdates(
+                mLocationRequest,
+                PhotosLocationCallback(),
+                Looper.myLooper()
+            )
+        }
     }
 
     private fun showLocationPermissionsSettings() {

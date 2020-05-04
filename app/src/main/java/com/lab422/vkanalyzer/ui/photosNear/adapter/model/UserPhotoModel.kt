@@ -5,9 +5,7 @@ import com.lab422.vkanalyzer.ui.base.Rawable
 
 data class UserPhotoRowModel(
     val userPhotosCells: List<UserPhotoCellModel>
-) : Diffable, Rawable {
-
-    override val rawValue: Int = this.hashCode()
+) : Diffable {
 
     override fun isSame(same: Diffable): Boolean {
         if (same !is UserPhotoRowModel) {

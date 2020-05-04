@@ -17,7 +17,7 @@ import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.friendsList.adapter.FriendsListAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
-import com.lab422.vkanalyzer.utils.extensions.hide
+import com.lab422.vkanalyzer.utils.extensions.gone
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.common.StringProvider
 import com.lab422.common.viewState.ViewState
@@ -89,7 +89,7 @@ class FriendsListActivity : BaseActivity(R.layout.activity_friends_list), Friend
     }
 
     private fun initViews() {
-        ll_friends_list_error_wrapper.hide()
+        ll_friends_list_error_wrapper.gone()
         btn_friends_list_return.setOnClickListener { finish() }
 
         rv_friends_list.run {

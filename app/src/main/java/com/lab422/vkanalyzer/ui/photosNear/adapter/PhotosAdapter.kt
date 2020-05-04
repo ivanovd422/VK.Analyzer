@@ -17,7 +17,7 @@ class PhotosAdapter(
 ) : BaseTypedAdapter<UserPhotoRowType>(friends, stringProvider, true, lifecycleOwner) {
 
     init {
-        addFactory(UserPhotoRowType.UserPhotoRowType, PhotosViewHolder.getFactory(listener))
+        addFactory(UserPhotoRowType.UserPhoto, PhotosViewHolder.getFactory(listener))
         addFactory(UserPhotoRowType.Loading, LoadingViewHolder.getFactory(onNextLoadingListener))
         addFactory(UserPhotoRowType.Date, DateViewHolder.getFactory())
     }

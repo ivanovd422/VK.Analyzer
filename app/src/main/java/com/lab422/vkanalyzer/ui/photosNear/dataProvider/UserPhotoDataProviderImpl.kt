@@ -47,7 +47,7 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
                 if (userPhotoRowModel.isNotEmpty()) {
                     finalUserPhotosList.add(
                         UserPhotoRowData(
-                            UserPhotoRowType.UserPhotoRowType,
+                            UserPhotoRowType.UserPhoto,
                             UserPhotoRowModel(userPhotoRowModel)
                         )
                     )
@@ -69,7 +69,7 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
                 if (userPhotoRowModel.size == 3 || index == listSize) {
                     finalUserPhotosList.add(
                         UserPhotoRowData(
-                            UserPhotoRowType.UserPhotoRowType,
+                            UserPhotoRowType.UserPhoto,
                             UserPhotoRowModel(userPhotoRowModel)
                         )
                     )
@@ -118,7 +118,7 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
 
 @Suppress("FunctionName")
 fun <T : Rawable> UserPhotoRowData(rowType: T, p: UserPhotoRowModel): RowDataModel<T, Any> {
-    return RowDataModel(rowType, "UserPhotoRowModel-{${p.userPhotosCells.first().photoUrl}}", p)
+    return RowDataModel(rowType, "UserPhotoRowModel-{${p.userPhotosCells}", p)
 }
 
 @Suppress("FunctionName")

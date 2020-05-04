@@ -15,6 +15,8 @@ import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoRowModel
+import com.lab422.vkanalyzer.utils.extensions.show
+import com.lab422.vkanalyzer.utils.extensions.showOrHide
 import kotlinx.android.synthetic.main.item_user_photo_row.view.*
 
 class PhotosViewHolder(
@@ -59,6 +61,10 @@ class PhotosViewHolder(
         val userPhotoModel1 = userCells.firstOrNull()
         val userPhotoModel2 = if (userCells.size > 1) userCells[1] else null
         val userPhotoModel3 = if (userCells.size > 2) userCells[2] else null
+
+        ivUserPhoto1.showOrHide(userPhotoModel1 != null)
+        ivUserPhoto2.showOrHide(userPhotoModel2 != null)
+        ivUserPhoto3.showOrHide(userPhotoModel3 != null)
 
         userPhotoModel1?.let { userModel ->
             ivUserPhoto1.setOnClickListener {
