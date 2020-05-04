@@ -23,7 +23,7 @@ class BottomBarProvider {
             BarItem(
                 R.string.bottom_menu_friends,
                 R.string.bottom_menu_friends,
-                R.drawable.icon_settings,
+                R.drawable.ic_mutual_friends_icon,
                 FRIENDS_ID,
                 FriendsItemCommand(),
                 FriendsFragment.TAG
@@ -31,7 +31,7 @@ class BottomBarProvider {
             BarItem(
                 R.string.bottom_menu_photos_near,
                 R.string.bottom_menu_photos_near,
-                R.drawable.icon_settings,
+                R.drawable.ic_near_photo,
                 PHOTOS_NEAR_ID,
                 PhotosNearItemCommand(),
                 PhotosNearFragment.TAG
@@ -39,7 +39,7 @@ class BottomBarProvider {
             BarItem(
                 R.string.bottom_menu_settings,
                 R.string.bottom_menu_settings,
-                R.drawable.icon_settings,
+                R.drawable.ic_bar_support,
                 SETTINGS_MENU_ID,
                 SettingsItemCommand(),
                 SettingsFragment.TAG
