@@ -109,7 +109,7 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
 
         setData(viewState.data)
 
-        if (viewState.isError()) {
+        if (viewState.isError() && viewState.error.isNullOrEmpty().not()) {
             Toast.makeText(requireContext(), viewState.error, Toast.LENGTH_SHORT).show()
         }
     }
