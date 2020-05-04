@@ -24,6 +24,25 @@ open class BaseInteractor {
                 if (error.code == "113") {
                     errorMessage = "Проверьте правильность полей"
                 }
+                if (error.code == "1") {
+                    errorMessage = "Попробуйте повторить запрос позже."
+                }
+                if (error.code == "10") {
+                    errorMessage = "Попробуйте повторить запрос позже"
+                }
+                if (error.code == "18") {
+                    errorMessage = "Страница пользователя была удалена или заблокирована"
+                }
+
+                if (error.code == "15") {
+                    errorMessage = "Доступ запрещён"
+                    if (
+                        error.message.isNullOrEmpty().not() &&
+                        error.message == "Access denied: you are in users blacklist"
+                    ) {
+                        errorMessage = "Пользователь добавил Вас в чёрный список"
+                    }
+                }
             }
 
             if (error is NetworkException) {
