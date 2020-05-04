@@ -26,7 +26,7 @@ data class UserPhotoRowModel(
 
 data class UserPhotoCellModel(
     val userId: Int,
-    val date: String,
+    val date: Long,
     val photoUrl: String,
     val lat: Double?,
     val long: Double?

@@ -35,7 +35,7 @@ abstract class BaseTypedAdapter<T : Rawable>(
     }
 
     fun reload(dataList: List<RowDataModel<T, *>>) {
-        adapterData.postValue(dataList)
+        adapterData.value = dataList
     }
 
     protected fun addFactory(rowType: T, factory: ViewHolderFactory) {

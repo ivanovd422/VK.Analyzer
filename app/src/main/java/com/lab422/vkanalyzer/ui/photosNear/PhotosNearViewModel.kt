@@ -34,7 +34,7 @@ class PhotosNearViewModel(
 
     private val userFetchingLiveData: MutableLiveData<Pair<String, String>> = MutableLiveData()
     private var userPhotosCount = 0
-    private val rawData: MutableList<UserPhotoData> = mutableListOf()
+    private var rawData: MutableList<UserPhotoData> = mutableListOf()
     private var currentLat = String()
     private var currentLong = String()
     private var offset: Int = START_OFFSET
@@ -46,7 +46,6 @@ class PhotosNearViewModel(
     private val userPhotosData: MediatorLiveData<
         ViewState<List<RowDataModel<UserPhotoRowType, *>>>
         > = MediatorLiveData()
-
     fun getUserPhotosDataState(): LiveData<ViewState<List<RowDataModel<UserPhotoRowType, *>>>> = userPhotosData
 
     private val coordinatesState: MediatorLiveData<Boolean> = MediatorLiveData()
@@ -112,6 +111,7 @@ class PhotosNearViewModel(
         if (currentLat.isEmpty() || currentLong.isEmpty()) return
         networkContext.cancelChildren()
         rawData.clear()
+        rawData = mutableListOf()
         offset = START_OFFSET
         currentRadius = radiusList.first()
         userFetchingLiveData.value = Pair(currentLat, currentLong)

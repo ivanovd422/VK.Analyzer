@@ -21,7 +21,7 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
         userPhotoList: List<UserPhotoData>,
         shouldShowLoading: Boolean
     ): List<RowDataModel<UserPhotoRowType, *>> {
-        val userPhotoRows = mutableListOf<RowDataModel<UserPhotoRowType, *>>()
+        val finalUserPhotosList = mutableListOf<RowDataModel<UserPhotoRowType, *>>()
         val listSize = userPhotoList.size
         var userPhotoRowModel: MutableList<UserPhotoCellModel> = mutableListOf()
         var rowDate: Long? = null
@@ -31,47 +31,64 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
         }.forEachIndexed { index, userPhotoData ->
 
             val userId = if (userPhotoData.ownerId > 0) userPhotoData.ownerId else userPhotoData.userId!!
-            userPhotoRowModel.add(
-                UserPhotoCellModel(
-                    userId,
-                    userPhotoData.photoPostDate.toString(),
-                    userPhotoData.photoUrl,
-                    userPhotoData.lat,
-                    userPhotoData.long
-                )
+
+            val photoCell = UserPhotoCellModel(
+                userId,
+                userPhotoData.photoPostDate,
+                userPhotoData.photoUrl,
+                userPhotoData.lat,
+                userPhotoData.long
             )
 
-            if (userPhotoRowModel.size == 3 || index == listSize) {
+            // if it is first cycle or another day
+            if (rowDate == null || isTheSameDays(rowDate!!, photoCell.date).not()) {
 
-                if (userPhotoRows.isEmpty() || (rowDate != null && isTheSameDays(rowDate!!, userPhotoData.date).not())) {
-                    userPhotoRows.add(
-                        DateRowData(
-                            UserPhotoRowType.Date,
-                            DatePhotosModel(convertTimestampToHumanDate(userPhotoData.date * 1000))
+                // check if list did not inserted then add it and clear list
+                if (userPhotoRowModel.isNotEmpty()) {
+                    finalUserPhotosList.add(
+                        UserPhotoRowData(
+                            UserPhotoRowType.UserPhotoRowType,
+                            UserPhotoRowModel(userPhotoRowModel)
                         )
                     )
-                    rowDate = userPhotoData.date
+                    userPhotoRowModel = mutableListOf()
                 }
 
-                userPhotoRows.add(
-                    UserPhotoRowData(
-                        UserPhotoRowType.UserPhotoRowType,
-                        UserPhotoRowModel(userPhotoRowModel)
+                finalUserPhotosList.add(
+                    DateRowData(
+                        UserPhotoRowType.Date,
+                        DatePhotosModel(convertTimestampToHumanDate(photoCell.date * 1000))
                     )
                 )
-                userPhotoRowModel = mutableListOf()
+                rowDate = photoCell.date
+                userPhotoRowModel.add(photoCell)
+            }
+            // the day is the same
+            else {
+
+                if (userPhotoRowModel.size == 3 || index == listSize) {
+                    finalUserPhotosList.add(
+                        UserPhotoRowData(
+                            UserPhotoRowType.UserPhotoRowType,
+                            UserPhotoRowModel(userPhotoRowModel)
+                        )
+                    )
+                    userPhotoRowModel = mutableListOf()
+                }
+                rowDate = photoCell.date
+                userPhotoRowModel.add(photoCell)
             }
         }
 
-        if (shouldShowLoading && userPhotoRows.isNotEmpty()) {
-            userPhotoRows.add(
+        if (shouldShowLoading && finalUserPhotosList.isNotEmpty()) {
+            finalUserPhotosList.add(
                 LoadingRowData(
                     UserPhotoRowType.Loading
                 )
             )
         }
 
-        return userPhotoRows
+        return finalUserPhotosList
     }
 
     private fun convertTimestampToHumanDate(unix: Long): String =
@@ -92,8 +109,7 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
         firstDate.time = firstTime * 1000
         secondDate.time = secondTime * 1000
 
-        val diffInDays =
-            (firstDate.time - secondDate.time) / (1000 * 60 * 60 * 24)
+        val diffInDays = (firstDate.time - secondDate.time) / (1000 * 60 * 60 * 24)
 
         return diffInDays < 1
     }
@@ -102,7 +118,7 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
 
 @Suppress("FunctionName")
 fun <T : Rawable> UserPhotoRowData(rowType: T, p: UserPhotoRowModel): RowDataModel<T, Any> {
-    return RowDataModel(rowType, "UserPhotoRowModel-{${p.hashCode()}}", p)
+    return RowDataModel(rowType, "UserPhotoRowModel-{${p.userPhotosCells.first().photoUrl}}", p)
 }
 
 @Suppress("FunctionName")
