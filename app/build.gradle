@@ -34,6 +34,11 @@ ext {
     coroutines_version = '1.3.2'
     testAndroidX = '1.2.0'
     testJUnitAndroidX = '1.1.1'
+
+    // Google
+    playServicesLocation = '17.0.0'
+    googleMapsVersion = '17.0.0'
+    playServicesGcmVersion = '17.0.0'
 }
 
 
@@ -45,13 +50,21 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 2
-        versionName "1.1"
+        versionName "1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+
+        debug {
+            debuggable true
+            minifyEnabled false
         }
     }
 
@@ -73,10 +86,18 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':common')
+    implementation project(':analyzerapi')
+    implementation project(':interactor')
+
     // core
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     // For loading and tinting drawables on older versions of the platform
@@ -87,6 +108,11 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$androidConstraintLayoutVersion"
     implementation "androidx.core:core-ktx:$androidXVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifeCycleVersion"
+
+
+    implementation "com.google.android.gms:play-services-location:$playServicesLocation"
+    implementation "com.google.android.gms:play-services-gcm:$playServicesGcmVersion"
+    implementation "com.google.android.gms:play-services-maps:$googleMapsVersion"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
@@ -130,6 +156,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta02'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
+    // Photo
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 
     // tests
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
@@ -146,3 +174,5 @@ dependencies {
     })
     androidTestImplementation 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'

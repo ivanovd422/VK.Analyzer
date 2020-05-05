@@ -3,7 +3,7 @@ package com.lab422.vkanalyzer.ui.loading
 import androidx.lifecycle.ViewModel
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.navigator.Navigator
-import com.lab422.vkanalyzer.utils.settings.AppSettings
+import com.lab422.common.AppSettings
 
 
 class LoadingViewModel(
@@ -29,6 +29,7 @@ class LoadingViewModel(
 
     private fun isTokenValid(): Boolean {
         val token = appSettings.vkToken ?: return false
+        if (appSettings.accessToken.isNullOrEmpty()) return false
         return token.isValid
     }
 }

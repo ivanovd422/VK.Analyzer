@@ -27,12 +27,16 @@ class YandexMetricaService : TrackerService {
         logEvent(TrackerConstants.EVENT_AUTH_BY_VK_CLICKED)
     }
 
-    override fun authByVkSuccess() {
-        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_SUCCESS)
+    override fun authByVkSuccess(userId: Int) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["userId"] = userId.toString()
+        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_SUCCESS, eventParameters)
     }
 
-    override fun authByVkFailed() {
-        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_FAILED)
+    override fun authByVkFailed(errorCode: Int) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["errorCode"] = errorCode.toString()
+        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_FAILED, eventParameters)
     }
 
     override fun authByVkCancelled() {
@@ -72,8 +76,45 @@ class YandexMetricaService : TrackerService {
         logEvent(TrackerConstants.EVENT_FAILED_LOAD_MUTUAL_FRIENDS, eventParameters)
     }
 
-    override fun successLoadMutualFriends() {
-        logEvent(TrackerConstants.EVENT_SUCCESS_LOAD_MUTUAL_FRIENDS)
+    override fun successLoadMutualFriends(friendsCount: Int) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["friendsCount"] = friendsCount.toString()
+        logEvent(TrackerConstants.EVENT_SUCCESS_LOAD_MUTUAL_FRIENDS, eventParameters)
+    }
+
+    override fun loadPhotoNearby(isSuccess: Boolean, photosCount: Int?, errorMessage: String?) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["isSuccess"] = isSuccess.toString()
+        if (photosCount != null) {
+            eventParameters["photosCount"] = photosCount.toString()
+        }
+
+        if (errorMessage != null) {
+            eventParameters["errorMessage"] = errorMessage.toString()
+        }
+
+        logEvent(TrackerConstants.EVENT_NEARBY_PHOTOS_LOADED, eventParameters)
+    }
+
+    override fun coordinatesReceived(lat: String, long: String) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["lat"] = lat
+        eventParameters["long"] = long
+        logEvent(TrackerConstants.EVENT_CURRENT_COORDINATES_RECEIVED, eventParameters)
+    }
+
+    override fun onShareAppClicked() {
+        logEvent(TrackerConstants.EVENT_SHARE_APP_CLICKED)
+    }
+
+    override fun onSupportClicked() {
+        logEvent(TrackerConstants.EVENT_SUPPORT_NEED_CLICKED)
+    }
+
+    override fun onPhotoLoadingError(error: String) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["error"] = error
+        logEvent(TrackerConstants.EVENT_FULL_SCREEN_PHOTO_ERROR, eventParameters)
     }
 
     private fun logEvent(eventName: String) {

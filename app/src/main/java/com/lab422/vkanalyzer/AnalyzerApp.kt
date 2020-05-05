@@ -2,8 +2,10 @@ package com.lab422.vkanalyzer
 
 import android.app.Application
 import com.lab422.vkanalyzer.di.provideAnalyticsModule
+import com.lab422.vkanalyzer.di.provideApiModule
 import com.lab422.vkanalyzer.di.provideAppModule
 import com.lab422.vkanalyzer.di.provideMutualFriendsModule
+import com.lab422.vkanalyzer.di.provideInteractorModule
 import com.lab422.vkanalyzer.di.provideUiModule
 import com.lab422.vkanalyzer.di.provideUtilsModule
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
@@ -31,8 +33,10 @@ class AnalyzerApp : Application() {
     private fun configureDiModules() =
         listOf(
             provideAppModule(this),
-            provideAnalyticsModule(),
             provideUtilsModule(this),
+            provideAnalyticsModule(),
+            provideApiModule(),
+            provideInteractorModule(),
             provideMutualFriendsModule(),
             provideUiModule()
         )

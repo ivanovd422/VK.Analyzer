@@ -13,12 +13,12 @@ class CompositeTrackerService(private val trackerServices: List<TrackerService>)
         trackerServices.forEach { it.launch(firstTime) }
     }
 
-    override fun authByVkSuccess() {
-        trackerServices.forEach { it.authByVkSuccess() }
+    override fun authByVkSuccess(userId: Int) {
+        trackerServices.forEach { it.authByVkSuccess(userId) }
     }
 
-    override fun authByVkFailed() {
-        trackerServices.forEach { it.authByVkFailed() }
+    override fun authByVkFailed(errorCode: Int) {
+        trackerServices.forEach { it.authByVkFailed(errorCode) }
     }
 
     override fun authByVkCancelled() {
@@ -49,7 +49,27 @@ class CompositeTrackerService(private val trackerServices: List<TrackerService>)
         trackerServices.forEach { it.failedLoadMutualFriends(error) }
     }
 
-    override fun successLoadMutualFriends() {
-        trackerServices.forEach { it.successLoadMutualFriends() }
+    override fun successLoadMutualFriends(friendsCount: Int) {
+        trackerServices.forEach { it.successLoadMutualFriends(friendsCount) }
+    }
+
+    override fun loadPhotoNearby(isSuccess: Boolean, photosCount: Int?, errorMessage: String?) {
+        trackerServices.forEach { it.loadPhotoNearby(isSuccess, photosCount, errorMessage) }
+    }
+
+    override fun coordinatesReceived(lat: String, long: String) {
+        trackerServices.forEach { it.coordinatesReceived(lat, long) }
+    }
+
+    override fun onShareAppClicked() {
+        trackerServices.forEach { it.onShareAppClicked() }
+    }
+
+    override fun onSupportClicked() {
+        trackerServices.forEach { it.onSupportClicked() }
+    }
+
+    override fun onPhotoLoadingError(error: String) {
+        trackerServices.forEach { it.onPhotoLoadingError(error) }
     }
 }

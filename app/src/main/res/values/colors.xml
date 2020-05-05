@@ -15,4 +15,7 @@
 
     <color name="colorAlphaPrimaryLight">#327da4d4</color>
 
+    <color name="transparent">#00FFFFFF</color>
+    <color name="black">#000</color>
+
 </resources>

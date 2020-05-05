@@ -1,6 +1,6 @@
 package com.lab422
 
-import com.lab422.vkanalyzer.utils.validator.UserNameValidator
+import com.lab422.common.UserNameValidator
 import com.lab422.vkanalyzer.utils.validator.UserNameValidatorImpl
 import org.junit.Before
 import org.junit.Test
@@ -41,5 +41,6 @@ class CardDateValidatorTest {
         assertEquals(validator.validate("vk.com/id$expectedId"), expectedId, "should be true")
         assertEquals(validator.validate("id$expectedId"), expectedId, "should be true")
         assertEquals(validator.validate("http://id$expectedId"), expectedId, "should be true")
+        assertEquals(validator.validate("https://vk.com/id_mynickname"), "id_mynickname", "should be true")
     }
 }

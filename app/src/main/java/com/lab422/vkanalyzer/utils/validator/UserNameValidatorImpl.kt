@@ -1,6 +1,6 @@
 package com.lab422.vkanalyzer.utils.validator
 
-import androidx.core.text.isDigitsOnly
+import com.lab422.common.UserNameValidator
 
 class UserNameValidatorImpl : UserNameValidator {
 
@@ -26,10 +26,17 @@ class UserNameValidatorImpl : UserNameValidator {
         if (trimmed.contains("/")) {
             trimmed = trimmed.split("/").last()
         }
+
+        if (trimmed.contains(prefix4)) {
+            val number = trimmed.replace(prefix4, "")
+            if (number.matches(numbersPattern)) {
+                trimmed = trimmed.replace(prefix4, "")
+            }
+        }
+
         trimmed = trimmed.replace(prefix1, "")
         trimmed = trimmed.replace(prefix2, "")
         trimmed = trimmed.replace(prefix3, "")
-        trimmed = trimmed.replace(prefix4, "")
         trimmed = trimmed.replace(prefix5, "")
         trimmed = trimmed.replace(prefix6, "")
 

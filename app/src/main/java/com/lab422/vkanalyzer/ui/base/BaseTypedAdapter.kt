@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.lab422.vkanalyzer.utils.stringProvider.StringProvider
+import com.lab422.common.StringProvider
 import java.lang.RuntimeException
 
 //todo rewrite adapter with LiveData inside
@@ -35,7 +35,7 @@ abstract class BaseTypedAdapter<T : Rawable>(
     }
 
     fun reload(dataList: List<RowDataModel<T, *>>) {
-        adapterData.postValue(dataList)
+        adapterData.value = dataList
     }
 
     protected fun addFactory(rowType: T, factory: ViewHolderFactory) {

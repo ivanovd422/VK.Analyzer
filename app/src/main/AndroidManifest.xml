@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <application
         android:name=".AnalyzerApp"
         android:allowBackup="true"
@@ -27,9 +30,15 @@
             android:name=".ui.login.LoginActivity"
             android:windowSoftInputMode="adjustPan|adjustResize" />
 
-        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.friends.FriendsFragment" />
+        <activity android:name=".ui.mainScreen.MainActivity" />
         <activity android:name=".ui.mutualFriends.MutualFriendsActivity" />
-        <activity android:name=".ui.friends.FriendsActivity" />
+        <activity android:name=".ui.friendsList.FriendsListActivity" />
+        <activity android:name=".ui.photoFullScreen.PhotoFullScreen" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDVnvIuaf1M-jKY-nWB0fp-D9oRNEbJTfM"/>
 
     </application>
 

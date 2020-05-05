@@ -1,0 +1,152 @@
+package com.lab422.vkanalyzer.ui.photosNear.dataProvider
+
+import com.lab422.interactor.model.UserPhotoData
+import com.lab422.vkanalyzer.ui.base.Rawable
+import com.lab422.vkanalyzer.ui.base.RowDataModel
+import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
+import com.lab422.vkanalyzer.ui.photosNear.adapter.model.DatePhotosModel
+import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoCellModel
+import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoRowModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
+
+
+internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
+
+    private companion object {
+        const val GROUP_ID = 100
+    }
+
+    override fun generateUserPhotoData(
+        userPhotoList: List<UserPhotoData>,
+        shouldShowLoading: Boolean
+    ): List<RowDataModel<UserPhotoRowType, *>> {
+        val finalUserPhotosList = mutableListOf<RowDataModel<UserPhotoRowType, *>>()
+        val photos = mutableListOf<String>()
+        val listSize: Int
+        var userPhotoRowModel: MutableList<UserPhotoCellModel> = mutableListOf()
+        var rowDate: Long? = null
+
+        userPhotoList.asSequence()
+            .filter { it.ownerId > 0 || (it.userId != null && it.userId != GROUP_ID) }
+            .filter { photos.contains(it.photoUrl).not() }
+            .map { photos.add(it.photoUrl);it }
+            .toList()
+            .also { listSize = it.size }
+            .forEachIndexed { index, userPhotoData ->
+                val userId = if (userPhotoData.ownerId > 0) userPhotoData.ownerId else userPhotoData.userId!!
+
+                val photoCell = UserPhotoCellModel(
+                    userId,
+                    userPhotoData.photoPostDate,
+                    userPhotoData.photoUrl,
+                    userPhotoData.lat,
+                    userPhotoData.long
+                )
+
+                // if it is first cycle or another day
+                if (rowDate == null || isTheSameDays(rowDate!!, photoCell.date).not()) {
+
+                    // check if list did not inserted then add it and clear list
+                    if (userPhotoRowModel.isNotEmpty()) {
+                        finalUserPhotosList.add(
+                            UserPhotoRowData(
+                                UserPhotoRowType.UserPhoto,
+                                UserPhotoRowModel(userPhotoRowModel)
+                            )
+                        )
+                        userPhotoRowModel = mutableListOf()
+                    }
+
+                    finalUserPhotosList.add(
+                        DateRowData(
+                            UserPhotoRowType.Date,
+                            DatePhotosModel(convertTimestampToHumanDate(photoCell.date * 1000))
+                        )
+                    )
+                    rowDate = photoCell.date
+                    userPhotoRowModel.add(photoCell)
+
+                    if (index == listSize - 1) {
+                        finalUserPhotosList.add(
+                            UserPhotoRowData(
+                                UserPhotoRowType.UserPhoto,
+                                UserPhotoRowModel(userPhotoRowModel)
+                            )
+                        )
+                        userPhotoRowModel = mutableListOf()
+                    }
+                }
+                // the day is the same
+                else {
+
+                    if (userPhotoRowModel.size == 3 || index == listSize - 1) {
+                        finalUserPhotosList.add(
+                            UserPhotoRowData(
+                                UserPhotoRowType.UserPhoto,
+                                UserPhotoRowModel(userPhotoRowModel)
+                            )
+                        )
+                        userPhotoRowModel = mutableListOf()
+                    }
+                    rowDate = photoCell.date
+                    userPhotoRowModel.add(photoCell)
+                }
+            }
+
+        if (shouldShowLoading && finalUserPhotosList.isNotEmpty()) {
+            finalUserPhotosList.add(
+                LoadingRowData(
+                    UserPhotoRowType.Loading
+                )
+            )
+        }
+
+        return finalUserPhotosList
+    }
+
+    private fun convertTimestampToHumanDate(unix: Long): String =
+        try {
+            val tz: TimeZone = TimeZone.getTimeZone("UTC")
+            val sdf = SimpleDateFormat("dd.MM.yyyy")
+            sdf.timeZone = tz;
+            val date = Date(unix)
+            sdf.format(date)
+        } catch (e: Exception) {
+            ""
+        }
+
+    private fun isTheSameDays(firstTime: Long, secondTime: Long): Boolean {
+        val cal1: Calendar = Calendar.getInstance()
+        val cal2: Calendar = Calendar.getInstance()
+        val firstDate = Date()
+        val secondDate = Date()
+
+        firstDate.time = firstTime * 1000
+        secondDate.time = secondTime * 1000
+
+        cal1.time = firstDate
+        cal2.time = secondDate
+
+        return cal1[Calendar.DAY_OF_YEAR] == cal2[Calendar.DAY_OF_YEAR] &&
+            cal1[Calendar.YEAR] == cal2[Calendar.YEAR]
+    }
+}
+
+
+@Suppress("FunctionName")
+fun <T : Rawable> UserPhotoRowData(rowType: T, p: UserPhotoRowModel): RowDataModel<T, Any> {
+    return RowDataModel(rowType, "UserPhotoRowModel-{${p.userPhotosCells}", p)
+}
+
+@Suppress("FunctionName")
+fun <T : Rawable> LoadingRowData(rowType: T): RowDataModel<T, Any> {
+    return RowDataModel(rowType, "Loading", null)
+}
+
+@Suppress("FunctionName")
+fun <T : Rawable> DateRowData(rowType: T, model: DatePhotosModel): RowDataModel<T, Any> {
+    return RowDataModel(rowType, "Date-${model.date}", model.date)
+}

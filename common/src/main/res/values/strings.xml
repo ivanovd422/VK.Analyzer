@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">common</string>
+    <string name="networkTimeoutError_title">"Ошибка сети"</string>
+    <string name="networkTimeoutError_message">"Превышен лимит времени на запрос"</string>
+    <string name="networkError_title">"Нет доступа к сети"</string>
+    <string name="networkError_message">"Нет подключения к интернет. Пожалуйста, повторите попытку когда сеть будет доступна"</string>
+    <string name="default_title">"Сервис недоступен"</string>
+    <string name="default_message">"Сервис временно недоступен. Пожалуйста, повторите позже"</string>
+</resources>

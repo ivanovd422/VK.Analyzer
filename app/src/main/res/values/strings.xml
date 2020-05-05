@@ -18,7 +18,7 @@
         \nнеобходимо авторизироваться через официальное\u00A0приложение\u00A0VK.
         \n\nВы всегда можете выйти из аккаунта в разделе «Настройки\u00A0приложений» на официальном сайте «vk.com».
     </string>
-    <string name="login_main_text">Анализ общих друзей VK</string>
+    <string name="login_main_text">Анализатор ВК</string>
     <string name="menu_search">Поиск</string>
     <string name="auth_by_vk">Авторизироваться</string>
     <string name="login_why_should_auth">Зачем нужна авторизация?</string>
@@ -33,5 +33,39 @@
     <string name="second_user_title">Второй пользователь:</string>
     <string name="second_user_hint">Введите id второго пользователя</string>
     <string name="error_back">Вернуться назад</string>
+    <string name="bottom_menu_friends">Общие друзья</string>
+    <string name="bottom_menu_photos_near">Фото рядом</string>
+    <string name="bottom_menu_settings">Информация</string>
+
+
+    <!-- Photos near -->
+    <string name="photos_near_permissions_needs_title">С помощью «Анализатора ВК» Вы можете увидеть фотографии пользователей VK рядом с вами, однако необходимо разрешить приложению определить где вы находитесь</string>
+    <string name="photos_near_request_permissions">Разрешить</string>
+    <string name="photos_near_permissions_dialog_info">Необходимо разрешить приложению определять местоположение, чтобы найти фотографии людей рядом с Вами</string>
+    <string name="photos_near_permissions_never_ask_dialog">
+        Для поиска фотографий рядом
+        \nнеобходимо разрешить приложению определять местоположение.
+        \n\nНажимая разрешить, Вы попадете в настройки приложений.
+        \nНужно выбрать «Анализатора ВК», открыть раздел «Разрешения» и
+        \nактивировать «Местоположение».
+    </string>
+    <string name="photos_near_permissions_never_ask_dialog_accept">Разрешить</string>
+
+    <!-- User near -->
+    <string name="user_info_close_dialog">Хорошо</string>
+    <string name="user_info_error_text_dialog">Ошибка загрузки профиля.\nПовторите пожалуйста позже</string>
+    <string name="user_info_open_vk">Открыть страницу в VK</string>
+
+    <!--Settings -->
+    <string name="settings_share_text">Я слежу за пользователями в VK с помощью приложения «Анализатор ВК»</string>
+    <string name="settings_support_email">analyzer.feedback@gmail.com</string>
+    <string name="settings_help_mailto" translatable="false">mailto</string>
+    <string name="settings_app_version">Версия приложения:</string>
+    <string name="settings_share_app">Поделиться приложением</string>
+    <string name="settings_ask_support">Написать в поддержку</string>
+
+    <!--Full screen photo -->
+    <string name="full_screen_toolbar_text">Фото</string>
+    <string name="full_screen_loading_error">Ошибка при загрузке фото.\nПопробуйте пожалуйста позже</string>
 
 </resources>

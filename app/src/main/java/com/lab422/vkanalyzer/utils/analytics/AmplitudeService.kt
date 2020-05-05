@@ -25,12 +25,23 @@ class AmplitudeService : TrackerService {
         logEvent(TrackerConstants.EVENT_AUTH_BY_VK_CLICKED)
     }
 
-    override fun authByVkSuccess() {
-        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_SUCCESS)
+    override fun authByVkSuccess(userId: Int) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("userId", userId)
+        } catch (exception: JSONException) {
+        }
+
+        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_SUCCESS, eventProperties)
     }
 
-    override fun authByVkFailed() {
-        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_FAILED)
+    override fun authByVkFailed(errorCode: Int) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("errorCode", errorCode)
+        } catch (exception: JSONException) {
+        }
+        logEvent(TrackerConstants.EVENT_AUTH_BY_VK_FAILED, eventProperties)
     }
 
     override fun authByVkCancelled() {
@@ -80,8 +91,56 @@ class AmplitudeService : TrackerService {
         logEvent(TrackerConstants.EVENT_FAILED_LOAD_MUTUAL_FRIENDS, eventProperties)
     }
 
-    override fun successLoadMutualFriends() {
-        logEvent(TrackerConstants.EVENT_SUCCESS_LOAD_MUTUAL_FRIENDS)
+    override fun successLoadMutualFriends(friendsCount: Int) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("friends count", friendsCount)
+        } catch (exception: JSONException) {
+        }
+        logEvent(TrackerConstants.EVENT_SUCCESS_LOAD_MUTUAL_FRIENDS, eventProperties)
+    }
+
+    override fun loadPhotoNearby(isSuccess: Boolean, photosCount: Int?, errorMessage: String?) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("isSuccess", isSuccess)
+            if (photosCount != null) {
+                eventProperties.put("photos count", photosCount)
+            }
+
+            if (errorMessage != null) {
+                eventProperties.put("error", errorMessage)
+            }
+        } catch (exception: JSONException) {
+        }
+        logEvent(TrackerConstants.EVENT_NEARBY_PHOTOS_LOADED, eventProperties)
+    }
+
+    override fun coordinatesReceived(lat: String, long: String) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("lat", lat)
+            eventProperties.put("long", long)
+        } catch (exception: JSONException) {
+        }
+        logEvent(TrackerConstants.EVENT_CURRENT_COORDINATES_RECEIVED, eventProperties)
+    }
+
+    override fun onShareAppClicked() {
+        logEvent(TrackerConstants.EVENT_SHARE_APP_CLICKED)
+    }
+
+    override fun onSupportClicked() {
+        logEvent(TrackerConstants.EVENT_SUPPORT_NEED_CLICKED)
+    }
+
+    override fun onPhotoLoadingError(error: String) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("error", error)
+        } catch (exception: JSONException) {
+        }
+        logEvent(TrackerConstants.EVENT_FULL_SCREEN_PHOTO_ERROR, eventProperties)
     }
 
     private fun logEvent(eventName: String, jsonObject: JSONObject) {

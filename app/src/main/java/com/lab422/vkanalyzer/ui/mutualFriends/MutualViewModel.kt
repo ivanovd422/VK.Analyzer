@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
@@ -12,45 +12,40 @@ import com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider.FriendsListDataP
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.debounce
-import com.lab422.vkanalyzer.utils.navigator.Navigator
-import com.lab422.vkanalyzer.utils.requests.GetUserIdCommand
-import com.lab422.vkanalyzer.utils.requests.VKUsersCommand
-import com.lab422.vkanalyzer.utils.validator.UserNameValidator
-import com.lab422.vkanalyzer.utils.viewState.ViewState
-import com.lab422.vkanalyzer.utils.vkModels.user.User
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.VKApiCallback
-import com.vk.api.sdk.exceptions.VKApiExecutionException
+import com.lab422.common.viewState.ViewState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import com.lab422.analyzerapi.models.users.NewUser
+import com.lab422.common.viewState.isSuccess
+import com.lab422.interactor.UserInteractor
+import com.lab422.vkanalyzer.ui.base.BaseViewModel
 
 class MutualViewModel(
-    private val navigator: Navigator,
     model: MutualFriendsModel?,
     private val dataProvider: FriendsListDataProvider,
-    private val validator: UserNameValidator,
-    private val tracker: TrackerService
-) : ViewModel(), LifecycleObserver {
+    private val tracker: TrackerService,
+    private val userInteractor: UserInteractor
+) : BaseViewModel(), LifecycleObserver {
 
     private val state: MediatorLiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = MediatorLiveData()
     private val queryLiveData: MutableLiveData<String> = MutableLiveData()
-
     private val viewModelJob = SupervisorJob()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
-    private var rowData: MutableList<User> = mutableListOf()
+    private val userFetchingLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    private var rowData: MutableList<NewUser> = mutableListOf()
 
     init {
-        findMutualFriends(model)
-
         state.addSource(queryLiveData.debounce(300, viewModelScope)) {
             uiScope.launch {
                 val data = dataProvider.filterByQuery(rowData, FriendsListType.Friends, it)
                 state.postValue(ViewState(ViewState.Status.SUCCESS, data))
             }
         }
+
+        startLoadingMutualFriends(model)
+        userFetchingLiveData.postValue(true)
     }
 
     fun getState(): LiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = state
@@ -59,101 +54,44 @@ class MutualViewModel(
         queryLiveData.postValue(text.toLowerCase())
     }
 
-    private fun findMutualFriends(model: MutualFriendsModel?) {
+    private fun startLoadingMutualFriends(model: MutualFriendsModel?) {
         if (model == null) {
-            showError("Что-то пошло не так..")
+            showError("Что-то пошло не так")
             return
         }
 
         state.postValue(ViewState(ViewState.Status.LOADING))
-        val firstName = validator.validate(model.firstId)
-        val secondName = validator.validate(model.secondId)
-
-        if (validator.isId(firstName) && validator.isId(secondName)) {
-            findMutualById(firstName, secondName)
-        } else {
-            getIdByUserName(firstName, secondName)
-        }
-    }
-
-    private fun getIdByUserName(firstName: String, secondName: String) {
-        val isKnowFirstUserId: Boolean = validator.isId(firstName)
-        val isKnowSecondUserId: Boolean = validator.isId(secondName)
-        val nicknames = mutableListOf<String>()
-
-        if (isKnowFirstUserId.not()) {
-            nicknames.add(firstName)
-        }
-
-        if (isKnowSecondUserId.not()) {
-            nicknames.add(secondName)
-        }
-
-        VK.execute(GetUserIdCommand(nicknames), object : VKApiCallback<List<String>> {
-            override fun fail(error: Exception) {
-                if (error is VKApiExecutionException) {
-                    error.code
-                }
-                state.postValue(
-                    ViewState(
-                        status = ViewState.Status.ERROR,
-                        error = error.message ?: "some error"
-                    )
+        userFetchingLiveData.switchMap {
+            launchOnViewModelScope {
+                userInteractor.findMutualFriendsByUsersId(
+                    model.firstId,
+                    model.secondId
                 )
-                tracker.failedLoadUserId(error.localizedMessage ?: "unknown error")
             }
-
-            override fun success(result: List<String>) {
-                if (result.isNullOrEmpty()) {
-                    showError("Проверьте правильность полей")
-                    return
-                }
-                val firstUserId = if (isKnowFirstUserId) firstName else result.first()
-                val secondUserId = if (isKnowSecondUserId) secondName else {
-                    if (result.size == 1) {
-                        result.first()
-                    } else {
-                        result.last()
-                    }
-                }
-
-                findMutualById(firstUserId, secondUserId)
+        }.observeForever {
+            if (it.isSuccess()) {
+                onSuccessLoadUsers(it.data)
+            } else {
+                showError(it.error)
             }
-        })
+        }
     }
 
-    private fun findMutualById(firstUserId: String, secondUserId: String) {
-        VK.execute(VKUsersCommand(firstUserId, secondUserId), object : VKApiCallback<List<User>> {
-            override fun fail(error: Exception) {
-                if (error is VKApiExecutionException) {
-                    error.code
-                }
-                state.postValue(
-                    ViewState(
-                        status = ViewState.Status.ERROR,
-                        error = error.message ?: "some error"
-                    )
-                )
-
-                tracker.failedLoadMutualFriends(error.localizedMessage ?: "unknown error")
-            }
-
-            override fun success(result: List<User>) {
-                onSuccessLoadUsers(result)
-            }
-        })
-    }
-
-    private fun showError(textError: String) {
+    private fun showError(textError: String?) {
+        val errorMessage = textError ?: "Что-то пошло не так"
         state.postValue(
             ViewState(
                 status = ViewState.Status.ERROR,
-                error = textError
+                error = errorMessage
             )
         )
     }
 
-    private fun onSuccessLoadUsers(result: List<User>) {
+    private fun onSuccessLoadUsers(result: List<NewUser>?) {
+        if (result == null) {
+            showError("Что-то пошло не так")
+            return
+        }
         rowData.clear()
         rowData.addAll(result)
 
@@ -163,6 +101,6 @@ class MutualViewModel(
         } else {
             state.postValue(ViewState(ViewState.Status.SUCCESS, data))
         }
-        tracker.successLoadMutualFriends()
+        tracker.successLoadMutualFriends(result.size)
     }
 }

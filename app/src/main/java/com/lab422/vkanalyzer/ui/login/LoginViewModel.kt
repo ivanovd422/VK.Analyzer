@@ -7,14 +7,13 @@ import androidx.lifecycle.ViewModel
 import com.lab422.vkanalyzer.utils.SingleLiveEvent
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.navigator.Navigator
-import com.lab422.vkanalyzer.utils.settings.AppSettings
-import com.lab422.vkanalyzer.utils.viewState.ViewState
+import com.lab422.common.viewState.ViewState
 import com.vk.api.sdk.auth.VKAccessToken
 
 
 class LoginViewModel(
     private val navigator: Navigator,
-    private val settings: AppSettings,
+    private val settings: com.lab422.common.AppSettings,
     private val tracker: TrackerService
 ) : ViewModel(), LifecycleObserver {
 
@@ -36,6 +35,7 @@ class LoginViewModel(
     fun onLoginSuccess(token: VKAccessToken) {
         state.postValue(ViewState(ViewState.Status.SUCCESS))
         settings.vkToken = token
+        settings.accessToken = token.accessToken
         settings.setAuthorizationFinished()
         navigator.openMainActivity()
     }

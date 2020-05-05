@@ -10,10 +10,22 @@ fun View.setVisible(isVisible: Boolean) {
     }
 }
 
+fun View.showOrHide(isVisible: Boolean) {
+    if (isVisible) {
+        show()
+    } else {
+        gone()
+    }
+}
+
 fun View.show() {
     this.setVisible(true)
 }
 
-fun View.hide() {
+fun View.gone() {
     this.setVisible(false)
+}
+
+fun View.hide() {
+    visibility = View.INVISIBLE
 }

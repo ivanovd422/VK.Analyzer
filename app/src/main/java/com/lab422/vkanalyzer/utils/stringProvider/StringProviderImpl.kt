@@ -2,7 +2,7 @@ package com.lab422.vkanalyzer.utils.stringProvider
 
 import android.content.Context
 
-class StringProviderImpl(private val context: Context) : StringProvider {
+class StringProviderImpl(private val context: Context) : com.lab422.common.StringProvider {
 
     override fun getString(byId: Int, vararg formatArgs: Any): String {
         return context.resources.getString(byId, formatArgs)
