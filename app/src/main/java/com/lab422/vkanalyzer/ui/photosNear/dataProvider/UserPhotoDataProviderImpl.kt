@@ -8,8 +8,10 @@ import com.lab422.vkanalyzer.ui.photosNear.adapter.model.DatePhotosModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoCellModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoRowModel
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
+
 
 internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
 
@@ -22,63 +24,77 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
         shouldShowLoading: Boolean
     ): List<RowDataModel<UserPhotoRowType, *>> {
         val finalUserPhotosList = mutableListOf<RowDataModel<UserPhotoRowType, *>>()
-        val listSize = userPhotoList.size
+        val photos = mutableListOf<String>()
+        val listSize: Int
         var userPhotoRowModel: MutableList<UserPhotoCellModel> = mutableListOf()
         var rowDate: Long? = null
 
-        userPhotoList.filter {
-            it.ownerId > 0 || (it.userId != null && it.userId != GROUP_ID)
-        }.forEachIndexed { index, userPhotoData ->
+        userPhotoList.asSequence()
+            .filter { it.ownerId > 0 || (it.userId != null && it.userId != GROUP_ID) }
+            .filter { photos.contains(it.photoUrl).not() }
+            .map { photos.add(it.photoUrl);it }
+            .toList()
+            .also { listSize = it.size }
+            .forEachIndexed { index, userPhotoData ->
+                val userId = if (userPhotoData.ownerId > 0) userPhotoData.ownerId else userPhotoData.userId!!
 
-            val userId = if (userPhotoData.ownerId > 0) userPhotoData.ownerId else userPhotoData.userId!!
-
-            val photoCell = UserPhotoCellModel(
-                userId,
-                userPhotoData.photoPostDate,
-                userPhotoData.photoUrl,
-                userPhotoData.lat,
-                userPhotoData.long
-            )
-
-            // if it is first cycle or another day
-            if (rowDate == null || isTheSameDays(rowDate!!, photoCell.date).not()) {
-
-                // check if list did not inserted then add it and clear list
-                if (userPhotoRowModel.isNotEmpty()) {
-                    finalUserPhotosList.add(
-                        UserPhotoRowData(
-                            UserPhotoRowType.UserPhoto,
-                            UserPhotoRowModel(userPhotoRowModel)
-                        )
-                    )
-                    userPhotoRowModel = mutableListOf()
-                }
-
-                finalUserPhotosList.add(
-                    DateRowData(
-                        UserPhotoRowType.Date,
-                        DatePhotosModel(convertTimestampToHumanDate(photoCell.date * 1000))
-                    )
+                val photoCell = UserPhotoCellModel(
+                    userId,
+                    userPhotoData.photoPostDate,
+                    userPhotoData.photoUrl,
+                    userPhotoData.lat,
+                    userPhotoData.long
                 )
-                rowDate = photoCell.date
-                userPhotoRowModel.add(photoCell)
-            }
-            // the day is the same
-            else {
 
-                if (userPhotoRowModel.size == 3 || index == listSize) {
+                // if it is first cycle or another day
+                if (rowDate == null || isTheSameDays(rowDate!!, photoCell.date).not()) {
+
+                    // check if list did not inserted then add it and clear list
+                    if (userPhotoRowModel.isNotEmpty()) {
+                        finalUserPhotosList.add(
+                            UserPhotoRowData(
+                                UserPhotoRowType.UserPhoto,
+                                UserPhotoRowModel(userPhotoRowModel)
+                            )
+                        )
+                        userPhotoRowModel = mutableListOf()
+                    }
+
                     finalUserPhotosList.add(
-                        UserPhotoRowData(
-                            UserPhotoRowType.UserPhoto,
-                            UserPhotoRowModel(userPhotoRowModel)
+                        DateRowData(
+                            UserPhotoRowType.Date,
+                            DatePhotosModel(convertTimestampToHumanDate(photoCell.date * 1000))
                         )
                     )
-                    userPhotoRowModel = mutableListOf()
+                    rowDate = photoCell.date
+                    userPhotoRowModel.add(photoCell)
+
+                    if (index == listSize - 1) {
+                        finalUserPhotosList.add(
+                            UserPhotoRowData(
+                                UserPhotoRowType.UserPhoto,
+                                UserPhotoRowModel(userPhotoRowModel)
+                            )
+                        )
+                        userPhotoRowModel = mutableListOf()
+                    }
                 }
-                rowDate = photoCell.date
-                userPhotoRowModel.add(photoCell)
+                // the day is the same
+                else {
+
+                    if (userPhotoRowModel.size == 3 || index == listSize - 1) {
+                        finalUserPhotosList.add(
+                            UserPhotoRowData(
+                                UserPhotoRowType.UserPhoto,
+                                UserPhotoRowModel(userPhotoRowModel)
+                            )
+                        )
+                        userPhotoRowModel = mutableListOf()
+                    }
+                    rowDate = photoCell.date
+                    userPhotoRowModel.add(photoCell)
+                }
             }
-        }
 
         if (shouldShowLoading && finalUserPhotosList.isNotEmpty()) {
             finalUserPhotosList.add(
@@ -103,15 +119,19 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
         }
 
     private fun isTheSameDays(firstTime: Long, secondTime: Long): Boolean {
+        val cal1: Calendar = Calendar.getInstance()
+        val cal2: Calendar = Calendar.getInstance()
         val firstDate = Date()
         val secondDate = Date()
 
         firstDate.time = firstTime * 1000
         secondDate.time = secondTime * 1000
 
-        val diffInDays = (firstDate.time - secondDate.time) / (1000 * 60 * 60 * 24)
+        cal1.time = firstDate
+        cal2.time = secondDate
 
-        return diffInDays < 1
+        return cal1[Calendar.DAY_OF_YEAR] == cal2[Calendar.DAY_OF_YEAR] &&
+            cal1[Calendar.YEAR] == cal2[Calendar.YEAR]
     }
 }
 
