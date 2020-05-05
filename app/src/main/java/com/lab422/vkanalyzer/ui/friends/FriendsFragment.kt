@@ -32,13 +32,8 @@ class FriendsFragment : Fragment(R.layout.fragment_friends) {
         private const val REQUEST_CODE_GET_SECOND_FRIEND = 10002
     }
 
-
-    // override fun getToolBarViewId(): Int = R.id.toolbar_main
-    //
-    // override val toolbarName: Int = R.string.main_screen
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
 
         initViews()
         initObservers()
