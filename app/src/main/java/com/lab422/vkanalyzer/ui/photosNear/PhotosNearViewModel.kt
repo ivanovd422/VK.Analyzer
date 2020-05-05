@@ -29,7 +29,7 @@ class PhotosNearViewModel(
         const val START_OFFSET = 100
         const val MAX_OFFSET = 3000
 
-        val radiusList: List<Int> = listOf(100, 800, 3000, 6000, 50000)
+        val radiusList: List<Int> = listOf(800, 3000, 6000, 50000)
     }
 
     private val userFetchingLiveData: MutableLiveData<Pair<String, String>> = MutableLiveData()

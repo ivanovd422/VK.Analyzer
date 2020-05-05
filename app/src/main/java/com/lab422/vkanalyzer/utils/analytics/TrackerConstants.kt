@@ -17,4 +17,11 @@ object TrackerConstants {
     // Photos Near
     const val EVENT_NEARBY_PHOTOS_LOADED = "Nearby photos loaded"
     const val EVENT_CURRENT_COORDINATES_RECEIVED = "Current coordinates received"
+
+    // Settings
+    const val EVENT_SHARE_APP_CLICKED = "Share app clicked"
+    const val EVENT_SUPPORT_NEED_CLICKED = "Support need clicked"
+
+    // Full screen photo
+    const val EVENT_FULL_SCREEN_PHOTO_ERROR = "Full screen loading photo error"
 }

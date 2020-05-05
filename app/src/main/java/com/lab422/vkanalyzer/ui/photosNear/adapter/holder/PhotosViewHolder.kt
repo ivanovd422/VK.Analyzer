@@ -25,7 +25,7 @@ class PhotosViewHolder(
 ) : BaseTypedViewHolder<UserPhotoRowType>(view) {
 
     interface Listener {
-        fun onPhotoClicked(id: Int, lat: Double?, long: Double?)
+        fun onPhotoClicked(id: Int, lat: Double?, long: Double?, clickedPhotoUrl: String)
     }
 
     private val ivUserPhoto1 = view.iv_user_photo1
@@ -71,7 +71,8 @@ class PhotosViewHolder(
                 listener?.onPhotoClicked(
                     userModel.userId,
                     userModel.lat,
-                    userModel.long
+                    userModel.long,
+                    userModel.photoUrl
                 )
             }
             setPhoto(ivUserPhoto1, userModel.photoUrl)
@@ -82,7 +83,8 @@ class PhotosViewHolder(
                 listener?.onPhotoClicked(
                     userModel.userId,
                     userModel.lat,
-                    userModel.long
+                    userModel.long,
+                    userModel.photoUrl
                 )
             }
             setPhoto(ivUserPhoto2, userModel.photoUrl)
@@ -93,7 +95,8 @@ class PhotosViewHolder(
                 listener?.onPhotoClicked(
                     userModel.userId,
                     userModel.lat,
-                    userModel.long
+                    userModel.long,
+                    userModel.photoUrl
                 )
             }
             setPhoto(ivUserPhoto3, userModel.photoUrl)

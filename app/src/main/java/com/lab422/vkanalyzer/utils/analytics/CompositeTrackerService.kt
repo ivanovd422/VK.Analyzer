@@ -60,4 +60,16 @@ class CompositeTrackerService(private val trackerServices: List<TrackerService>)
     override fun coordinatesReceived(lat: String, long: String) {
         trackerServices.forEach { it.coordinatesReceived(lat, long) }
     }
+
+    override fun onShareAppClicked() {
+        trackerServices.forEach { it.onShareAppClicked() }
+    }
+
+    override fun onSupportClicked() {
+        trackerServices.forEach { it.onSupportClicked() }
+    }
+
+    override fun onPhotoLoadingError(error: String) {
+        trackerServices.forEach { it.onPhotoLoadingError(error) }
+    }
 }

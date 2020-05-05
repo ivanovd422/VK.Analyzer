@@ -103,6 +103,20 @@ class YandexMetricaService : TrackerService {
         logEvent(TrackerConstants.EVENT_CURRENT_COORDINATES_RECEIVED, eventParameters)
     }
 
+    override fun onShareAppClicked() {
+        logEvent(TrackerConstants.EVENT_SHARE_APP_CLICKED)
+    }
+
+    override fun onSupportClicked() {
+        logEvent(TrackerConstants.EVENT_SUPPORT_NEED_CLICKED)
+    }
+
+    override fun onPhotoLoadingError(error: String) {
+        val eventParameters: MutableMap<String, String> = HashMap()
+        eventParameters["error"] = error
+        logEvent(TrackerConstants.EVENT_FULL_SCREEN_PHOTO_ERROR, eventParameters)
+    }
+
     private fun logEvent(eventName: String) {
         YandexMetrica.reportEvent(eventName)
     }

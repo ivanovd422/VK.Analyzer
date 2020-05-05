@@ -86,12 +86,12 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
         })
     }
 
-    override fun onPhotoClicked(id: Int, lat: Double?, long: Double?) {
-        showBottomSheetDialogFragment(id.toString(), lat, long)
+    override fun onPhotoClicked(id: Int, lat: Double?, long: Double?, clickedPhotoUrl: String) {
+        showBottomSheetDialogFragment(id.toString(), lat, long, clickedPhotoUrl)
     }
 
     override fun onNextLoading() {
-       viewModel?.onNextPhotosLoad()
+        viewModel?.onNextPhotosLoad()
     }
 
     private fun processState(viewState: ViewState<List<RowDataModel<UserPhotoRowType, *>>>) {
@@ -240,8 +240,8 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
         PermissionsNeverAskDialog().show(childFragmentManager, null)
     }
 
-    private fun showBottomSheetDialogFragment(userId: String, lat: Double?, long: Double?) {
-        val bottomSheetFragment = UserInfoBottomSheet.newInstance(userId, lat, long)
+    private fun showBottomSheetDialogFragment(userId: String, lat: Double?, long: Double?, clickedPhotoUrl: String) {
+        val bottomSheetFragment = UserInfoBottomSheet.newInstance(userId, lat, long, clickedPhotoUrl)
         bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
     }
 

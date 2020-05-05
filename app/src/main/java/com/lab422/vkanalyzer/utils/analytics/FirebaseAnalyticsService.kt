@@ -95,6 +95,18 @@ class FirebaseAnalyticsService : TrackerService {
         logEvent(TrackerConstants.EVENT_CURRENT_COORDINATES_RECEIVED, bundle)
     }
 
+    override fun onShareAppClicked() {
+        logEvent(TrackerConstants.EVENT_SHARE_APP_CLICKED, null)
+    }
+
+    override fun onSupportClicked() {
+        logEvent(TrackerConstants.EVENT_SUPPORT_NEED_CLICKED, null)
+    }
+
+    override fun onPhotoLoadingError(error: String) {
+        //
+    }
+
     private fun logEvent(eventName: String, bundle: Bundle? = null) {
         analytics.logEvent(eventName, bundle)
     }

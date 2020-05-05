@@ -126,6 +126,23 @@ class AmplitudeService : TrackerService {
         logEvent(TrackerConstants.EVENT_CURRENT_COORDINATES_RECEIVED, eventProperties)
     }
 
+    override fun onShareAppClicked() {
+        logEvent(TrackerConstants.EVENT_SHARE_APP_CLICKED)
+    }
+
+    override fun onSupportClicked() {
+        logEvent(TrackerConstants.EVENT_SUPPORT_NEED_CLICKED)
+    }
+
+    override fun onPhotoLoadingError(error: String) {
+        val eventProperties = JSONObject()
+        try {
+            eventProperties.put("error", error)
+        } catch (exception: JSONException) {
+        }
+        logEvent(TrackerConstants.EVENT_FULL_SCREEN_PHOTO_ERROR, eventProperties)
+    }
+
     private fun logEvent(eventName: String, jsonObject: JSONObject) {
         Amplitude.getInstance().logEvent(eventName, jsonObject)
     }

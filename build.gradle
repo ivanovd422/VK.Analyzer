@@ -36,6 +36,7 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url "https://jitpack.io" }
         google()
         jcenter()
     }
@@ -47,7 +48,6 @@ allprojects {
         robolectricVersion = '4.0.2'
         // addons
         glideVersion = '4.9.0'
-        photoViewVersion = '2.0.0'
         gsonVersion = '2.8.5'
         coroutines_version = '1.3.2'
         testAndroidX = '1.2.0'

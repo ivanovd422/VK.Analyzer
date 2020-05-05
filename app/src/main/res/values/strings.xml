@@ -58,10 +58,14 @@
 
     <!--Settings -->
     <string name="settings_share_text">Я слежу за пользователями в VK с помощью приложения «Анализатор ВК»</string>
-    <string name="settings_support_email">analyzer.vk@gmail.com</string>
+    <string name="settings_support_email">analyzer.feedback@gmail.com</string>
     <string name="settings_help_mailto" translatable="false">mailto</string>
     <string name="settings_app_version">Версия приложения:</string>
     <string name="settings_share_app">Поделиться приложением</string>
     <string name="settings_ask_support">Написать в поддержку</string>
+
+    <!--Full screen photo -->
+    <string name="full_screen_toolbar_text">Фото</string>
+    <string name="full_screen_loading_error">Ошибка при загрузке фото.\nПопробуйте пожалуйста позже</string>
 
 </resources>

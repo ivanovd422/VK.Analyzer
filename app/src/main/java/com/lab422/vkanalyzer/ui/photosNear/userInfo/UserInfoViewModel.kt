@@ -28,7 +28,7 @@ class UserInfoViewModel(
             userInteractor.getUserInfoById(photoModel.userId)
         }.map {
             return@map if (it.isSuccess() && it.data != null) {
-                ViewState(ViewState.Status.SUCCESS, it.data!!.convertToUserInfoModel(photoModel))
+                ViewState(ViewState.Status.SUCCESS, it.data!!.convertToUserInfoModel(photoModel, photoModel.clickedPhotoUrl))
             } else {
                 ViewState(ViewState.Status.ERROR, error = "Ошибка")
             }
@@ -40,12 +40,13 @@ class UserInfoViewModel(
     }
 }
 
-private fun NewUser.convertToUserInfoModel(photoModel: PhotoInfoModel): UserInfoModel =
+private fun NewUser.convertToUserInfoModel(photoModel: PhotoInfoModel, clickedPhotoUrl: String): UserInfoModel =
     UserInfoModel(
         id.toString(),
         "$first_name $last_name",
         online != 0,
         photoUrl ?: "",
         photoModel.lat,
-        photoModel.long
+        photoModel.long,
+        clickedPhotoUrl
     )

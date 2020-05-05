@@ -34,6 +34,7 @@
         <activity android:name=".ui.mainScreen.MainActivity" />
         <activity android:name=".ui.mutualFriends.MutualFriendsActivity" />
         <activity android:name=".ui.friendsList.FriendsListActivity" />
+        <activity android:name=".ui.photoFullScreen.PhotoFullScreen" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

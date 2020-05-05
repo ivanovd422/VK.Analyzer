@@ -11,6 +11,7 @@ import com.lab422.vkanalyzer.ui.loading.LoadingActivity
 import com.lab422.vkanalyzer.ui.login.LoginActivity
 import com.lab422.vkanalyzer.ui.mainScreen.MainActivity
 import com.lab422.vkanalyzer.ui.mutualFriends.MutualFriendsActivity
+import com.lab422.vkanalyzer.ui.photoFullScreen.PhotoFullScreen
 import com.lab422.vkanalyzer.utils.extensions.addFlagClearTop
 import com.lab422.vkanalyzer.utils.extensions.addFlagNewTask
 import com.lab422.vkanalyzer.utils.extensions.addFlagsNewTaskWithClear
@@ -45,6 +46,11 @@ class Navigator(val context: Context) {
     fun openFriendsList(activity: FragmentActivity, requestCode: Int) {
         val intent = FriendsListActivity.createIntent(activity)
         openActivityForResult(activity, intent, requestCode)
+    }
+
+    fun openFullScreen(clickedPhotoUrl: String) {
+        val intent = PhotoFullScreen.createIntent(context, clickedPhotoUrl)
+        openActivity(intent)
     }
 }
 

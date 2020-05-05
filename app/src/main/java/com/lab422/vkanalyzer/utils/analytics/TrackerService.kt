@@ -18,4 +18,7 @@ interface TrackerService {
     fun successLoadMutualFriends(friendsCount: Int)
     fun loadPhotoNearby(isSuccess: Boolean, photosCount: Int? = null, errorMessage: String? = null)
     fun coordinatesReceived(lat: String, long: String)
+    fun onShareAppClicked()
+    fun onSupportClicked()
+    fun onPhotoLoadingError(error: String)
 }

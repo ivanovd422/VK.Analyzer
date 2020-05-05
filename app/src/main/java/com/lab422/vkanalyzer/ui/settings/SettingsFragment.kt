@@ -6,7 +6,9 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.lab422.vkanalyzer.BuildConfig
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import kotlinx.android.synthetic.main.fragment_settings.*
+import org.koin.android.ext.android.get
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
@@ -14,6 +16,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         const val TAG = "SettingsFragment"
         fun newInstance() = SettingsFragment()
     }
+
+    private val trackerService: TrackerService = get()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -36,6 +40,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val appName = activity?.applicationContext?.packageName
         val linkName = "https://play.google.com/store/apps/details?id=$appName"
         val shareText = getString(R.string.settings_share_text)
+        trackerService.onShareAppClicked()
 
         try {
             val shareIntent = Intent(Intent.ACTION_SEND)
@@ -49,6 +54,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun sendEmail() {
         try {
+            trackerService.onSupportClicked()
             val dataIntent = Intent(
                 Intent.ACTION_SENDTO,
                 Uri.fromParts(

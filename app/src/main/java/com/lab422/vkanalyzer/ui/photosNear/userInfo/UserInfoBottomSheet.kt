@@ -25,17 +25,22 @@ import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
 import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.ui.photoFullScreen.PhotoFullScreen
 import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.PhotoInfoModel
 import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.UserInfoModel
 import com.lab422.vkanalyzer.utils.extensions.openLink
 import com.lab422.vkanalyzer.utils.extensions.setVisible
+import com.lab422.vkanalyzer.utils.navigator.Navigator
 import kotlinx.android.synthetic.main.bottom_sheet_user_info.*
 import kotlinx.android.synthetic.main.bottom_sheet_user_info.view.*
+import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
 
 class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
+
+    private val navigator: Navigator = get()
 
     private var viewModel: UserInfoViewModel? = null
     private var googleMap: GoogleMap? = null
@@ -43,6 +48,7 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
 
     private lateinit var pbUserInfoLoading: ProgressBar
     private lateinit var contentContainer: View
+    private lateinit var ivUserAvatar: ImageView
     private lateinit var ivUserPhoto: ImageView
     private lateinit var tvUserName: TextView
     private lateinit var btnOpenInVk: Button
@@ -50,13 +56,20 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private lateinit var mapContainer: View
 
+    private var model: PhotoInfoModel? = null
+
     companion object {
         private const val PHOTO_INFO_MODEL_KEY = "PHOTO_INFO_MODEL_KEY"
 
-        fun newInstance(userId: String, lat: Double?, long: Double?): BottomSheetDialogFragment {
+        fun newInstance(
+            userId: String,
+            lat: Double?,
+            long: Double?,
+            clickedPhotoUrl: String
+        ): BottomSheetDialogFragment {
             val bottomSheetFragment = UserInfoBottomSheet()
             val bundle = Bundle()
-            bundle.putParcelable(PHOTO_INFO_MODEL_KEY, PhotoInfoModel(userId, lat, long))
+            bundle.putParcelable(PHOTO_INFO_MODEL_KEY, PhotoInfoModel(userId, lat, long, clickedPhotoUrl))
             bottomSheetFragment.arguments = bundle
 
             return bottomSheetFragment
@@ -65,8 +78,9 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        model = arguments?.getParcelable(PHOTO_INFO_MODEL_KEY)!!
         viewModel = getViewModel {
-            parametersOf(arguments?.getParcelable<PhotoInfoModel>(PHOTO_INFO_MODEL_KEY))
+            parametersOf(model)
         }
     }
 
@@ -107,6 +121,7 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
     private fun initViews(view: View) {
         pbUserInfoLoading = view.pb_user_info_loading
         contentContainer = view.content_container
+        ivUserAvatar = view.iv_user_avatar
         ivUserPhoto = view.iv_user_photo
         tvUserName = view.tv_user_name
         btnOpenInVk = view.btn_open_in_vk
@@ -124,7 +139,8 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
         if (viewState.isSuccess() && viewState.data != null) {
             val data = viewState.data!!
 
-            setPhoto(data.userPhotoUrl)
+            setPhoto(data.userAvatarPhotoUrl, ivUserAvatar, true)
+            setPhoto(data.clickedPhotoUrl, ivUserPhoto, false)
             tvUserName.text = data.userName
 
             btnOpenInVk.setOnClickListener {
@@ -140,18 +156,26 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
                 mapView.onCreate(null)
                 mapView.getMapAsync(this)
             }
+
+            ivUserPhoto.setOnClickListener {
+                navigator.openFullScreen(data.clickedPhotoUrl)
+            }
         }
 
         error_container.setVisible(viewState.isError())
     }
 
-    private fun setPhoto(url: String) {
+    private fun setPhoto(url: String, imageView: ImageView, isCropCircle: Boolean) {
         if (url.isNotEmpty()) {
-            Glide.with(ivUserPhoto.context)
+            Glide.with(imageView.context)
                 .asBitmap()
                 .load(Uri.parse(url))
-                .apply(RequestOptions.circleCropTransform())
-                .into(ivUserPhoto)
+                .apply() {
+                    if (isCropCircle) {
+                        apply(RequestOptions.circleCropTransform())
+                    }
+                }
+                .into(imageView)
         }
     }
 
