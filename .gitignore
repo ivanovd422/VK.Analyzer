@@ -15,8 +15,10 @@
 
 # key stores
 analyzer.debug.keystore
+analyzer.keystore
 
 # key properties
 keystore.properties
+keystore.debug.properties
 
 app/src/main/assets/analytics.properties

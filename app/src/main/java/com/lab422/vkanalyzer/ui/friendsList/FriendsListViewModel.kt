@@ -50,7 +50,7 @@ class FriendsListViewModel(
             if (it.isSuccess()) {
                 onSuccessLoadUsers(it.data)
             } else {
-                showError("some error")
+                showError(it.error ?: "Что-то пошло не так")
             }
         }
 
