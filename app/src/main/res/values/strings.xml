@@ -63,6 +63,7 @@
     <string name="settings_app_version">Версия приложения:</string>
     <string name="settings_share_app">Поделиться приложением</string>
     <string name="settings_ask_support">Написать в поддержку</string>
+    <string name="settings_logout">Выход</string>
 
     <!--Full screen photo -->
     <string name="full_screen_toolbar_text">Фото</string>

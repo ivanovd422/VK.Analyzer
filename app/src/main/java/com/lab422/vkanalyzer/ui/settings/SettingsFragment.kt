@@ -4,9 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.lab422.common.AppSettings
 import com.lab422.vkanalyzer.BuildConfig
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
+import com.lab422.vkanalyzer.utils.navigator.Navigator
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.android.ext.android.get
 
@@ -18,6 +20,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private val trackerService: TrackerService = get()
+    private val navigator: Navigator = get()
+    private val appSettings: AppSettings = get()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -34,6 +38,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         val codeVersion = BuildConfig.VERSION_NAME
         tv_app_version_title.text = "${getString(R.string.settings_app_version)} $codeVersion"
+
+        tv_exit_account.setOnClickListener {
+            logout()
+        }
     }
 
     private fun shareApp() {
@@ -72,5 +80,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
         } catch (e: Exception) {
         }
+    }
+
+    private fun logout() {
+        appSettings.logOut()
+        navigator.openLoginActivity()
     }
 }
