@@ -39,7 +39,7 @@
 
 
     <!-- Photos near -->
-    <string name="photos_near_permissions_needs_title">С помощью «Анализатора ВК» Вы можете увидеть фотографии пользователей VK рядом с вами, однако необходимо разрешить приложению определить где вы находитесь</string>
+    <string name="photos_near_permissions_needs_title">С помощью «Анализатора ВК» Вы можете увидеть фотографии пользователей VK рядом с вами, однако необходимо разрешить приложению определить вашу локацию</string>
     <string name="photos_near_request_permissions">Разрешить</string>
     <string name="photos_near_permissions_dialog_info">Необходимо разрешить приложению определять местоположение, чтобы найти фотографии людей рядом с Вами</string>
     <string name="photos_near_permissions_never_ask_dialog">
