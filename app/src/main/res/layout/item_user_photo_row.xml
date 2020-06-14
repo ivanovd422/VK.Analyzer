@@ -15,10 +15,10 @@
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:adjustViewBounds="true"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_empty_avatar"
-
         android:visibility="invisible"
         />
 
@@ -29,10 +29,10 @@
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:adjustViewBounds="true"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_empty_avatar"
-
         android:visibility="invisible"
         />
 
@@ -43,10 +43,10 @@
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:adjustViewBounds="true"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_empty_avatar"
-
         android:visibility="invisible"
         />
 </LinearLayout>

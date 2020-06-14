@@ -48,7 +48,7 @@ open class BaseInteractor {
             if (error is NetworkException) {
                 errorMessage = error.message ?: errorText
             }
-            liveData.postValue(ViewState(ViewState.Status.ERROR, error = errorMessage))
+            liveData.postValue(ViewState(ViewState.Status.ERROR, error = errorMessage, internalError = error.message))
             return liveData
         }
     }
