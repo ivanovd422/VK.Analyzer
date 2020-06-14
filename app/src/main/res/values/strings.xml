@@ -3,7 +3,7 @@
 
     <!-- id -->
     <integer name="com_vk_sdk_AppId">7200469</integer>
-
+    <string name="facebook_app_id">247299489900539</string>
 
     <string name="main_screen">Анализатор ВК</string>
     <string name="friends_list">Список друзей</string>

@@ -164,6 +164,8 @@ dependencies {
     implementation 'com.android.installreferrer:installreferrer:1.1.2'
     // Appsflyer
     implementation 'com.appsflyer:af-android-sdk:5.0.0'
+    // Facebook
+    implementation 'com.facebook.android:facebook-core:7.0.1'
 
 
     // Firebase
