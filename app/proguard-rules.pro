@@ -135,3 +135,4 @@
 -keep enum com.lab422.** { *; }
 -keep class com.lab422.** { *; }
 -keep interface com.lab422** { *; }
+-keep class com.appsflyer.** { *; }

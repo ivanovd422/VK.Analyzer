@@ -40,6 +40,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDVnvIuaf1M-jKY-nWB0fp-D9oRNEbJTfM"/>
 
+        <receiver android:name="com.appsflyer.SingleInstallBroadcastReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+
     </application>
 
 </manifest>
