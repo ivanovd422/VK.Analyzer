@@ -69,4 +69,37 @@
     <string name="full_screen_toolbar_text">Фото</string>
     <string name="full_screen_loading_error">Ошибка при загрузке фото.\nПопробуйте пожалуйста позже</string>
 
+    <string name="January">января</string>
+    <string name="February">февраля</string>
+    <string name="March">марта</string>
+    <string name="April">апреля</string>
+    <string name="May">мая</string>
+    <string name="June">июня</string>
+    <string name="July">июля</string>
+    <string name="August">августа</string>
+    <string name="September">сентября</string>
+    <string name="October">октября</string>
+    <string name="November">ноября</string>
+    <string name="December">декабря</string>
+
+    <string-array name="months">
+        <item>@string/January</item>
+        <item>@string/February</item>
+        <item>@string/March</item>
+        <item>@string/April</item>
+        <item>@string/May</item>
+        <item>@string/June</item>
+        <item>@string/July</item>
+        <item>@string/August</item>
+        <item>@string/September</item>
+        <item>@string/October</item>
+        <item>@string/November</item>
+        <item>@string/December</item>
+    </string-array>
+
+    <string name="photo_near_date_format">d MMM"</string>
+
+    <string name="today">Сегодня"</string>
+    <string name="yesterday">Вчера"</string>
+
 </resources>

@@ -1,9 +1,12 @@
 package com.lab422.vkanalyzer.ui.photosNear.adapter.holder
 
+import android.content.Context
 import android.net.Uri
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,6 +21,8 @@ import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoRowModel
 import com.lab422.vkanalyzer.utils.extensions.showOrHide
 import kotlinx.android.synthetic.main.item_user_photo_row.view.*
 
+
+
 class PhotosViewHolder(
     view: View,
     private val listener: Listener?
@@ -30,6 +35,8 @@ class PhotosViewHolder(
     private val ivUserPhoto1 = view.iv_user_photo1
     private val ivUserPhoto2 = view.iv_user_photo2
     private val ivUserPhoto3 = view.iv_user_photo3
+
+    private val cellSideSize = getCellWidth(view.context)
 
     companion object {
         private class Factory(private var listener: Listener?) : ViewHolderFactory {
@@ -48,9 +55,7 @@ class PhotosViewHolder(
         }
 
         fun getFactory(listener: Listener? = null): ViewHolderFactory {
-            return Factory(
-                listener
-            )
+            return Factory(listener)
         }
     }
 
@@ -64,6 +69,10 @@ class PhotosViewHolder(
         ivUserPhoto1.showOrHide(userPhotoModel1 != null)
         ivUserPhoto2.showOrHide(userPhotoModel2 != null)
         ivUserPhoto3.showOrHide(userPhotoModel3 != null)
+
+        setViewSquareSize(ivUserPhoto1, cellSideSize)
+        setViewSquareSize(ivUserPhoto2, cellSideSize)
+        setViewSquareSize(ivUserPhoto3, cellSideSize)
 
         userPhotoModel1?.let { userModel ->
             ivUserPhoto1.setOnClickListener {
@@ -106,7 +115,20 @@ class PhotosViewHolder(
         Glide.with(itemView.context)
             .asBitmap()
             .load(Uri.parse(url))
-            .apply(RequestOptions.circleCropTransform())
+            .apply(RequestOptions.centerCropTransform())
             .into(imageView)
+    }
+
+    private fun getCellWidth(context: Context): Int {
+        val metrics = DisplayMetrics()
+        val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+        display.getMetrics(metrics)
+        return metrics.widthPixels / 3
+    }
+
+    private fun setViewSquareSize(view: View, sideSize: Int) {
+        view.layoutParams.height = sideSize
+        view.layoutParams.width = sideSize
+        view.requestLayout()
     }
 }

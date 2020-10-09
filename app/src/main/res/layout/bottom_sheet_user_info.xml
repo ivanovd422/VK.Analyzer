@@ -47,7 +47,7 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
-                android:src="@drawable/ic_empty_avatar"
+               app:srcCompat="@drawable/ic_empty_avatar"
 
                 app:layout_constraintBottom_toTopOf="@+id/iv_user_photo"
                 app:layout_constraintStart_toStartOf="@+id/iv_user_photo"
@@ -96,7 +96,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/ic_empty_avatar"
+               app:srcCompat="@drawable/ic_empty_avatar"
 
                 app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toTopOf="@+id/container_map"

@@ -1,19 +1,23 @@
 package com.lab422.vkanalyzer.ui.photosNear.dataProvider
 
+import com.lab422.common.StringProvider
 import com.lab422.interactor.model.UserPhotoData
+import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.Rawable
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.DatePhotosModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoCellModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoRowModel
-import java.text.SimpleDateFormat
+import com.lab422.vkanalyzer.utils.extensions.daysFromToday
+import com.lab422.vkanalyzer.utils.extensions.uiFormatted
 import java.util.Calendar
 import java.util.Date
-import java.util.TimeZone
 
 
-internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
+internal class UserPhotoDataProviderImpl(
+    private val stringProvider: StringProvider
+) : UserPhotoDataProvider {
 
     private companion object {
         const val GROUP_ID = 100
@@ -109,11 +113,22 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
 
     private fun convertTimestampToHumanDate(unix: Long): String =
         try {
-            val tz: TimeZone = TimeZone.getTimeZone("UTC")
-            val sdf = SimpleDateFormat("dd.MM.yyyy")
-            sdf.timeZone = tz;
             val date = Date(unix)
-            sdf.format(date)
+            val dayFromToday = date.daysFromToday
+            var humanDate = date.uiFormatted(
+                stringProvider.getString(R.string.photo_near_date_format),
+                stringProvider
+            )
+
+            if (dayFromToday == 1L) {
+                humanDate = "${stringProvider.getString(R.string.today)}, $humanDate"
+            }
+
+            if (dayFromToday == 0L) {
+                humanDate = "${stringProvider.getString(R.string.yesterday)}, $humanDate"
+            }
+
+            humanDate
         } catch (e: Exception) {
             ""
         }

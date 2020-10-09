@@ -12,6 +12,7 @@
     <color name="colorDisabled">#757575</color>
     <color name="colorWhite">#fff</color>
     <color name="colorBlack">#212121</color>
+    <color name="colorBlackAlpha50">#80212121</color>
 
     <color name="colorAlphaPrimaryLight">#327da4d4</color>
 
