@@ -3,7 +3,7 @@
 
     <!-- id -->
     <integer name="com_vk_sdk_AppId">7200469</integer>
-
+    <string name="facebook_app_id">247299489900539</string>
 
     <string name="main_screen">Анализатор ВК</string>
     <string name="friends_list">Список друзей</string>
@@ -39,7 +39,7 @@
 
 
     <!-- Photos near -->
-    <string name="photos_near_permissions_needs_title">С помощью «Анализатора ВК» Вы можете увидеть фотографии пользователей VK рядом с вами, однако необходимо разрешить приложению определить где вы находитесь</string>
+    <string name="photos_near_permissions_needs_title">С помощью «Анализатора ВК» Вы можете увидеть фотографии пользователей VK рядом с вами, однако необходимо разрешить приложению определить вашу локацию</string>
     <string name="photos_near_request_permissions">Разрешить</string>
     <string name="photos_near_permissions_dialog_info">Необходимо разрешить приложению определять местоположение, чтобы найти фотографии людей рядом с Вами</string>
     <string name="photos_near_permissions_never_ask_dialog">
@@ -63,6 +63,7 @@
     <string name="settings_app_version">Версия приложения:</string>
     <string name="settings_share_app">Поделиться приложением</string>
     <string name="settings_ask_support">Написать в поддержку</string>
+    <string name="settings_logout">Выход</string>
 
     <!--Full screen photo -->
     <string name="full_screen_toolbar_text">Фото</string>

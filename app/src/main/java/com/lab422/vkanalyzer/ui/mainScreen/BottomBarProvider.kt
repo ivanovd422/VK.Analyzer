@@ -13,21 +13,13 @@ import com.lab422.vkanalyzer.utils.command.SettingsItemCommand
 class BottomBarProvider {
 
     companion object {
-        const val FRIENDS_ID = 0
-        const val PHOTOS_NEAR_ID = 1
+        const val PHOTOS_NEAR_ID = 0
+        const val FRIENDS_ID = 1
         const val SETTINGS_MENU_ID = 2
     }
 
     fun getBarItems(): List<BarItem> {
         return mutableListOf(
-            BarItem(
-                R.string.bottom_menu_friends,
-                R.string.bottom_menu_friends,
-                R.drawable.ic_mutual_friends_icon,
-                FRIENDS_ID,
-                FriendsItemCommand(),
-                FriendsFragment.TAG
-            ),
             BarItem(
                 R.string.bottom_menu_photos_near,
                 R.string.bottom_menu_photos_near,
@@ -35,6 +27,14 @@ class BottomBarProvider {
                 PHOTOS_NEAR_ID,
                 PhotosNearItemCommand(),
                 PhotosNearFragment.TAG
+            ),
+            BarItem(
+                R.string.bottom_menu_friends,
+                R.string.bottom_menu_friends,
+                R.drawable.ic_mutual_friends_icon,
+                FRIENDS_ID,
+                FriendsItemCommand(),
+                FriendsFragment.TAG
             ),
             BarItem(
                 R.string.bottom_menu_settings,

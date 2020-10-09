@@ -11,7 +11,7 @@ class MainViewModel : ViewModel(), LifecycleObserver {
     private val selectedTabState: MutableLiveData<BarItem> = MutableLiveData()
 
     private val barItems: List<BarItem> = BottomBarProvider().getBarItems()
-    private val defaultBarItem: BarItem = getBarItemById(BottomBarProvider.FRIENDS_ID)
+    private val defaultBarItem: BarItem = getBarItemById(BottomBarProvider.PHOTOS_NEAR_ID)
 
     init {
         initLiveData()
