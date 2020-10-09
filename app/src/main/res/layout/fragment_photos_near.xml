@@ -35,14 +35,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
+            tools:visibility="visible"
             >
+
+            <ImageView
+                android:id="@+id/iv_request_permission_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_location_request"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="50dp"
+                />
 
             <TextView
                 android:id="@+id/tv_permission_needs_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginTop="50dp"
                 android:gravity="center"
                 android:text="@string/photos_near_permissions_needs_title"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -50,25 +63,23 @@
                 android:textSize="16sp"
 
                 app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 />
 
             <Button
                 android:id="@+id/btn_request_permissions"
+                android:padding="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="16dp"
                 android:text="@string/photos_near_request_permissions"
-
-                app:layout_constraintEnd_toEndOf="@+id/tv_permission_needs_title"
-                app:layout_constraintStart_toStartOf="@+id/tv_permission_needs_title"
-                app:layout_constraintTop_toBottomOf="@+id/tv_permission_needs_title"
-                />
+                android:layout_marginBottom="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
