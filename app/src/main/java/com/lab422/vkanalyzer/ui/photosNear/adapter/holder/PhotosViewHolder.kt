@@ -15,7 +15,6 @@ import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoRowModel
-import com.lab422.vkanalyzer.utils.extensions.show
 import com.lab422.vkanalyzer.utils.extensions.showOrHide
 import kotlinx.android.synthetic.main.item_user_photo_row.view.*
 

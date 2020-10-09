@@ -81,7 +81,7 @@ class PhotosNearViewModel(
 
                 if (data.isEmpty()) {
                     if (currentRadius == radiusList.last()) {
-                        tracker.loadPhotoNearby(false, errorMessage = it.error)
+                        tracker.loadPhotoNearby(false, errorMessage = "${it.error} + ${it.internalError}")
                         userPhotosData.postValue(ViewState(ViewState.Status.ERROR, error = it.error))
                     } else {
                         repeatSearchWithIncreasedRadius()
@@ -91,7 +91,7 @@ class PhotosNearViewModel(
                     userPhotosData.postValue(ViewState(ViewState.Status.SUCCESS, data))
                 }
             } else {
-                tracker.loadPhotoNearby(false, errorMessage = it.error)
+                tracker.loadPhotoNearby(false, errorMessage = "${it.error} + ${it.internalError}")
                 userPhotosData.postValue(ViewState(ViewState.Status.ERROR, error = it.error))
             }
         }

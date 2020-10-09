@@ -3,7 +3,8 @@ package com.lab422.common.viewState
 class ViewState<D>(
     val status: Status,
     val data: D? = null,
-    val error: String? = null
+    val error: String? = null,
+    val internalError: String? = null
 ) {
     enum class Status {
         LOADING, SUCCESS, ERROR
