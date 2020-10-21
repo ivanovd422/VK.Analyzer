@@ -13,6 +13,8 @@
     <color name="colorWhite">#fff</color>
     <color name="colorBlack">#212121</color>
     <color name="colorBlackAlpha50">#80212121</color>
+    <color name="colorBlueVk">#4680C2</color>
+    <color name="colorBlackAlpha55">#8C000000</color>
 
     <color name="colorAlphaPrimaryLight">#327da4d4</color>
 

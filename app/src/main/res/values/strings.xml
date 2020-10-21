@@ -54,7 +54,7 @@
     <!-- User near -->
     <string name="user_info_close_dialog">Хорошо</string>
     <string name="user_info_error_text_dialog">Ошибка загрузки профиля.\nПовторите пожалуйста позже</string>
-    <string name="user_info_open_vk">Открыть страницу в VK</string>
+    <string name="user_info_open_vk">Открыть в VK</string>
 
     <!--Settings -->
     <string name="settings_share_text">Я слежу за пользователями в VK с помощью приложения «Анализатор ВК»</string>
