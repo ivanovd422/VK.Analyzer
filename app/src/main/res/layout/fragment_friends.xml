@@ -96,7 +96,7 @@
 
     <Button
         android:id="@+id/btn_find_friends"
-        style="@style/MaterialButton"
+        style="@style/MaterialButton.Montserrat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

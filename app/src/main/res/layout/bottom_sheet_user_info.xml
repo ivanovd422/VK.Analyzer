@@ -69,6 +69,7 @@
                 style="@style/Widget.TextView.Bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15sp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/colorBlack"
@@ -77,8 +78,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/ll_open_in_vk"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="@+id/ll_open_in_vk"
-
+                app:layout_constraintStart_toEndOf="@+id/iv_user_avatar"
                 tools:text="User name"/>
 
             <LinearLayout
@@ -86,7 +86,7 @@
                 style="@style/Widget.Item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="11dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="horizontal"
@@ -109,23 +109,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="3dp"
+                    android:layout_marginStart="5dp"
                     android:text="@string/user_info_open_vk"
                     android:textColor="@color/colorBlueVk"
-                    android:textSize="18sp"/>
+                    android:textSize="14sp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_location_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:orientation="horizontal"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="@+id/ll_open_in_vk"
+                app:layout_constraintStart_toEndOf="@+id/iv_user_avatar"
                 app:layout_constraintTop_toBottomOf="@+id/ll_open_in_vk">
 
                 <ImageView
@@ -140,7 +141,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
-                    android:text="@string/user_info_open_vk"
                     android:textColor="@color/colorBlackAlpha55"
                     android:textSize="14sp"
 
@@ -190,7 +190,6 @@
             android:layout_marginTop="100dp"
             android:layout_marginBottom="100dp"
             android:visibility="gone"
-
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -209,7 +208,6 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 app:layout_constrainedWidth="true"
-
                 app:layout_constraintBottom_toTopOf="@+id/btn_error_close"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>

@@ -71,6 +71,7 @@
 
             <Button
                 android:id="@+id/btn_request_permissions"
+                style="@style/MaterialButton.Montserrat"
                 android:padding="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
