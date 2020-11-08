@@ -235,7 +235,7 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
             return null
         }
 
-        val addresses = Geocoder(requireContext(), Locale("ru")).getFromLocation(lat, long, 1)
+        val addresses = Geocoder(requireContext().applicationContext, Locale("ru")).getFromLocation(lat, long, 1)
         val firstLine = addresses[0].getAddressLine(0)
         val postCode = firstLine.split(",").last()
 

@@ -14,7 +14,6 @@ import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewModel
-import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.common.StringProvider
 import kotlinx.android.synthetic.main.item_mutual_friend.view.*
 
@@ -26,7 +25,6 @@ class FriendViewHolder(
     private val tvUserStatus = view.tv_user_status
     private val ivUserPhoto = view.iv_friend_photo
     private val tvUserId = view.tv_user_id
-    private val ivSearch = view.iv_search
 
     interface Listener {
         fun onFriendClicked(id: Long, name: String)
@@ -38,7 +36,7 @@ class FriendViewHolder(
             override fun <T> createViewHolder(
                 parent: ViewGroup,
                 viewType: Int,
-                stringProvider: com.lab422.common.StringProvider
+                stringProvider: StringProvider
             ): RecyclerView.ViewHolder {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_mutual_friend, parent, false)
                 return FriendViewHolder(view, listener)
@@ -49,29 +47,24 @@ class FriendViewHolder(
             return Factory(listener)
         }
 
-        private const val onlineStatusPattern = "Status: %s"
         private const val textIsOnline = "Online"
         private const val textIsOffline = "Offline"
-        private const val textIdPattern = "Id: %s"
+        private const val textIdPattern = "Id %s"
 
         @ColorRes
-        private const val colorGreenRes = R.color.colorGreen
+        private const val colorGreenRes = R.color.colorGreenAlpha70
+
         @ColorRes
-        private const val colorRedRes = R.color.colorRed
+        private const val colorRedRes = R.color.colorRedAlpha55
     }
 
     override fun onBind(model: RowDataModel<FriendsListType, *>) {
         super.onBind(model)
         val item = model.value as UserViewModel
-        val isClickable = model.rowType == FriendsListType.Friends
-
-        val status = if (item.isOnline) textIsOnline else textIsOffline
+        val textStatus = if (item.isOnline) textIsOnline else textIsOffline
         val statusColor = if (item.isOnline) colorGreenRes else colorRedRes
-        val textStatus = String.format(onlineStatusPattern, status)
 
         view.setOnClickListener { listener?.onFriendClicked(item.id, item.userName) }
-
-        ivSearch.setVisible(isClickable)
 
         tvUserName.text = item.userName
 

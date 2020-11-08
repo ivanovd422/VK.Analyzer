@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,31 +7,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:focusable="true"
-    >
+    android:focusable="true">
 
     <ImageView
         android:id="@+id/iv_friend_photo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="20dp"
-        app:srcCompat="@drawable/ic_empty_avatar"
-        />
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/ic_empty_avatar"/>
+
+    <TextView
+        android:id="@+id/tv_user_status"
+        style="@style/Widget.TextView.Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_friend_photo"
+        app:layout_constraintStart_toEndOf="@+id/iv_friend_photo"
+        app:layout_constraintTop_toTopOf="@+id/iv_friend_photo"
+
+        tools:text="Online"/>
 
     <TextView
         android:id="@+id/tv_user_name"
         style="@style/Widget.TextView.Bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_toEndOf="@+id/iv_friend_photo"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_user_status"
+        app:layout_constraintStart_toStartOf="@+id/tv_user_status"
 
-        tools:text="User name"
-        />
+        tools:text="User name"/>
 
     <TextView
         android:id="@+id/tv_user_id"
@@ -39,40 +54,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_user_name"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/iv_friend_photo"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorBlackAlpha55"
         android:textSize="16sp"
+        android:layout_marginStart="3dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_user_id"
 
+        app:layout_constraintStart_toEndOf="@+id/ic_user_id"
+        app:layout_constraintTop_toTopOf="@+id/ic_user_id"
         tools:text="Id: "
         />
 
-    <TextView
-        android:id="@+id/tv_user_status"
-        style="@style/Widget.TextView.Regular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_user_id"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_toEndOf="@+id/iv_friend_photo"
-        android:textSize="16sp"
-
-        tools:text="Status: online"
-        />
-
     <ImageView
-        android:id="@+id/iv_search"
+        android:id="@+id/ic_user_id"
         android:layout_width="wrap_content"
+        app:srcCompat="@drawable/ic_id_friends_list"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="20dp"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_search_friends"
-
-        tools:visibility="visible"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_user_status"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user_status"
         />
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
