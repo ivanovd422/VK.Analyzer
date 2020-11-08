@@ -10,6 +10,7 @@
     <string name="mutual_friends_list">Общие друзья</string>
     <string name="search">ПОИСК</string>
     <string name="toolbar_text_login">Авторизация</string>
+    <string name="toolbar_text_empty"> </string>
 
 
     <!-- Login -->

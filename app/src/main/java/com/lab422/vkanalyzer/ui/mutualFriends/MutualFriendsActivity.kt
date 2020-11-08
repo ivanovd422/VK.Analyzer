@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.common.StringProvider
@@ -34,7 +35,7 @@ import org.koin.core.parameter.parametersOf
 
 
 class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), FriendViewHolder.Listener,
-    SearchView.OnQueryTextListener {
+    SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
     private lateinit var viewModel: MutualViewModel
 
@@ -61,7 +62,7 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
 
     override fun getToolBarViewId(): Int = R.id.toolbar_mutual_friends_list
 
-    override val toolbarName: Int = R.string.mutual_friends_list
+    override val toolbarName: Int = R.string.toolbar_text_empty
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +85,12 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
         searchItem.setOnQueryTextListener(this)
         menuItem?.isVisible = false
 
+        searchItem.setOnSearchClickListener {
+            cl_counter_container.isVisible = false
+        }
+
+        searchItem.setOnCloseListener(this)
+
         return super.onCreateOptionsMenu(menu)
     }
     override fun onFriendClicked(id: Long, name: String) {
@@ -97,6 +104,12 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
     override fun onQueryTextChange(newText: String): Boolean {
         viewModel.onSearchQueryTyped(newText)
         return true
+    }
+
+    override fun onClose(): Boolean {
+        cl_counter_container.isVisible = true
+
+        return false
     }
 
     override fun onBackPressed() {
@@ -128,9 +141,14 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
         pb_mutual_friends_loading.setVisible(viewState.isLoading())
         ll_mutual_friends_error_wrapper.setVisible(viewState.isError())
         menuItem?.isVisible = viewState.isSuccess()
+        tv_user_count.isVisible = viewState.isSuccess() && viewState.data.isNullOrEmpty().not()
 
         if (viewState.isSuccess()) {
             setData(viewState.data)
+
+            if (viewState.data.isNullOrEmpty().not()) {
+                tv_user_count.text = viewState.data!!.size.toString()
+            }
         }
 
         if (viewState.isError()) {
