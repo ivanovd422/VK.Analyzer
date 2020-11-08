@@ -63,6 +63,7 @@
     <string name="settings_help_mailto" translatable="false">mailto</string>
     <string name="settings_app_version">Версия приложения:</string>
     <string name="settings_share_app">Поделиться приложением</string>
+    <string name="settings_dark_mode">Темная тема</string>
     <string name="settings_ask_support">Написать в поддержку</string>
     <string name="settings_logout">Выход</string>
 
