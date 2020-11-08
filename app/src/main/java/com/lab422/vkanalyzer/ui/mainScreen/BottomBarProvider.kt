@@ -39,7 +39,7 @@ class BottomBarProvider {
             BarItem(
                 R.string.bottom_menu_settings,
                 R.string.bottom_menu_settings,
-                R.drawable.ic_bar_support,
+                R.drawable.ic_bar_information,
                 SETTINGS_MENU_ID,
                 SettingsItemCommand(),
                 SettingsFragment.TAG
