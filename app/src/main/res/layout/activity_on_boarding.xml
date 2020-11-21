@@ -6,26 +6,23 @@
     android:layout_height="match_parent"
     >
 
-    <View
+    <com.lab422.vkanalyzer.utils.view.InstaStorySlider
         android:id="@+id/view_stories_slider"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/black"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/ic_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="15dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_stories_slider"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_close"
-
         />
 
     <androidx.recyclerview.widget.RecyclerView
