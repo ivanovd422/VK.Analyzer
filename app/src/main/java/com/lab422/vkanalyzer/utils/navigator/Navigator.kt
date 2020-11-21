@@ -11,6 +11,7 @@ import com.lab422.vkanalyzer.ui.loading.LoadingActivity
 import com.lab422.vkanalyzer.ui.login.LoginActivity
 import com.lab422.vkanalyzer.ui.mainScreen.MainActivity
 import com.lab422.vkanalyzer.ui.mutualFriends.MutualFriendsActivity
+import com.lab422.vkanalyzer.ui.onboarding.OnBoardingActivity
 import com.lab422.vkanalyzer.ui.photoFullScreen.PhotoFullScreen
 import com.lab422.vkanalyzer.utils.extensions.addFlagClearTop
 import com.lab422.vkanalyzer.utils.extensions.addFlagNewTask
@@ -27,6 +28,12 @@ class Navigator(val context: Context) {
 
     fun openLoginActivity() {
         val intent = LoginActivity.createIntent(context)
+        intent.addFlagsNewTaskWithClear()
+        openActivity(intent)
+    }
+
+    fun openOnBoarding() {
+        val intent = OnBoardingActivity.createIntent(context)
         intent.addFlagsNewTaskWithClear()
         openActivity(intent)
     }

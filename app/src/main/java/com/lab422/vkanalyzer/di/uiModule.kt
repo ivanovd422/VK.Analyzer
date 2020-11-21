@@ -7,6 +7,7 @@ import com.lab422.vkanalyzer.ui.login.LoginViewModel
 import com.lab422.vkanalyzer.ui.mainScreen.MainViewModel
 import com.lab422.vkanalyzer.ui.mutualFriends.MutualViewModel
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
+import com.lab422.vkanalyzer.ui.onboarding.OnBoardingViewModel
 import com.lab422.vkanalyzer.ui.photosNear.PhotosNearViewModel
 import com.lab422.vkanalyzer.ui.photosNear.userInfo.UserInfoViewModel
 import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.PhotoInfoModel
@@ -23,4 +24,5 @@ fun provideUiModule() = module {
     viewModel { FriendsListViewModel(get(), get()) }
     viewModel { PhotosNearViewModel(get(), get(), get()) }
     viewModel { (model: PhotoInfoModel) -> UserInfoViewModel(model, get()) }
+    viewModel { OnBoardingViewModel() }
 }

@@ -72,6 +72,14 @@
         <item name="android:fontFamily">@font/montserrat_regular</item>
     </style>
 
+    <style name="Widget.TextView.Montserrat.Medium">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Widget.TextView.Montserrat.Bold">
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+    </style>
+
     <style name="MaterialButton.Montserrat" parent="Widget.MaterialComponents.Button">
         <item name="android:minHeight">48dip</item>
         <item name="android:minWidth">88dip</item>

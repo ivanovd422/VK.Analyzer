@@ -20,11 +20,13 @@ class LoadingViewModel(
 
         tracker.launch(isFirstLaunch)
 
-        if (appSettings.isAuthorized && isTokenValid()) {
+        navigator.openOnBoarding()
+
+/*        if (appSettings.isAuthorized && isTokenValid()) {
             navigator.openMainActivity()
         } else {
             navigator.openLoginActivity()
-        }
+        }*/
     }
 
     private fun isTokenValid(): Boolean {

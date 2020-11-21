@@ -104,4 +104,13 @@
     <string name="today">Сегодня"</string>
     <string name="yesterday">Вчера"</string>
 
+    <string name="on_boarding_title_1">Быстро и просто"</string>
+    <string name="on_boarding_subtitle_1">Авторизуйся через VK, всего два клика для доступа ко всем функциям приложения"</string>
+
+    <string name="on_boarding_title_2">Фото рядом"</string>
+    <string name="on_boarding_subtitle_2">Просматривай фотографии пользователей VK, которые были опубликованы рядом с тобой"</string>
+
+    <string name="on_boarding_title_3">Общие друзья"</string>
+    <string name="on_boarding_subtitle_3">Ищи общих друзей двух любых пользователей VK через удобный поиск по имени или id"</string>
+
 </resources>
