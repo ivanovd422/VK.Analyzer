@@ -4,8 +4,6 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.Log
@@ -27,7 +25,6 @@ class InstaStorySlider : View {
 
     private val bgColor = ContextCompat.getColor(context, R.color.colorAlto)
     private val frontColor = ContextCompat.getColor(context, R.color.colorSilver)
-    private val clearColor = ContextCompat.getColor(context, R.color.transparent)
 
     private val storyLineIntervalInPx = context.dpToPx(STORY_LINE_INTERVAL.toInt())
     private val sideIntervalInPx = context.dpToPx(SIDE_INTERVAL.toInt())
@@ -42,13 +39,6 @@ class InstaStorySlider : View {
         color = frontColor
         style = Paint.Style.FILL_AND_STROKE
         strokeWidth = 10f
-    }
-
-    private val clearPaint: Paint = Paint().apply {
-        color = clearColor
-        style = Paint.Style.FILL_AND_STROKE
-        strokeWidth = 10f
-        xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
     }
 
     // pair of start and end X coordinates
