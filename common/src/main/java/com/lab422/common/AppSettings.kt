@@ -22,4 +22,9 @@ interface AppSettings {
 
     val shouldShowAuthInfo: Boolean
     fun setShowedAuthInfo()
+
+    fun isTokenValid(): Boolean
+
+    val isOnBoardingFinished: Boolean
+    fun setOnBoardingFinished()
 }

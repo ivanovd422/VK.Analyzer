@@ -1,16 +1,20 @@
 package com.lab422.vkanalyzer.ui.onboarding
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lab422.common.AppSettings
 import com.lab422.vkanalyzer.ui.base.RowDataModel
-import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
-import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewModel
 import com.lab422.vkanalyzer.ui.onboarding.adapter.OnBoardingScreensProvider
 import com.lab422.vkanalyzer.ui.onboarding.adapter.OnBoardingType
 import com.lab422.vkanalyzer.ui.onboarding.adapter.OnBoardingViewData
+import com.lab422.vkanalyzer.utils.analytics.TrackerService
+import com.lab422.vkanalyzer.utils.navigator.Navigator
 
-class OnBoardingViewModel : ViewModel() {
+class OnBoardingViewModel(
+    private val appSettings: AppSettings,
+    private val navigator: Navigator,
+    private val tracker: TrackerService
+) : ViewModel() {
 
     private companion object {
         const val TOUCH_DELAY_TIME = 200
@@ -45,13 +49,27 @@ class OnBoardingViewModel : ViewModel() {
         handleResumeEvent(isShouldScrollNext(pausedTime), isForwardDirection)
     }
 
+    fun onCloseOnBoardingClicked() {
+        tracker.onBoardingCancelled()
+        closeOnBoarding()
+    }
+
     fun onStoryEnd(isLastStory: Boolean) {
         if (currentScreenPosition == screensCount - 1 || isLastStory) {
-            Log.d("myTag", "should cancel on boarding")
-            return
+            tracker.onBoardingFinished()
+            closeOnBoarding()
         } else {
             currentScreenPosition++
             onBoardingPositionEvent.value = currentScreenPosition
+        }
+    }
+
+    private fun closeOnBoarding() {
+        appSettings.setOnBoardingFinished()
+        if (appSettings.isAuthorized && appSettings.isTokenValid()) {
+            navigator.openMainActivity()
+        } else {
+            navigator.openLoginActivity()
         }
     }
 
@@ -74,7 +92,8 @@ class OnBoardingViewModel : ViewModel() {
 
         if (isForwardDirection) {
             if (currentScreenPosition == screensCount - 1) {
-                Log.d("myTag", "should cancel on boarding")
+                tracker.onBoardingFinished()
+                closeOnBoarding()
                 return
             } else {
                 currentScreenPosition++

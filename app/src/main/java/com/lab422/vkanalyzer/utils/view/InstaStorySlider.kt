@@ -79,7 +79,6 @@ class InstaStorySlider : View {
     }
 
     override fun onDetachedFromWindow() {
-        storyAnimation?.cancel()
         storyListener = null
         super.onDetachedFromWindow()
     }

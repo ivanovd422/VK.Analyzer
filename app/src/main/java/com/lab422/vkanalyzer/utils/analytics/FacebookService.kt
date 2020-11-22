@@ -39,4 +39,8 @@ class FacebookService : TrackerService {
     override fun onSupportClicked() = Unit
 
     override fun onPhotoLoadingError(error: String) = Unit
+
+    override fun onBoardingFinished()  = Unit
+
+    override fun onBoardingCancelled()  = Unit
 }

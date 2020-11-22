@@ -24,5 +24,5 @@ fun provideUiModule() = module {
     viewModel { FriendsListViewModel(get(), get()) }
     viewModel { PhotosNearViewModel(get(), get(), get()) }
     viewModel { (model: PhotoInfoModel) -> UserInfoViewModel(model, get()) }
-    viewModel { OnBoardingViewModel() }
+    viewModel { OnBoardingViewModel(get(), get(), get()) }
 }

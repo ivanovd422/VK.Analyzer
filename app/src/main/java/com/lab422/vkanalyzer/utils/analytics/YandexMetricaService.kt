@@ -117,6 +117,14 @@ class YandexMetricaService : TrackerService {
         logEvent(TrackerConstants.EVENT_FULL_SCREEN_PHOTO_ERROR, eventParameters)
     }
 
+    override fun onBoardingFinished() {
+        logEvent(TrackerConstants.EVENT_ON_BOARDING_FINISHED)
+    }
+
+    override fun onBoardingCancelled() {
+        logEvent(TrackerConstants.EVENT_ON_BOARDING_CANCELLED)
+    }
+
     private fun logEvent(eventName: String) {
         YandexMetrica.reportEvent(eventName)
     }

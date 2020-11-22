@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
         android:text="@string/on_boarding_title_1"
         android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"

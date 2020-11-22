@@ -20,18 +20,15 @@ class LoadingViewModel(
 
         tracker.launch(isFirstLaunch)
 
-        navigator.openOnBoarding()
+        if (appSettings.isOnBoardingFinished.not()) {
+            navigator.openOnBoarding()
+            return
+        }
 
-/*        if (appSettings.isAuthorized && isTokenValid()) {
+        if (appSettings.isAuthorized && appSettings.isTokenValid()) {
             navigator.openMainActivity()
         } else {
             navigator.openLoginActivity()
-        }*/
-    }
-
-    private fun isTokenValid(): Boolean {
-        val token = appSettings.vkToken ?: return false
-        if (appSettings.accessToken.isNullOrEmpty()) return false
-        return token.isValid
+        }
     }
 }

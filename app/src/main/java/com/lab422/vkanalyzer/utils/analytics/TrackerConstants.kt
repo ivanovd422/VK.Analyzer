@@ -24,4 +24,9 @@ object TrackerConstants {
 
     // Full screen photo
     const val EVENT_FULL_SCREEN_PHOTO_ERROR = "Full screen loading photo error"
+
+    // On Boarding
+    const val EVENT_ON_BOARDING_FINISHED = "On boarding finished"
+    const val EVENT_ON_BOARDING_CANCELLED = "On boarding cancelled"
+
 }

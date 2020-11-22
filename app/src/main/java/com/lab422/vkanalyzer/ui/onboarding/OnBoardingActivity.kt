@@ -62,15 +62,25 @@ class OnBoardingActivity : AppCompatActivity(R.layout.activity_on_boarding) {
             }
         }
 
-        viewModel.onBoardingImages.observe(this, Observer { data ->
-            data?.let {
-                pagerAdapter.reload(data)
-            }
-        })
+        ic_close.setOnClickListener {
+            viewModel.onCloseOnBoardingClicked()
+        }
 
         view_stories_slider.setStoryListener(object : InstaStorySlider.Listener {
             override fun onStoryEnd(isLastStory: Boolean) {
                 viewModel.onStoryEnd(isLastStory)
+            }
+        })
+    }
+
+    private fun initObservers() {
+        viewModel.onBoardingPositionEvent.observe(this, Observer {
+            rv_on_boarding.scrollToPosition(it)
+        })
+
+        viewModel.onBoardingImages.observe(this, Observer { data ->
+            data?.let {
+                pagerAdapter.reload(data)
             }
         })
 
@@ -80,12 +90,6 @@ class OnBoardingActivity : AppCompatActivity(R.layout.activity_on_boarding) {
             } else {
                 view_stories_slider.scrollToPreviousStory()
             }
-        })
-    }
-
-    private fun initObservers() {
-        viewModel.onBoardingPositionEvent.observe(this, Observer {
-            rv_on_boarding.scrollToPosition(it)
         })
     }
 }
