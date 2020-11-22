@@ -12,6 +12,7 @@ import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.onboarding.adapter.OnBoardingAdapter
 import com.lab422.vkanalyzer.utils.extensions.getScreenWidth
+import com.lab422.vkanalyzer.utils.view.InstaStorySlider
 import kotlinx.android.synthetic.main.activity_on_boarding.*
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
@@ -49,9 +50,11 @@ class OnBoardingActivity : AppCompatActivity(R.layout.activity_on_boarding) {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         viewModel.onPauseStory(event.rawX)
+                        view_stories_slider.pauseStory()
                     }
                     MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                         viewModel.onResumeStory()
+                        view_stories_slider.resumeStory()
                     }
                 }
 
@@ -62,6 +65,20 @@ class OnBoardingActivity : AppCompatActivity(R.layout.activity_on_boarding) {
         viewModel.onBoardingImages.observe(this, Observer { data ->
             data?.let {
                 pagerAdapter.reload(data)
+            }
+        })
+
+        view_stories_slider.setStoryListener(object : InstaStorySlider.Listener {
+            override fun onStoryEnd(isLastStory: Boolean) {
+                viewModel.onStoryEnd(isLastStory)
+            }
+        })
+
+        viewModel.onScrollForwardDirection.observe(this, Observer { isForwardDirection ->
+            if (isForwardDirection) {
+                view_stories_slider.scrollToNextStory()
+            } else {
+                view_stories_slider.scrollToPreviousStory()
             }
         })
     }

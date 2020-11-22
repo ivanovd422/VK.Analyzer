@@ -25,6 +25,7 @@ class OnBoardingViewModel : ViewModel() {
 
     val onBoardingPositionEvent: MutableLiveData<Int> = MutableLiveData()
     val onBoardingImages: MutableLiveData<List<RowDataModel<OnBoardingType, *>>> = MutableLiveData()
+    val onScrollForwardDirection: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         onBoardingImages.value = generateViewData(OnBoardingScreensProvider.getOnBoardingScreenViewData())
@@ -44,6 +45,16 @@ class OnBoardingViewModel : ViewModel() {
         handleResumeEvent(isShouldScrollNext(pausedTime), isForwardDirection)
     }
 
+    fun onStoryEnd(isLastStory: Boolean) {
+        if (currentScreenPosition == screensCount - 1 || isLastStory) {
+            Log.d("myTag", "should cancel on boarding")
+            return
+        } else {
+            currentScreenPosition++
+            onBoardingPositionEvent.value = currentScreenPosition
+        }
+    }
+
     private fun getCurrentTime(): Long = System.currentTimeMillis()
 
     private fun isShouldScrollNext(startTime: Long?): Boolean {
@@ -59,6 +70,7 @@ class OnBoardingViewModel : ViewModel() {
     private fun handleResumeEvent(isShouldChangeScreen: Boolean, isForwardDirection: Boolean) {
         if (isShouldChangeScreen.not()) return
 
+        onScrollForwardDirection.value = isForwardDirection
 
         if (isForwardDirection) {
             if (currentScreenPosition == screensCount - 1) {

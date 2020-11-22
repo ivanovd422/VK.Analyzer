@@ -6,7 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.core.animation.doOnEnd
@@ -15,6 +14,10 @@ import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.utils.extensions.dpToPx
 
 class InstaStorySlider : View {
+
+    interface Listener {
+        fun onStoryEnd(isLastStory: Boolean)
+    }
 
     private companion object {
         const val STORY_LINE_INTERVAL = 8f
@@ -46,11 +49,16 @@ class InstaStorySlider : View {
     private var storyAnimation: ValueAnimator? = null
     private var lineOffset: Float = SIDE_INTERVAL
     private var currentStoryAnimationNumber = 0
+    private var storyListener: Listener? = null
+    private var isAnimationCanceled: Boolean = false
+    private var isAnimationFinished: Boolean = false
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
+
+    /// region Overrides methods
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -72,9 +80,52 @@ class InstaStorySlider : View {
 
     override fun onDetachedFromWindow() {
         storyAnimation?.cancel()
+        storyListener = null
         super.onDetachedFromWindow()
     }
+    /// endregion
 
+    /// region Public methods
+    fun setStoryListener(listener: Listener) {
+        storyListener = listener
+    }
+
+    fun pauseStory() {
+        storyAnimation?.pause()
+    }
+
+    fun resumeStory() {
+        storyAnimation?.resume()
+    }
+
+    fun scrollToPreviousStory() {
+        if (currentStoryAnimationNumber > 0) {
+            currentStoryAnimationNumber--
+        } else {
+            currentStoryAnimationNumber = 0
+        }
+
+        isAnimationCanceled = true
+        storyAnimation?.cancel()
+        storyAnimation = null
+        invalidate()
+    }
+
+    fun scrollToNextStory() {
+        if (currentStoryAnimationNumber == STORIES_COUNT - 1) {
+            return
+        } else {
+            currentStoryAnimationNumber++
+        }
+
+        isAnimationCanceled = true
+        storyAnimation?.cancel()
+        storyAnimation = null
+        invalidate()
+    }
+    /// endregion
+
+    /// region Private methods
     private fun drawStaticBackgroundLine(canvas: Canvas) {
         storyPoints?.forEachIndexed { index, points ->
             val paint = if (index < currentStoryAnimationNumber) frontPaint else bgPaint
@@ -131,7 +182,13 @@ class InstaStorySlider : View {
                 postInvalidate()
             }
             doOnEnd {
-                onStoryAnimationEnd()
+                if (isAnimationFinished) {
+                    return@doOnEnd
+                }
+                if (isAnimationCanceled.not()) {
+                    onStoryAnimationEnd()
+                }
+                isAnimationCanceled = false
             }
             duration = STORY_ANIMATION_DURATION
             interpolator = LinearInterpolator()
@@ -145,7 +202,10 @@ class InstaStorySlider : View {
 
     private fun onStoryAnimationEnd() {
         if (currentStoryAnimationNumber == STORIES_COUNT - 1) {
-            Log.d("myTag", "Animation has finished")
+            storyListener?.onStoryEnd(true)
+            isAnimationFinished = true
+            storyAnimation?.cancel()
+            storyAnimation = null
             return
         }
         currentStoryAnimationNumber++
@@ -153,5 +213,7 @@ class InstaStorySlider : View {
         storyAnimation?.cancel()
         storyAnimation = null
         invalidate()
+        storyListener?.onStoryEnd(false)
     }
+    /// endregion
 }
