@@ -26,4 +26,7 @@
 
     <color name="colorRedAlpha55">#8CFF0000</color>
     <color name="colorGreenAlpha70">#B335A302</color>
+
+    <color name="colorAlto">#e0e0e0</color>
+    <color name="colorSilver">#c5c5c5</color>
 </resources>
