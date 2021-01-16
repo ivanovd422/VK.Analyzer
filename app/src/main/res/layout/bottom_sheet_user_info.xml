@@ -75,7 +75,7 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toTopOf="@+id/ll_open_in_vk"
+                app:layout_constraintTop_toTopOf="@+id/iv_user_avatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@+id/iv_user_avatar"
@@ -92,11 +92,11 @@
                 android:orientation="horizontal"
                 android:padding="5dp"
                 app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_user_avatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@+id/iv_user_avatar"
-                app:layout_constraintTop_toTopOf="@+id/iv_user_avatar">
+                app:layout_constraintBottom_toTopOf="@+id/ll_location_container"
+                >
 
                 <ImageView
                     android:layout_width="14dp"
@@ -120,14 +120,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:orientation="horizontal"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@+id/iv_user_avatar"
-                app:layout_constraintTop_toBottomOf="@+id/ll_open_in_vk">
+                app:layout_constraintBottom_toBottomOf="@+id/iv_user_avatar"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -143,8 +143,10 @@
                     android:layout_marginStart="3dp"
                     android:textColor="@color/colorBlackAlpha55"
                     android:textSize="14sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
 
-                    tools:text="Рождественский б-р, дом 1, Москва"/>
+                    tools:text="Рождественский б-р, дом 1, Москва Рождественский б-р, дом 1, Москва Рождественский б-р, дом 1, Москва Рождественский б-р, дом 1, Москва Рождественский б-р, дом 1, Москва"/>
             </LinearLayout>
 
             <androidx.constraintlayout.widget.Barrier

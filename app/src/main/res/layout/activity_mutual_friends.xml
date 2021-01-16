@@ -54,7 +54,11 @@
         android:id="@+id/rv_mutual_friends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar_mutual_friends_list"/>
+        android:layout_below="@+id/toolbar_mutual_friends_list"
+
+        tools:listitem="@layout/item_mutual_friend"
+        tools:itemCount="3"
+        />
 
     <LinearLayout
         android:id="@+id/ll_mutual_friends_error_wrapper"
