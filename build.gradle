@@ -3,6 +3,7 @@
 buildscript {
 
     ext.kotlin_version = '1.4.20'
+    apply from: "ktlint/ktlint.gradle"
 
     ext {
         gradle_version = '3.4.0'

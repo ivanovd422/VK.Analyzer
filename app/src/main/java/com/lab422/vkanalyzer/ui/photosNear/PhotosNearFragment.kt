@@ -36,7 +36,7 @@ import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class PhotosNearFragment :
-    Fragment(             R.layout.fragment_photos_near),
+    Fragment(R.layout.fragment_photos_near),
     PermissionsNeverAskDialog.OpenPermissionsSettingsAction,
     PhotosViewHolder.Listener,
     LoadingViewHolder.Listener {
