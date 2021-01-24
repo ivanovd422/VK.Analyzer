@@ -5,15 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
-/*apply from: "${rootProject.projectDir/ktlint}/git-hook.gradle"
-apply from: "${rootProject.projectDir}/my_test.gradle"*/
-
-/*apply from: "${rootProject/ktlint}/git-hook.gradle"
-apply from: "${rootProject/ktlint}/my_test.gradle"*/
-
 apply from: "${rootProject.projectDir}/ktlint/git-hook.gradle"
-apply from: "${rootProject.projectDir}/ktlint/my_test.gradle"
-
 
 ext {
 
