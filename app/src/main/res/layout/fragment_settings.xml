@@ -5,11 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
             android:id="@+id/ll_settings_points"
@@ -17,32 +19,38 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            >
 
             <ImageView
                 android:id="@+id/iv_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginBottom="40dp"
-                app:srcCompat="@drawable/ic_settings_icon"/>
+                app:srcCompat="@drawable/ic_settings_icon"
+                />
 
             <LinearLayout
                 android:id="@+id/tv_support"
                 style="@style/Widget.Item"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:layout_marginTop="40dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="40dp"
-                    app:srcCompat="@drawable/ic_mail_icon"/>
+                    app:srcCompat="@drawable/ic_mail_icon"
+                    />
 
                 <TextView
                     style="@style/Widget.TextView.Medium"
@@ -53,7 +61,8 @@
                     android:text="@string/settings_ask_support"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/blackAlpha87"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -63,14 +72,16 @@
                 android:layout_height="48dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="42dp"
-                    app:srcCompat="@drawable/ic_share_icon"/>
+                    app:srcCompat="@drawable/ic_share_icon"
+                    />
 
                 <TextView
                     style="@style/Widget.TextView.Medium"
@@ -81,7 +92,8 @@
                     android:text="@string/settings_share_app"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/blackAlpha87"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -93,14 +105,16 @@
                 android:focusable="true"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                tools:visibility="visible">
+                tools:visibility="visible"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="42dp"
-                    app:srcCompat="@drawable/ic_settings_moon"/>
+                    app:srcCompat="@drawable/ic_settings_moon"
+                    />
 
                 <TextView
                     style="@style/Widget.TextView.Medium"
@@ -111,7 +125,8 @@
                     android:text="@string/settings_dark_mode"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/blackAlpha87"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -121,14 +136,16 @@
                 android:layout_height="48dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="42dp"
-                    app:srcCompat="@drawable/ic_settings_version"/>
+                    app:srcCompat="@drawable/ic_settings_version"
+                    />
 
                 <TextView
                     android:id="@+id/tv_app_version_title"
@@ -141,7 +158,8 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/blackAlpha87"
                     android:textSize="16sp"
-                    tools:text="Версия приложения: 1.0.0"/>
+                    tools:text="Версия приложения: 1.0.0"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -151,14 +169,16 @@
                 android:layout_height="48dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="42dp"
-                    app:srcCompat="@drawable/ic_settings_exit"/>
+                    app:srcCompat="@drawable/ic_settings_exit"
+                    />
 
                 <TextView
                     style="@style/Widget.TextView.Medium"
@@ -169,7 +189,8 @@
                     android:text="@string/settings_logout"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/blackAlpha87"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    />
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
