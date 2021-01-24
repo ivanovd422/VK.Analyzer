@@ -28,5 +28,4 @@ object TrackerConstants {
     // On Boarding
     const val EVENT_ON_BOARDING_FINISHED = "On boarding finished"
     const val EVENT_ON_BOARDING_CANCELLED = "On boarding cancelled"
-
 }

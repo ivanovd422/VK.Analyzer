@@ -5,5 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lab422.common.StringProvider
 
 interface ViewHolderFactory {
-    fun <T> createViewHolder(parent: ViewGroup, viewType: Int, stringProvider: com.lab422.common.StringProvider): RecyclerView.ViewHolder
+    fun <T> createViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+        stringProvider: com.lab422.common.StringProvider
+    ): RecyclerView.ViewHolder
 }

@@ -3,7 +3,6 @@ package com.lab422.vkanalyzer.ui.photosNear.userInfo
 import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
-import android.graphics.Color
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
@@ -11,7 +10,6 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -44,7 +42,6 @@ import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import java.util.Locale
-
 
 
 class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
@@ -104,7 +101,8 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.bottom_sheet_user_info, container, false)
@@ -132,9 +130,12 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
     }
 
     private fun initObservers() {
-        viewModel?.getUserInfoState()?.observe(viewLifecycleOwner, Observer { viewState ->
-            fillUserInfo(viewState)
-        })
+        viewModel?.getUserInfoState()?.observe(
+            viewLifecycleOwner,
+            Observer { viewState ->
+                fillUserInfo(viewState)
+            }
+        )
     }
 
     private fun initViews(view: View) {

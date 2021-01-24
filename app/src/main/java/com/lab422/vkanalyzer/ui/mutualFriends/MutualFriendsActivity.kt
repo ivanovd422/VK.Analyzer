@@ -11,6 +11,10 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.common.StringProvider
+import com.lab422.common.viewState.ViewState
+import com.lab422.common.viewState.isError
+import com.lab422.common.viewState.isLoading
+import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.base.RowDataModel
@@ -22,10 +26,6 @@ import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.gone
 import com.lab422.vkanalyzer.utils.extensions.openLink
 import com.lab422.vkanalyzer.utils.extensions.setVisible
-import com.lab422.common.viewState.ViewState
-import com.lab422.common.viewState.isError
-import com.lab422.common.viewState.isLoading
-import com.lab422.common.viewState.isSuccess
 import kotlinx.android.synthetic.main.activity_mutual_friends.*
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
@@ -34,8 +34,11 @@ import org.koin.core.parameter.parametersOf
 
 
 
-class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), FriendViewHolder.Listener,
-    SearchView.OnQueryTextListener, SearchView.OnCloseListener {
+class MutualFriendsActivity :
+    BaseActivity(R.layout.activity_mutual_friends),
+    FriendViewHolder.Listener,
+    SearchView.OnQueryTextListener,
+    SearchView.OnCloseListener {
 
     private lateinit var viewModel: MutualViewModel
 
@@ -93,6 +96,7 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
 
         return super.onCreateOptionsMenu(menu)
     }
+
     override fun onFriendClicked(id: Long, name: String) {
         val link = String.format("https://vk.com/id%d", id)
         tracker.openUserByLink(link)
@@ -132,9 +136,12 @@ class MutualFriendsActivity : BaseActivity(R.layout.activity_mutual_friends), Fr
     }
 
     private fun initObservers() {
-        viewModel.getState().observe(this, Observer { viewState ->
-            processState(viewState)
-        })
+        viewModel.getState().observe(
+            this,
+            Observer { viewState ->
+                processState(viewState)
+            }
+        )
     }
 
     private fun processState(viewState: ViewState<List<RowDataModel<FriendsListType, *>>>) {

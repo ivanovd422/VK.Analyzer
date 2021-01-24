@@ -7,8 +7,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.util.Properties
 
-
-
 object PropertiesUtil {
 
     private const val analyticsPropertiesFile = "analytics.properties"

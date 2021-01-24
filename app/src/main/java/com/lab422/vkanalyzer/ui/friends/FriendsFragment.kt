@@ -62,21 +62,30 @@ class FriendsFragment : Fragment(R.layout.fragment_friends) {
     }
 
     private fun initObservers() {
-        viewModel.getState().observe(viewLifecycleOwner, Observer { viewState ->
-            if (viewState.isError()) {
-                Toast.makeText(activity, viewState.error, Toast.LENGTH_SHORT).show()
+        viewModel.getState().observe(
+            viewLifecycleOwner,
+            Observer { viewState ->
+                if (viewState.isError()) {
+                    Toast.makeText(activity, viewState.error, Toast.LENGTH_SHORT).show()
+                }
             }
-        })
+        )
 
-        viewModel.getFirstUserName().observe(viewLifecycleOwner, Observer { name ->
-            tv_first_user_name.setVisible(name.isNotEmpty())
-            tv_first_user_name.text = name
-        })
+        viewModel.getFirstUserName().observe(
+            viewLifecycleOwner,
+            Observer { name ->
+                tv_first_user_name.setVisible(name.isNotEmpty())
+                tv_first_user_name.text = name
+            }
+        )
 
-        viewModel.getSecondUserName().observe(viewLifecycleOwner, Observer { name ->
-            tv_second_user_name.setVisible(name.isNotEmpty())
-            tv_second_user_name.text = name
-        })
+        viewModel.getSecondUserName().observe(
+            viewLifecycleOwner,
+            Observer { name ->
+                tv_second_user_name.setVisible(name.isNotEmpty())
+                tv_second_user_name.text = name
+            }
+        )
     }
 
     private fun openFriendsList(code: Int) {

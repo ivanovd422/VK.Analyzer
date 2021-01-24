@@ -21,6 +21,6 @@ enum class FriendsListType : Rawable, Diffable {
             return false
         }
 
-        return (same.rawValue == rawValue )
+        return (same.rawValue == rawValue)
     }
 }

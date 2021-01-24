@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import com.lab422.vkanalyzer.R
 
-
 fun Activity.overridePendingTransitionAsSlideOut() {
     overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
 }

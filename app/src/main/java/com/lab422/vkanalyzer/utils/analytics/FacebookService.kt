@@ -1,7 +1,6 @@
 package com.lab422.vkanalyzer.utils.analytics
 
 import android.app.Application
-import com.facebook.FacebookSdk
 
 class FacebookService : TrackerService {
     override fun initialize(context: Application) {
@@ -40,7 +39,7 @@ class FacebookService : TrackerService {
 
     override fun onPhotoLoadingError(error: String) = Unit
 
-    override fun onBoardingFinished()  = Unit
+    override fun onBoardingFinished() = Unit
 
-    override fun onBoardingCancelled()  = Unit
+    override fun onBoardingCancelled() = Unit
 }

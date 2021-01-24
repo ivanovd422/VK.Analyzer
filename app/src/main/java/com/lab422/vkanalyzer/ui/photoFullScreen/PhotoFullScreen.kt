@@ -10,9 +10,9 @@ import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.gone
 import com.lab422.vkanalyzer.utils.extensions.show
+import java.lang.Exception
 import kotlinx.android.synthetic.main.activity_photo_full_screen.*
 import org.koin.android.ext.android.get
-import java.lang.Exception
 
 class PhotoFullScreen : BaseActivity(R.layout.activity_photo_full_screen) {
 

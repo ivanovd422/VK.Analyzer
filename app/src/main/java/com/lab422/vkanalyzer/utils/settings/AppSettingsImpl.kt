@@ -1,6 +1,8 @@
 package com.lab422.vkanalyzer.utils.settings
 
 import android.content.Context
+import com.lab422.common.AppSettings.Companion.SHARED_PREFERENCES_NAME
+import com.lab422.common.AppSettings.Companion.SHARED_PREFERENCES_NAME_VK
 import com.lab422.vkanalyzer.AnalyzerApp
 import com.lab422.vkanalyzer.utils.storage.KeyValueStorage
 import com.lab422.vkanalyzer.utils.storage.KeyValueStorageFactory
@@ -17,8 +19,8 @@ internal class AppSettingsImpl(app: AnalyzerApp) : com.lab422.common.AppSettings
         private const val PREF_KEY_APP_ON_BOARDING_STATUS = "onBoardingKey"
     }
 
-    private val appSp = app.getSharedPreferences(com.lab422.common.AppSettings.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-    private val vkSp = app.getSharedPreferences(com.lab422.common.AppSettings.SHARED_PREFERENCES_NAME_VK, Context.MODE_PRIVATE)
+    private val appSp = app.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+    private val vkSp = app.getSharedPreferences(SHARED_PREFERENCES_NAME_VK, Context.MODE_PRIVATE)
 
     private val keyValueStorage: KeyValueStorage = KeyValueStorageFactory.createStorage(appSp)
 
@@ -38,7 +40,6 @@ internal class AppSettingsImpl(app: AnalyzerApp) : com.lab422.common.AppSettings
             value?.save(vkSp)
         }
 
-
     override val isAuthorized: Boolean
         get() = keyValueStorage.getBoolean(PREF_KEY_APP_AUTHORIZATION)
 
@@ -50,7 +51,6 @@ internal class AppSettingsImpl(app: AnalyzerApp) : com.lab422.common.AppSettings
         keyValueStorage.set(PREF_KEY_APP_AUTHORIZATION, false)
         keyValueStorage.set(PREF_KEY_API_TOKEN, "")
     }
-
 
     override val isFirstLaunch: Boolean
         get() = keyValueStorage.getBoolean(PREF_KEY_APP_FIRST_LAUNCH, true)

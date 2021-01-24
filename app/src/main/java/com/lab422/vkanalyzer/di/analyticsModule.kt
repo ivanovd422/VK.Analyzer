@@ -15,13 +15,15 @@ fun provideAnalyticsModule() = module {
     single { FirebaseAnalyticsService() }
     single { AppsflyerService() }
     single { FacebookService() }
-    single<TrackerService> { CompositeTrackerService(
-        listOf(
-            get(AmplitudeService::class.java),
-            get(YandexMetricaService::class.java),
-            get(FirebaseAnalyticsService::class.java),
-            get(AppsflyerService::class.java),
-            get(FacebookService::class.java)
+    single<TrackerService> {
+        CompositeTrackerService(
+            listOf(
+                get(AmplitudeService::class.java),
+                get(YandexMetricaService::class.java),
+                get(FirebaseAnalyticsService::class.java),
+                get(AppsflyerService::class.java),
+                get(FacebookService::class.java)
+            )
         )
-    ) }
+    }
 }

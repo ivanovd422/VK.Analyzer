@@ -133,7 +133,7 @@ class InstaStorySlider : View {
     }
 
     private fun drawLine(canvas: Canvas, startPoint: Float, endPoint: Float, paint: Paint) {
-        canvas.drawRoundRect(RectF(startPoint, 20f, endPoint, 24f), 40f, 40f, paint);
+        canvas.drawRoundRect(RectF(startPoint, 20f, endPoint, 24f), 40f, 40f, paint)
     }
 
     private fun calculateStoryPoints(count: Int): List<Pair<Float, Float>> {

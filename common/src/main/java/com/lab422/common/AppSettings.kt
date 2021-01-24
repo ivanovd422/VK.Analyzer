@@ -2,8 +2,6 @@ package com.lab422.common
 
 import com.vk.api.sdk.auth.VKAccessToken
 
-
-
 interface AppSettings {
 
     companion object {

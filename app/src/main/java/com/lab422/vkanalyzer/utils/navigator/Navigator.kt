@@ -75,7 +75,10 @@ private fun Navigator.openActivityForResult(
     openActivityForResultWithoutTask(activity, intent, resultCode, animation)
 }
 
-private fun Navigator.openActivityWithoutTask(intent: Intent, animation: Bundle? = makeSlideInAnimation()) {
+private fun Navigator.openActivityWithoutTask(
+    intent: Intent,
+    animation: Bundle? = makeSlideInAnimation()
+) {
     context.startActivity(intent, animation)
 }
 

@@ -5,7 +5,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class RegTest : TestBase() {
+class FriendsTest : TestBase() {
 
     @Before
     fun setUp() = runBlocking {}

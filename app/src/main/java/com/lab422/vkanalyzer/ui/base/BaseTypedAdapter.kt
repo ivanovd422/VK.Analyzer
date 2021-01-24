@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lab422.common.StringProvider
 import java.lang.RuntimeException
 
-//todo rewrite adapter with LiveData inside
+// todo rewrite adapter with LiveData inside
 abstract class BaseTypedAdapter<T : Rawable>(
     generalDataList: List<RowDataModel<T, *>>,
     private val stringProvider: StringProvider,
@@ -22,16 +22,19 @@ abstract class BaseTypedAdapter<T : Rawable>(
     private val viewHolderFactories: MutableMap<Int, ViewHolderFactory> = mutableMapOf()
 
     init {
-        adapterData.observe(lifecycleOwner, Observer { data ->
-            if (useDiffs) {
-                val diffUtilCallback = RowDataModelDiffUtilCallback(previousData, data)
-                val diffResult = DiffUtil.calculateDiff(diffUtilCallback, true)
-                diffResult.dispatchUpdatesTo(this)
-            } else {
-                notifyDataSetChanged()
+        adapterData.observe(
+            lifecycleOwner,
+            Observer { data ->
+                if (useDiffs) {
+                    val diffUtilCallback = RowDataModelDiffUtilCallback(previousData, data)
+                    val diffResult = DiffUtil.calculateDiff(diffUtilCallback, true)
+                    diffResult.dispatchUpdatesTo(this)
+                } else {
+                    notifyDataSetChanged()
+                }
+                previousData = data
             }
-            previousData = data
-        })
+        )
     }
 
     fun reload(dataList: List<RowDataModel<T, *>>) {

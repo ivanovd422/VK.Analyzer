@@ -74,22 +74,31 @@ class OnBoardingActivity : AppCompatActivity(R.layout.activity_on_boarding) {
     }
 
     private fun initObservers() {
-        viewModel.onBoardingPositionEvent.observe(this, Observer {
-            rv_on_boarding.scrollToPosition(it)
-        })
-
-        viewModel.onBoardingImages.observe(this, Observer { data ->
-            data?.let {
-                pagerAdapter.reload(data)
+        viewModel.onBoardingPositionEvent.observe(
+            this,
+            Observer {
+                rv_on_boarding.scrollToPosition(it)
             }
-        })
+        )
 
-        viewModel.onScrollForwardDirection.observe(this, Observer { isForwardDirection ->
-            if (isForwardDirection) {
-                view_stories_slider.scrollToNextStory()
-            } else {
-                view_stories_slider.scrollToPreviousStory()
+        viewModel.onBoardingImages.observe(
+            this,
+            Observer { data ->
+                data?.let {
+                    pagerAdapter.reload(data)
+                }
             }
-        })
+        )
+
+        viewModel.onScrollForwardDirection.observe(
+            this,
+            Observer { isForwardDirection ->
+                if (isForwardDirection) {
+                    view_stories_slider.scrollToNextStory()
+                } else {
+                    view_stories_slider.scrollToPreviousStory()
+                }
+            }
+        )
     }
 }

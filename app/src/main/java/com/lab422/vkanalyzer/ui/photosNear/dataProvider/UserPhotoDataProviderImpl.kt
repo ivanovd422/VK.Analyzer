@@ -36,7 +36,7 @@ internal class UserPhotoDataProviderImpl(
         userPhotoList.asSequence()
             .filter { it.ownerId > 0 || (it.userId != null && it.userId != GROUP_ID) }
             .filter { photos.contains(it.photoUrl).not() }
-            .map { photos.add(it.photoUrl);it }
+            .map { photos.add(it.photoUrl); it }
             .toList()
             .also { listSize = it.size }
             .forEachIndexed { index, userPhotoData ->
@@ -149,7 +149,6 @@ internal class UserPhotoDataProviderImpl(
             cal1[Calendar.YEAR] == cal2[Calendar.YEAR]
     }
 }
-
 
 @Suppress("FunctionName")
 fun <T : Rawable> UserPhotoRowData(rowType: T, p: UserPhotoRowModel): RowDataModel<T, Any> {

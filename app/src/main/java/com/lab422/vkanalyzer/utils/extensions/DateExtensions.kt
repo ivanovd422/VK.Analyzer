@@ -41,7 +41,7 @@ val Date.beginningOfDay: Date
         return calendar.time
     }
 
-fun Date.nowCalendar(): Calendar{
+fun Date.nowCalendar(): Calendar {
     val calendar = Calendar.getInstance()
     calendar.time = this
     return calendar

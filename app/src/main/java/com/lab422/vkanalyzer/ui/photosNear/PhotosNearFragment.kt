@@ -35,8 +35,8 @@ import kotlinx.android.synthetic.main.fragment_photos_near.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-
-class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
+class PhotosNearFragment :
+    Fragment(R.layout.fragment_photos_near),
     PermissionsNeverAskDialog.OpenPermissionsSettingsAction,
     PhotosViewHolder.Listener,
     LoadingViewHolder.Listener {
@@ -66,24 +66,33 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
     }
 
     private fun initObservers() {
-        viewModel?.getLocationStateAvailability()?.observe(viewLifecycleOwner, Observer { viewState ->
-            viewState.data?.let { isLocationAvailable ->
-                container_permissions.setVisible(isLocationAvailable.not())
-                container_main.setVisible(isLocationAvailable)
-            }
-        })
-
-        viewModel?.getUserPhotosDataState()?.observe(viewLifecycleOwner, Observer { viewState ->
-            processState(viewState)
-        })
-
-        viewModel?.isCoordinatesExist()?.observe(viewLifecycleOwner, Observer { isCoordinatesExist ->
-            if (isCoordinatesExist.not()) {
-                if (checkPermissions()) {
-                    getLastLocation()
+        viewModel?.getLocationStateAvailability()?.observe(
+            viewLifecycleOwner,
+            Observer { viewState ->
+                viewState.data?.let { isLocationAvailable ->
+                    container_permissions.setVisible(isLocationAvailable.not())
+                    container_main.setVisible(isLocationAvailable)
                 }
             }
-        })
+        )
+
+        viewModel?.getUserPhotosDataState()?.observe(
+            viewLifecycleOwner,
+            Observer { viewState ->
+                processState(viewState)
+            }
+        )
+
+        viewModel?.isCoordinatesExist()?.observe(
+            viewLifecycleOwner,
+            Observer { isCoordinatesExist ->
+                if (isCoordinatesExist.not()) {
+                    if (checkPermissions()) {
+                        getLastLocation()
+                    }
+                }
+            }
+        )
     }
 
     override fun onPhotoClicked(id: Int, lat: Double?, long: Double?, clickedPhotoUrl: String) {
@@ -133,7 +142,11 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_ID &&
             grantResults.isNotEmpty() &&
@@ -186,23 +199,23 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
         }
     }
 
-    private fun checkPermissions(): Boolean {
-        return context?.let {
+    private fun checkPermissions(): Boolean =
+        context?.let {
             return ActivityCompat.checkSelfPermission(
                 it,
                 permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(
-                    it,
-                    permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
+                it,
+                permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
         } ?: false
-    }
 
     private fun isLocationEnabled(): Boolean {
         return context?.let {
             val locationManager = ContextCompat.getSystemService(it, LocationManager::class.java)
-            return locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false || locationManager?.isProviderEnabled(
+            return locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false ||
+                locationManager?.isProviderEnabled(
                 LocationManager.NETWORK_PROVIDER
             ) ?: false
         } ?: false
@@ -240,7 +253,12 @@ class PhotosNearFragment : Fragment(R.layout.fragment_photos_near),
         PermissionsNeverAskDialog().show(childFragmentManager, null)
     }
 
-    private fun showBottomSheetDialogFragment(userId: String, lat: Double?, long: Double?, clickedPhotoUrl: String) {
+    private fun showBottomSheetDialogFragment(
+        userId: String,
+        lat: Double?,
+        long: Double?,
+        clickedPhotoUrl: String
+    ) {
         val bottomSheetFragment = UserInfoBottomSheet.newInstance(userId, lat, long, clickedPhotoUrl)
         bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
     }

@@ -39,5 +39,4 @@ class MainViewModel : ViewModel(), LifecycleObserver {
     }
 
     private fun getBarItemById(itemId: Int): BarItem = barItems.find { it.id == itemId }!!
-
 }

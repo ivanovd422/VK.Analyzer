@@ -3,9 +3,9 @@ package com.lab422.analyzerapi.core
 import com.lab422.common.Logger
 import com.lab422.common.StringProvider
 import com.lab422.common.api.ApiException
+import java.io.IOException
 import okhttp3.Interceptor
 import okhttp3.Response
-import java.io.IOException
 
 abstract class ResponseInterceptorBase(
     private val StringProvider: StringProvider,
@@ -27,7 +27,6 @@ abstract class ResponseInterceptorBase(
             processResponse(response)
 
             return response
-
         } catch (e: ApiException) {
             throw e
         } catch (e: IOException) {
