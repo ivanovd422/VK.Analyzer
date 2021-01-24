@@ -29,7 +29,7 @@ import com.lab422.vkanalyzer.ui.photosNear.adapter.PhotosAdapter
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.LoadingViewHolder
 import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.PhotosViewHolder
-import com.lab422.vkanalyzer.ui.photosNear.userInfo.UserInfoBottomSheet
+import com.lab422.vkanalyzer.ui.userInfo.UserInfoBottomSheet
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_photos_near.*
 import org.koin.android.ext.android.get

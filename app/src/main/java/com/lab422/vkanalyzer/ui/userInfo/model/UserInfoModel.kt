@@ -1,4 +1,4 @@
-package com.lab422.vkanalyzer.ui.photosNear.userInfo.model
+package com.lab422.vkanalyzer.ui.userInfo.model
 
 data class UserInfoModel(
     val userId: String,

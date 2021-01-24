@@ -23,9 +23,9 @@
             style="@style/Widget.TextView.Montserrat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="70dp"
             android:gravity="center"
-            android:layout_gravity="center"
             android:text="@string/login_main_text"
             android:textColor="@color/colorBlack"
             android:textSize="34sp"
@@ -39,11 +39,9 @@
             android:id="@+id/iv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/ll_auth_btn_container"
-
-            android:layout_marginTop="70dp"
-
             android:layout_gravity="center"
+            android:layout_marginTop="70dp"
+            app:layout_constraintBottom_toTopOf="@+id/ll_auth_btn_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_login"
@@ -62,10 +60,10 @@
             android:padding="15dp"
             android:text="@string/auth_by_vk"
             android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             />
 
         <Button

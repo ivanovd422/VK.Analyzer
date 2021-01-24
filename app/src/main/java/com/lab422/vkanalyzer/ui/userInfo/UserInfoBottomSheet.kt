@@ -1,4 +1,4 @@
-package com.lab422.vkanalyzer.ui.photosNear.userInfo
+package com.lab422.vkanalyzer.ui.userInfo
 
 import android.app.Activity
 import android.app.Dialog
@@ -31,8 +31,8 @@ import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
 import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
-import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.PhotoInfoModel
-import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.UserInfoModel
+import com.lab422.vkanalyzer.ui.userInfo.model.PhotoInfoModel
+import com.lab422.vkanalyzer.ui.userInfo.model.UserInfoModel
 import com.lab422.vkanalyzer.utils.extensions.openLink
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.navigator.Navigator

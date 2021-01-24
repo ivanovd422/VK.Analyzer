@@ -9,8 +9,8 @@ import com.lab422.vkanalyzer.ui.mutualFriends.MutualViewModel
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.ui.onboarding.OnBoardingViewModel
 import com.lab422.vkanalyzer.ui.photosNear.PhotosNearViewModel
-import com.lab422.vkanalyzer.ui.photosNear.userInfo.UserInfoViewModel
-import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.PhotoInfoModel
+import com.lab422.vkanalyzer.ui.userInfo.UserInfoViewModel
+import com.lab422.vkanalyzer.ui.userInfo.model.PhotoInfoModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

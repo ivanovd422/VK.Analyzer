@@ -1,4 +1,4 @@
-package com.lab422.vkanalyzer.ui.photosNear.userInfo
+package com.lab422.vkanalyzer.ui.userInfo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -9,8 +9,8 @@ import com.lab422.common.viewState.ViewState
 import com.lab422.common.viewState.isSuccess
 import com.lab422.interactor.UserInteractor
 import com.lab422.vkanalyzer.ui.base.BaseViewModel
-import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.PhotoInfoModel
-import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.UserInfoModel
+import com.lab422.vkanalyzer.ui.userInfo.model.PhotoInfoModel
+import com.lab422.vkanalyzer.ui.userInfo.model.UserInfoModel
 
 class UserInfoViewModel(
     private val photoModel: PhotoInfoModel,
