@@ -7,13 +7,13 @@ import com.lab422.common.AppSettings
 import com.lab422.common.BuildConfig
 import com.lab422.common.Logger
 import com.lab422.common.StringProvider
+import java.util.concurrent.TimeUnit
 import okhttp3.ConnectionPool
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 class ApiFactory(
     private val baseAddress: String,
@@ -74,7 +74,6 @@ class ApiFactory(
         clientBuilder.addInterceptor(ResponseInterceptor(stringProvider, logger))
         clientBuilder.build()
     }
-
 
     fun createUserApi(): UsersApi = createApi()
 

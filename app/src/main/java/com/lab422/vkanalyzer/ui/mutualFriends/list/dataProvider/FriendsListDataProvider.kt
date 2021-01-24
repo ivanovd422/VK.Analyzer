@@ -6,5 +6,9 @@ import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 
 interface FriendsListDataProvider {
     fun generateFriendsListData(friends: List<NewUser>, type: FriendsListType): List<RowDataModel<FriendsListType, *>>
-    suspend fun filterByQuery(friends: List<NewUser>, type: FriendsListType, query: String): List<RowDataModel<FriendsListType, *>>
+    suspend fun filterByQuery(
+        friends: List<NewUser>,
+        type: FriendsListType,
+        query: String
+    ): List<RowDataModel<FriendsListType, *>>
 }

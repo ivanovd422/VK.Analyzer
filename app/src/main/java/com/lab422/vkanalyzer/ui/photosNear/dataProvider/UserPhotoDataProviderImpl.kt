@@ -12,7 +12,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
 
-
 internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
 
     private companion object {
@@ -32,7 +31,7 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
         userPhotoList.asSequence()
             .filter { it.ownerId > 0 || (it.userId != null && it.userId != GROUP_ID) }
             .filter { photos.contains(it.photoUrl).not() }
-            .map { photos.add(it.photoUrl);it }
+            .map { photos.add(it.photoUrl); it }
             .toList()
             .also { listSize = it.size }
             .forEachIndexed { index, userPhotoData ->
@@ -111,7 +110,7 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
         try {
             val tz: TimeZone = TimeZone.getTimeZone("UTC")
             val sdf = SimpleDateFormat("dd.MM.yyyy")
-            sdf.timeZone = tz;
+            sdf.timeZone = tz
             val date = Date(unix)
             sdf.format(date)
         } catch (e: Exception) {
@@ -134,7 +133,6 @@ internal class UserPhotoDataProviderImpl : UserPhotoDataProvider {
             cal1[Calendar.YEAR] == cal2[Calendar.YEAR]
     }
 }
-
 
 @Suppress("FunctionName")
 fun <T : Rawable> UserPhotoRowData(rowType: T, p: UserPhotoRowModel): RowDataModel<T, Any> {

@@ -8,7 +8,12 @@ class AnalyzerApiException : ApiException {
 
     constructor(code: String, title: String?, userDescription: String?) : super(code, title, userDescription)
 
-    constructor(code: String, title: String?, userDescription: String, cause: Throwable) : super(code, title, userDescription, cause)
+    constructor(code: String, title: String?, userDescription: String, cause: Throwable) : super(
+        code,
+        title,
+        userDescription,
+        cause
+    )
 
     companion object {
 

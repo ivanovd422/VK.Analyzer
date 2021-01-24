@@ -57,26 +57,35 @@ class FriendsFragment : Fragment(R.layout.fragment_friends) {
         iv_from_friends_list_first.setOnClickListener { openFriendsList(REQUEST_CODE_GET_FIRST_FRIEND) }
         iv_from_friends_list_second.setOnClickListener { openFriendsList(REQUEST_CODE_GET_SECOND_FRIEND) }
 
-        et_first_user.afterTextChanged{ viewModel.onFirstIdEntered(it) }
-        et_second_user.afterTextChanged{viewModel.onSecondIdEntered(it) }
+        et_first_user.afterTextChanged { viewModel.onFirstIdEntered(it) }
+        et_second_user.afterTextChanged { viewModel.onSecondIdEntered(it) }
     }
 
     private fun initObservers() {
-        viewModel.getState().observe(viewLifecycleOwner, Observer { viewState ->
-            if (viewState.isError()) {
-                Toast.makeText(activity, viewState.error, Toast.LENGTH_SHORT).show()
+        viewModel.getState().observe(
+            viewLifecycleOwner,
+            Observer { viewState ->
+                if (viewState.isError()) {
+                    Toast.makeText(activity, viewState.error, Toast.LENGTH_SHORT).show()
+                }
             }
-        })
+        )
 
-        viewModel.getFirstUserName().observe(viewLifecycleOwner, Observer { name ->
-            tv_first_user_name.setVisible(name.isNotEmpty())
-            tv_first_user_name.text = name
-        })
+        viewModel.getFirstUserName().observe(
+            viewLifecycleOwner,
+            Observer { name ->
+                tv_first_user_name.setVisible(name.isNotEmpty())
+                tv_first_user_name.text = name
+            }
+        )
 
-        viewModel.getSecondUserName().observe(viewLifecycleOwner, Observer { name ->
-            tv_second_user_name.setVisible(name.isNotEmpty())
-            tv_second_user_name.text = name
-        })
+        viewModel.getSecondUserName().observe(
+            viewLifecycleOwner,
+            Observer { name ->
+                tv_second_user_name.setVisible(name.isNotEmpty())
+                tv_second_user_name.text = name
+            }
+        )
     }
 
     private fun openFriendsList(code: Int) {
@@ -93,7 +102,7 @@ class FriendsFragment : Fragment(R.layout.fragment_friends) {
                 if (data == null) {
                     return
                 }
-                data.extras?.getSerializable(FriendsListActivity.FRIEND_ID_KEY)?.let {friend ->
+                data.extras?.getSerializable(FriendsListActivity.FRIEND_ID_KEY)?.let { friend ->
                     friend as FriendModel
                     if (requestCode == REQUEST_CODE_GET_FIRST_FRIEND) {
                         et_first_user.setText(friend.id.toString())

@@ -5,14 +5,14 @@ class RowDataModel<T : Rawable, U : Any>(val rowType: T, val rowId: String, val 
         if (same !is RowDataModel<*, *>) {
             return false
         }
-        return  rowId isSame same.rowId &&
+        return rowId isSame same.rowId &&
             rowType isSame same.rowType
     }
     override fun isContentSame(same: Diffable): Boolean {
         if (same !is RowDataModel<*, *>) {
             return false
         }
-        return  rowType isContentSame same.rowType &&
+        return rowType isContentSame same.rowType &&
             value isContentSame same.value
     }
 }
@@ -22,11 +22,11 @@ fun <T : Rawable> RowDataModel(rowType: T, rowId: String): RowDataModel<T, Any> 
     return RowDataModel(rowType, rowId, null)
 }
 
-private infix fun Any?.isContentSame(cmp: Any?)= compareBy(this, cmp) {
+private infix fun Any?.isContentSame(cmp: Any?) = compareBy(this, cmp) {
     isContentSame(it)
 }
 
-private infix fun Any?.isSame(cmp: Any?) =  compareBy(this, cmp) {
+private infix fun Any?.isSame(cmp: Any?) = compareBy(this, cmp) {
     isSame(it)
 }
 

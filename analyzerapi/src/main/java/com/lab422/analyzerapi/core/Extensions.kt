@@ -1,12 +1,11 @@
 package com.lab422.analyzerapi.core
 
+import java.io.IOException
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.asResponseBody
-import java.io.IOException
 
 val Boolean.apiValue: String
     get() = if (this) { "1" } else { "0" }
-
 
 @Throws(IOException::class)
 fun copy(body: ResponseBody, limit: Long): ResponseBody {

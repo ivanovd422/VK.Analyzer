@@ -25,7 +25,6 @@ import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
 import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
-import com.lab422.vkanalyzer.ui.photoFullScreen.PhotoFullScreen
 import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.PhotoInfoModel
 import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.UserInfoModel
 import com.lab422.vkanalyzer.utils.extensions.openLink
@@ -36,7 +35,6 @@ import kotlinx.android.synthetic.main.bottom_sheet_user_info.view.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
-
 
 class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
 
@@ -85,7 +83,8 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.bottom_sheet_user_info, container, false)
@@ -113,9 +112,12 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
     }
 
     private fun initObservers() {
-        viewModel?.getUserInfoState()?.observe(viewLifecycleOwner, Observer { viewState ->
-            fillUserInfo(viewState)
-        })
+        viewModel?.getUserInfoState()?.observe(
+            viewLifecycleOwner,
+            Observer { viewState ->
+                fillUserInfo(viewState)
+            }
+        )
     }
 
     private fun initViews(view: View) {

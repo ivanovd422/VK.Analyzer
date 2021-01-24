@@ -5,18 +5,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.lab422.common.viewState.isLoading
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.setVisible
-import com.lab422.common.viewState.isLoading
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.inject
-
 
 class LoginActivity : BaseActivity(R.layout.activity_login) {
 
@@ -60,17 +59,26 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
     }
 
     private fun initObservers() {
-        viewModel.getErrorState().observe(this, Observer {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-        })
+        viewModel.getErrorState().observe(
+            this,
+            Observer {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        )
 
-        viewModel.getState().observe(this, Observer { viewState ->
-            showLoading(viewState.isLoading())
-        })
+        viewModel.getState().observe(
+            this,
+            Observer { viewState ->
+                showLoading(viewState.isLoading())
+            }
+        )
 
-        viewModel.getAuthInfoDialog().observe(this, Observer {
-            showAuthInfoDialog()
-        })
+        viewModel.getAuthInfoDialog().observe(
+            this,
+            Observer {
+                showAuthInfoDialog()
+            }
+        )
     }
 
     private fun showLoading(isLoading: Boolean) {

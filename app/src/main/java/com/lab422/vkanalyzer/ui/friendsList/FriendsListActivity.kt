@@ -10,6 +10,11 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lab422.common.StringProvider
+import com.lab422.common.viewState.ViewState
+import com.lab422.common.viewState.isError
+import com.lab422.common.viewState.isLoading
+import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.base.BaseItemDecoration
@@ -19,16 +24,13 @@ import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.utils.extensions.gone
 import com.lab422.vkanalyzer.utils.extensions.setVisible
-import com.lab422.common.StringProvider
-import com.lab422.common.viewState.ViewState
-import com.lab422.common.viewState.isError
-import com.lab422.common.viewState.isLoading
-import com.lab422.common.viewState.isSuccess
 import kotlinx.android.synthetic.main.activity_friends_list.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-class FriendsListActivity : BaseActivity(R.layout.activity_friends_list), FriendViewHolder.Listener,
+class FriendsListActivity :
+    BaseActivity(R.layout.activity_friends_list),
+    FriendViewHolder.Listener,
     SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: FriendsListViewModel
@@ -102,9 +104,12 @@ class FriendsListActivity : BaseActivity(R.layout.activity_friends_list), Friend
     }
 
     private fun initObservers() {
-        viewModel.getFriendsState().observe(this, Observer { viewState ->
-            processState(viewState)
-        })
+        viewModel.getFriendsState().observe(
+            this,
+            Observer { viewState ->
+                processState(viewState)
+            }
+        )
     }
 
     private fun processState(viewState: ViewState<List<RowDataModel<FriendsListType, *>>>) {

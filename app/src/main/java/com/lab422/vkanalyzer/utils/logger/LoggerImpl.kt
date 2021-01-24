@@ -3,7 +3,7 @@ package com.lab422.vkanalyzer.utils.logger
 import android.util.Log
 import com.lab422.common.Logger
 
-internal class LoggerImpl: Logger {
+internal class LoggerImpl : Logger {
 
     override fun d(tag: String, message: String) {
         Log.d(tag, message)

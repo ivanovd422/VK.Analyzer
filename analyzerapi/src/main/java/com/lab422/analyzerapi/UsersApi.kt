@@ -1,7 +1,7 @@
 package com.lab422.analyzerapi
 
-import com.lab422.analyzerapi.models.mutualFriendsList.MutualFriendsList
 import com.lab422.analyzerapi.models.friendsList.FriendsResponse
+import com.lab422.analyzerapi.models.mutualFriendsList.MutualFriendsList
 import com.lab422.analyzerapi.models.users.UserResponse
 import retrofit2.http.GET
 import retrofit2.http.Query

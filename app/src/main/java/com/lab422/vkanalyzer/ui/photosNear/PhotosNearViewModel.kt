@@ -18,7 +18,6 @@ import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.debounce
 import kotlinx.coroutines.cancelChildren
 
-
 class PhotosNearViewModel(
     private val photosInteractor: PhotosInteractor,
     private val dataProvider: UserPhotoDataProvider,
@@ -62,39 +61,39 @@ class PhotosNearViewModel(
         userFetchingLiveData
             .debounce(1000, viewModelScope)
             .switchMap { coordinates ->
-            launchOnViewModelScope {
-                photosInteractor.getPhotosByLocation(
-                    coordinates.first,
-                    coordinates.second,
-                    offset.toString(),
-                    currentRadius.toString()
-                )
-            }
-        }.observeForever {
-            val result = it.data
-            if (it.isSuccess() && result != null) {
-                val photoList = result.userPhotosData
-                userPhotosCount = result.count
-                offset += photoList.size
-                rawData.addAll(photoList)
-                val data = dataProvider.generateUserPhotoData(rawData, isEnoughLoaded())
+                launchOnViewModelScope {
+                    photosInteractor.getPhotosByLocation(
+                        coordinates.first,
+                        coordinates.second,
+                        offset.toString(),
+                        currentRadius.toString()
+                    )
+                }
+            }.observeForever {
+                val result = it.data
+                if (it.isSuccess() && result != null) {
+                    val photoList = result.userPhotosData
+                    userPhotosCount = result.count
+                    offset += photoList.size
+                    rawData.addAll(photoList)
+                    val data = dataProvider.generateUserPhotoData(rawData, isEnoughLoaded())
 
-                if (data.isEmpty()) {
-                    if (currentRadius == radiusList.last()) {
-                        tracker.loadPhotoNearby(false, errorMessage = "${it.error} + ${it.internalError}")
-                        userPhotosData.postValue(ViewState(ViewState.Status.ERROR, error = it.error))
+                    if (data.isEmpty()) {
+                        if (currentRadius == radiusList.last()) {
+                            tracker.loadPhotoNearby(false, errorMessage = "${it.error} + ${it.internalError}")
+                            userPhotosData.postValue(ViewState(ViewState.Status.ERROR, error = it.error))
+                        } else {
+                            repeatSearchWithIncreasedRadius()
+                        }
                     } else {
-                        repeatSearchWithIncreasedRadius()
+                        tracker.loadPhotoNearby(true, data.size)
+                        userPhotosData.postValue(ViewState(ViewState.Status.SUCCESS, data))
                     }
                 } else {
-                    tracker.loadPhotoNearby(true, data.size)
-                    userPhotosData.postValue(ViewState(ViewState.Status.SUCCESS, data))
+                    tracker.loadPhotoNearby(false, errorMessage = "${it.error} + ${it.internalError}")
+                    userPhotosData.postValue(ViewState(ViewState.Status.ERROR, error = it.error))
                 }
-            } else {
-                tracker.loadPhotoNearby(false, errorMessage = "${it.error} + ${it.internalError}")
-                userPhotosData.postValue(ViewState(ViewState.Status.ERROR, error = it.error))
             }
-        }
 
         coordinatesState.value = false
     }

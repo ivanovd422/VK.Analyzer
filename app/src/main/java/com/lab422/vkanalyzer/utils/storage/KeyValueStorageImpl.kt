@@ -2,9 +2,7 @@ package com.lab422.vkanalyzer.utils.storage
 
 import android.content.SharedPreferences
 
-
-
-internal class KeyValueStorageImpl(private val sharedPreferences: SharedPreferences): KeyValueStorage {
+internal class KeyValueStorageImpl(private val sharedPreferences: SharedPreferences) : KeyValueStorage {
 
     override fun <T> set(key: String, value: T) {
         when (value) {

@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.lab422.vkanalyzer.R
 
-
 class BaseItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
 
     private val divider: Drawable = ContextCompat.getDrawable(context, R.drawable.shape_divider)!!
@@ -28,7 +27,12 @@ class BaseItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
         }
     }
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         super.getItemOffsets(outRect, view, parent, state)
         if (parent.getChildAdapterPosition(view) == 0) {
             return

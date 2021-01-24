@@ -47,13 +47,19 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     private fun initObservables() {
-        viewModel.getBottomBarItems().observe(this, Observer {
-            initNavigationBar(it)
-        })
+        viewModel.getBottomBarItems().observe(
+            this,
+            Observer {
+                initNavigationBar(it)
+            }
+        )
 
-        viewModel.getCurrentTab().observe(this, Observer {
-            selectTab(it)
-        })
+        viewModel.getCurrentTab().observe(
+            this,
+            Observer {
+                selectTab(it)
+            }
+        )
     }
 
     private fun initNavigationBar(barItems: List<BarItem>) {

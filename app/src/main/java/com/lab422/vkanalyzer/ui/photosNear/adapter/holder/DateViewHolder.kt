@@ -10,7 +10,6 @@ import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
-import com.lab422.vkanalyzer.ui.photosNear.adapter.model.DatePhotosModel
 import kotlinx.android.synthetic.main.item_photos_date.view.*
 
 class DateViewHolder(
@@ -32,7 +31,7 @@ class DateViewHolder(
             }
         }
 
-        fun getFactory(): ViewHolderFactory =  Factory()
+        fun getFactory(): ViewHolderFactory = Factory()
     }
 
     override fun onBind(model: RowDataModel<UserPhotoRowType, *>) {

@@ -2,7 +2,6 @@ package com.lab422.vkanalyzer.utils.storage
 
 import android.content.SharedPreferences
 
-
 class KeyValueStorageFactory {
 
     companion object {

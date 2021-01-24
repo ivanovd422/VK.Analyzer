@@ -53,7 +53,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         try {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.type = "text/plain"
-            val shareMessage = "$shareText \n${linkName}"
+            val shareMessage = "$shareText \n$linkName"
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
             context?.startActivity(shareIntent)
         } catch (e: Exception) {

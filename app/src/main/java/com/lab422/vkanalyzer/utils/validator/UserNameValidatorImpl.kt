@@ -21,7 +21,7 @@ class UserNameValidatorImpl : UserNameValidator {
     }
 
     override fun validate(userName: String): String {
-        //todo add good regex
+        // todo add good regex
         var trimmed = userName.replace(" ", "")
         if (trimmed.contains("/")) {
             trimmed = trimmed.split("/").last()

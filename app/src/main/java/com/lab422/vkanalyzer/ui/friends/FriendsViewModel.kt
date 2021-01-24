@@ -4,10 +4,10 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lab422.common.viewState.ViewState
 import com.lab422.vkanalyzer.ui.friendsList.FriendModel
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.navigator.Navigator
-import com.lab422.common.viewState.ViewState
 
 class FriendsViewModel(
     private val navigator: Navigator,

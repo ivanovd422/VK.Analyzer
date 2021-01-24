@@ -1,6 +1,5 @@
 package com.lab422.vkanalyzer.utils.storage
 
-
 interface KeyValueStorage {
     fun <T> set(key: String, value: T)
     fun getString(key: String): String?
