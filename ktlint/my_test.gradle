@@ -1,0 +1,3 @@
+task hello_kitty {
+    println 'Hello Kitty'
+}
