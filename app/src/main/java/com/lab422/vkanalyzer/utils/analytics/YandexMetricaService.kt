@@ -5,7 +5,6 @@ import com.lab422.vkanalyzer.utils.properties.PropertiesUtil
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
 
-
 class YandexMetricaService : TrackerService {
 
     override fun initialize(context: Application) {

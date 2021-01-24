@@ -6,21 +6,21 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
+import com.lab422.analyzerapi.models.users.NewUser
+import com.lab422.common.viewState.ViewState
+import com.lab422.common.viewState.isSuccess
+import com.lab422.interactor.UserInteractor
+import com.lab422.vkanalyzer.ui.base.BaseViewModel
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider.FriendsListDataProvider
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.debounce
-import com.lab422.common.viewState.ViewState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import com.lab422.analyzerapi.models.users.NewUser
-import com.lab422.common.viewState.isSuccess
-import com.lab422.interactor.UserInteractor
-import com.lab422.vkanalyzer.ui.base.BaseViewModel
 
 class MutualViewModel(
     model: MutualFriendsModel?,

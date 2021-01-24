@@ -12,7 +12,12 @@ class PhotosInteractor constructor(
     private val photosApi: PhotosApi
 ) : BaseInteractor() {
 
-    suspend fun getPhotosByLocation(lat: String, long: String, offset: String, radius: String): LiveData<ViewState<UserPhotoResponse>> = invokeBlock {
+    suspend fun getPhotosByLocation(
+        lat: String,
+        long: String,
+        offset: String,
+        radius: String
+    ): LiveData<ViewState<UserPhotoResponse>> = invokeBlock {
         val liveData = MutableLiveData<ViewState<UserPhotoResponse>>()
         val photosList = mutableListOf<UserPhotoData>()
         val result = photosApi.getPhotosByLocation(lat, long, offset, radius)
@@ -21,7 +26,8 @@ class PhotosInteractor constructor(
 
         liveData.postValue(
             ViewState(
-                ViewState.Status.SUCCESS, UserPhotoResponse(
+                ViewState.Status.SUCCESS,
+                UserPhotoResponse(
                     photosList,
                     count
                 )

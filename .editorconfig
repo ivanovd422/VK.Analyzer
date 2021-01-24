@@ -1,0 +1,15 @@
+[*.{kt,kts}]
+
+ij_root = true
+indent_style=space
+indent_size=4
+continuation_indent_size=4
+ij_continuation_indent_size = 4
+
+
+trim_trailing_whitespace=true
+
+insert_final_newline=true
+max_line_length=120
+
+disabled_rules=no-consecutive-blank-lines,comment-spacing,import-ordering

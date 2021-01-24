@@ -8,8 +8,6 @@ import com.lab422.vkanalyzer.utils.command.FriendsItemCommand
 import com.lab422.vkanalyzer.utils.command.PhotosNearItemCommand
 import com.lab422.vkanalyzer.utils.command.SettingsItemCommand
 
-
-
 class BottomBarProvider {
 
     companion object {

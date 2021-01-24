@@ -24,15 +24,23 @@ class UserInfoViewModel(
 
     init {
         userInfoState.addSource(userFetchingLiveData) { userInfoState.value = it }
-        userInfoState.addSource(launchOnViewModelScope {
-            userInteractor.getUserInfoById(photoModel.userId)
-        }.map {
-            return@map if (it.isSuccess() && it.data != null) {
-                ViewState(ViewState.Status.SUCCESS, it.data!!.convertToUserInfoModel(photoModel, photoModel.clickedPhotoUrl))
-            } else {
-                ViewState(ViewState.Status.ERROR, error = "Ошибка")
+        userInfoState.addSource(
+            launchOnViewModelScope {
+                userInteractor.getUserInfoById(photoModel.userId)
+            }.map {
+                return@map if (it.isSuccess() && it.data != null) {
+                    ViewState(
+                        ViewState.Status.SUCCESS,
+                        it.data!!.convertToUserInfoModel(
+                            photoModel,
+                            photoModel.clickedPhotoUrl
+                        )
+                    )
+                } else {
+                    ViewState(ViewState.Status.ERROR, error = "Ошибка")
+                }
             }
-        }) {
+        ) {
             userInfoState.value = it
         }
 

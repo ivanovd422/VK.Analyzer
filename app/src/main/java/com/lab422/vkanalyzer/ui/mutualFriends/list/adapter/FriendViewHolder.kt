@@ -9,13 +9,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewModel
 import com.lab422.vkanalyzer.utils.extensions.setVisible
-import com.lab422.common.StringProvider
 import kotlinx.android.synthetic.main.item_mutual_friend.view.*
 
 class FriendViewHolder(
@@ -80,7 +80,6 @@ class FriendViewHolder(
 
         tvUserId.text = String.format(textIdPattern, item.id)
 
-
         if (item.photoUrl.isNullOrEmpty().not()) {
             Glide.with(itemView.context)
                 .asBitmap()
@@ -90,4 +89,3 @@ class FriendViewHolder(
         }
     }
 }
-

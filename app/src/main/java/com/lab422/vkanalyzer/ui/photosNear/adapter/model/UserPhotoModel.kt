@@ -1,7 +1,6 @@
 package com.lab422.vkanalyzer.ui.photosNear.adapter.model
 
 import com.lab422.vkanalyzer.ui.base.Diffable
-import com.lab422.vkanalyzer.ui.base.Rawable
 
 data class UserPhotoRowModel(
     val userPhotosCells: List<UserPhotoCellModel>

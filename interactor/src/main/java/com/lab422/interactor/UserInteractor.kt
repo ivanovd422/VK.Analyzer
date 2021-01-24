@@ -46,7 +46,7 @@ class UserInteractor constructor(
             val idString = nicknames.joinToString(separator = ",")
             val usersId = usersApi.getUsersByIds(idString).response.map { it.id.toString() }
 
-            //todo throw app exception
+            // todo throw app exception
             if (usersId.isEmpty()) {
                 liveData.postValue(ViewState(ViewState.Status.ERROR, error = "Проверьте правильность полей"))
                 return@invokeBlock liveData

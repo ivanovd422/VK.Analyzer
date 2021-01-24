@@ -2,7 +2,6 @@ package com.lab422.vkanalyzer.utils.analytics
 
 import android.app.Application
 
-
 class CompositeTrackerService(private val trackerServices: List<TrackerService>) : TrackerService {
 
     override fun initialize(context: Application) {

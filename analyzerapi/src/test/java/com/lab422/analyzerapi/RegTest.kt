@@ -1,9 +1,9 @@
 package com.lab422.analyzerapi
 
+import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertTrue
 
 class RegTest : TestBase() {
 

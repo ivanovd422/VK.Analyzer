@@ -1,7 +1,6 @@
 package com.lab422.vkanalyzer.utils.analytics
 
 import android.app.Application
-import com.facebook.FacebookSdk
 
 class FacebookService : TrackerService {
     override fun initialize(context: Application) {

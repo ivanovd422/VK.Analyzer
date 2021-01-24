@@ -4,4 +4,4 @@ import com.lab422.analyzerapi.core.ApiResponse
 
 data class MutualFriendsList(
     val response: List<Long>
-): ApiResponse()
+) : ApiResponse()

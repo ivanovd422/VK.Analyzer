@@ -1,6 +1,6 @@
 package com.lab422.common
 
-interface StringProvider{
+interface StringProvider {
 
     fun getString(byId: Int, vararg formatArgs: Any): String
 

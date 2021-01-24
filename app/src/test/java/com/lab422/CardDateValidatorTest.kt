@@ -2,14 +2,14 @@ package com.lab422
 
 import com.lab422.common.UserNameValidator
 import com.lab422.vkanalyzer.utils.validator.UserNameValidatorImpl
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class)
 class CardDateValidatorTest {

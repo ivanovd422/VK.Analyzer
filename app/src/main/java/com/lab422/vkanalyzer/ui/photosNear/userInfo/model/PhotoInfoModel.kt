@@ -7,7 +7,7 @@ data class PhotoInfoModel(
     val userId: String,
     val lat: Double?,
     val long: Double?,
-    val clickedPhotoUrl :String
+    val clickedPhotoUrl: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,

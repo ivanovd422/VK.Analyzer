@@ -13,7 +13,6 @@ import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.PhotoInfoModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-
 fun provideUiModule() = module {
     viewModel { LoadingViewModel(get(), get(), get()) }
     viewModel { LoginViewModel(get(), get(), get()) }
