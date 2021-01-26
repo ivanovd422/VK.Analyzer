@@ -16,6 +16,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -194,6 +195,8 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
         if (url.isNotEmpty()) {
             Glide.with(imageView.context)
                 .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .load(Uri.parse(url))
                 .apply() {
                     if (isCropCircle) {

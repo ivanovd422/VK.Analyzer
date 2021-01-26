@@ -8,6 +8,7 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.R
@@ -77,6 +78,8 @@ class FriendViewHolder(
             Glide.with(itemView.context)
                 .asBitmap()
                 .load(Uri.parse(item.photoUrl))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivUserPhoto)
         }

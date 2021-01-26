@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.R
@@ -114,6 +115,8 @@ class PhotosViewHolder(
     private fun setPhoto(imageView: ImageView, url: String) {
         Glide.with(itemView.context)
             .asBitmap()
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .load(Uri.parse(url))
             .apply(RequestOptions.centerCropTransform())
             .into(imageView)
