@@ -11,12 +11,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.lab422.common.StringProvider
+import kotlinx.android.synthetic.main.item_mutual_friend.view.*
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewModel
-import kotlinx.android.synthetic.main.item_mutual_friend.view.*
 
 class FriendViewHolder(
     private val view: View,
@@ -26,6 +26,7 @@ class FriendViewHolder(
     private val tvUserStatus = view.tv_user_status
     private val ivUserPhoto = view.iv_friend_photo
     private val tvUserId = view.tv_user_id
+
 
     interface Listener {
         fun onFriendClicked(id: Long, name: String)
