@@ -54,8 +54,8 @@ class FriendsFragment : Fragment(R.layout.fragment_friends) {
             )
         }
 
-        iv_from_friends_list_first.setOnClickListener { openFriendsList(REQUEST_CODE_GET_FIRST_FRIEND) }
-        iv_from_friends_list_second.setOnClickListener { openFriendsList(REQUEST_CODE_GET_SECOND_FRIEND) }
+        til_first_user.setEndIconOnClickListener { openFriendsList(REQUEST_CODE_GET_FIRST_FRIEND) }
+        til_second_user.setEndIconOnClickListener { openFriendsList(REQUEST_CODE_GET_SECOND_FRIEND) }
 
         et_first_user.afterTextChanged { viewModel.onFirstIdEntered(it) }
         et_second_user.afterTextChanged { viewModel.onSecondIdEntered(it) }

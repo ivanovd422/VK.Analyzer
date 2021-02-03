@@ -39,7 +39,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_accept"
-        style="@style/MaterialButton"
+        style="@style/MaterialButton.Montserrat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"

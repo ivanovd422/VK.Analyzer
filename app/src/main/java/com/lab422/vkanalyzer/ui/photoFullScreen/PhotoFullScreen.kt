@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
@@ -56,6 +57,8 @@ class PhotoFullScreen : BaseActivity(R.layout.activity_photo_full_screen) {
 
             Glide.with(photo_view.context)
                 .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .load(Uri.parse(url))
                 .into(photo_view)
         } catch (e: Exception) {

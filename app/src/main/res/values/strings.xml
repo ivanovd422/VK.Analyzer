@@ -10,6 +10,7 @@
     <string name="mutual_friends_list">Общие друзья</string>
     <string name="search">ПОИСК</string>
     <string name="toolbar_text_login">Авторизация</string>
+    <string name="toolbar_text_empty"> </string>
 
 
     <!-- Login -->
@@ -39,9 +40,9 @@
 
 
     <!-- Photos near -->
-    <string name="photos_near_permissions_needs_title">С помощью «Анализатора ВК» Вы можете увидеть фотографии пользователей VK рядом с вами, однако необходимо разрешить приложению определить вашу локацию</string>
+    <string name="photos_near_permissions_needs_title">С помощью «Анализатора ВК» Вы можете увидеть фотографии пользователей VK, опубликованные  рядом с вами, однако необходимо разрешить приложению определить вашу локацию.</string>
     <string name="photos_near_request_permissions">Разрешить</string>
-    <string name="photos_near_permissions_dialog_info">Необходимо разрешить приложению определять местоположение, чтобы найти фотографии людей рядом с Вами</string>
+    <string name="photos_near_permissions_dialog_info">Необходимо разрешить приложению определять местоположение, чтобы найти фотографии, которые были опубликованы рядом с Вами</string>
     <string name="photos_near_permissions_never_ask_dialog">
         Для поиска фотографий рядом
         \nнеобходимо разрешить приложению определять местоположение.
@@ -54,7 +55,7 @@
     <!-- User near -->
     <string name="user_info_close_dialog">Хорошо</string>
     <string name="user_info_error_text_dialog">Ошибка загрузки профиля.\nПовторите пожалуйста позже</string>
-    <string name="user_info_open_vk">Открыть страницу в VK</string>
+    <string name="user_info_open_vk">Открыть в VK</string>
 
     <!--Settings -->
     <string name="settings_share_text">Я слежу за пользователями в VK с помощью приложения «Анализатор ВК»</string>
@@ -62,11 +63,54 @@
     <string name="settings_help_mailto" translatable="false">mailto</string>
     <string name="settings_app_version">Версия приложения:</string>
     <string name="settings_share_app">Поделиться приложением</string>
+    <string name="settings_dark_mode">Темная тема</string>
     <string name="settings_ask_support">Написать в поддержку</string>
     <string name="settings_logout">Выход</string>
 
     <!--Full screen photo -->
     <string name="full_screen_toolbar_text">Фото</string>
     <string name="full_screen_loading_error">Ошибка при загрузке фото.\nПопробуйте пожалуйста позже</string>
+
+    <string name="January">января</string>
+    <string name="February">февраля</string>
+    <string name="March">марта</string>
+    <string name="April">апреля</string>
+    <string name="May">мая</string>
+    <string name="June">июня</string>
+    <string name="July">июля</string>
+    <string name="August">августа</string>
+    <string name="September">сентября</string>
+    <string name="October">октября</string>
+    <string name="November">ноября</string>
+    <string name="December">декабря</string>
+
+    <string-array name="months">
+        <item>@string/January</item>
+        <item>@string/February</item>
+        <item>@string/March</item>
+        <item>@string/April</item>
+        <item>@string/May</item>
+        <item>@string/June</item>
+        <item>@string/July</item>
+        <item>@string/August</item>
+        <item>@string/September</item>
+        <item>@string/October</item>
+        <item>@string/November</item>
+        <item>@string/December</item>
+    </string-array>
+
+    <string name="photo_near_date_format">d MMM"</string>
+
+    <string name="today">Сегодня"</string>
+    <string name="yesterday">Вчера"</string>
+
+    <string name="on_boarding_title_1">Быстро и просто"</string>
+    <string name="on_boarding_subtitle_1">Авторизуйся через VK, всего два клика для доступа ко всем функциям приложения"</string>
+
+    <string name="on_boarding_title_2">Фото рядом"</string>
+    <string name="on_boarding_subtitle_2">Просматривай фотографии пользователей VK, которые были опубликованы рядом с тобой"</string>
+
+    <string name="on_boarding_title_3">Общие друзья"</string>
+    <string name="on_boarding_subtitle_3">Ищи общих друзей двух любых пользователей VK через удобный поиск по имени или id"</string>
 
 </resources>

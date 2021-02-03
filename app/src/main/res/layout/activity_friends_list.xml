@@ -4,13 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAlphaPrimaryLight"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite"
     >
-
-    <include
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_friends_list"
-        layout="@layout/view_toolbar"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="0dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/Analyzer.Toolbar"
+        app:popupTheme="@style/Analyzer.Toolbar.Popup"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_friends_list"

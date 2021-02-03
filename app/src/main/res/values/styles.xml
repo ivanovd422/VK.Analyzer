@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="Widget" />
@@ -36,7 +36,9 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
-    <style name="Analyzer.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Analyzer.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
 
     <style name="Analyzer.Toolbar.Popup" parent="ThemeOverlay.AppCompat.Light" />
 
@@ -64,5 +66,32 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="strokeWidth">0dp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.TextView.Montserrat">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Widget.TextView.Montserrat.Medium">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Widget.TextView.Montserrat.Bold">
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+    </style>
+
+    <style name="MaterialButton.Montserrat" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">88dip</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="MaterialButton.Borderless.Montserrat" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="strokeWidth">0dp</item>
     </style>
 </resources>

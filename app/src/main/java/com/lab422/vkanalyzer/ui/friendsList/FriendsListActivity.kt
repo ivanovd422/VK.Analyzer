@@ -17,7 +17,6 @@ import com.lab422.common.viewState.isLoading
 import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
-import com.lab422.vkanalyzer.ui.base.BaseItemDecoration
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.friendsList.adapter.FriendsListAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
@@ -98,9 +97,6 @@ class FriendsListActivity :
             layoutManager = activityLayoutManager
             adapter = friendsAdapter
         }
-
-        val divider = BaseItemDecoration(this)
-        rv_friends_list.addItemDecoration(divider, 0)
     }
 
     private fun initObservers() {

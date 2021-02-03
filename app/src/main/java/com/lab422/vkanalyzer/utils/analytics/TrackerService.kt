@@ -21,4 +21,6 @@ interface TrackerService {
     fun onShareAppClicked()
     fun onSupportClicked()
     fun onPhotoLoadingError(error: String)
+    fun onBoardingFinished()
+    fun onBoardingCancelled()
 }

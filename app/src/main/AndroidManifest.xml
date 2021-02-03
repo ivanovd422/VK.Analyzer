@@ -33,11 +33,11 @@
             android:name=".ui.login.LoginActivity"
             android:windowSoftInputMode="adjustPan|adjustResize" />
 
-        <activity android:name=".ui.friends.FriendsFragment" />
         <activity android:name=".ui.mainScreen.MainActivity" />
         <activity android:name=".ui.mutualFriends.MutualFriendsActivity" />
         <activity android:name=".ui.friendsList.FriendsListActivity" />
         <activity android:name=".ui.photoFullScreen.PhotoFullScreen" />
+        <activity android:name=".ui.onboarding.OnBoardingActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

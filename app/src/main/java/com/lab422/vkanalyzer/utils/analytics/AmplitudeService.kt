@@ -143,6 +143,14 @@ class AmplitudeService : TrackerService {
         logEvent(TrackerConstants.EVENT_FULL_SCREEN_PHOTO_ERROR, eventProperties)
     }
 
+    override fun onBoardingFinished() {
+        logEvent(TrackerConstants.EVENT_ON_BOARDING_FINISHED)
+    }
+
+    override fun onBoardingCancelled() {
+        logEvent(TrackerConstants.EVENT_ON_BOARDING_CANCELLED)
+    }
+
     private fun logEvent(eventName: String, jsonObject: JSONObject) {
         Amplitude.getInstance().logEvent(eventName, jsonObject)
     }

@@ -10,11 +10,19 @@ fun View.setVisible(isVisible: Boolean) {
     }
 }
 
-fun View.showOrHide(isVisible: Boolean) {
+fun View.showOrGone(isVisible: Boolean) {
     if (isVisible) {
         show()
     } else {
         gone()
+    }
+}
+
+fun View.showOrHide(isVisible: Boolean) {
+    if (isVisible) {
+        show()
+    } else {
+        hide()
     }
 }
 

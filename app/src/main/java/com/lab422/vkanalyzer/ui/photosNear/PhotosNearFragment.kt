@@ -29,7 +29,7 @@ import com.lab422.vkanalyzer.ui.photosNear.adapter.PhotosAdapter
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.LoadingViewHolder
 import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.PhotosViewHolder
-import com.lab422.vkanalyzer.ui.photosNear.userInfo.UserInfoBottomSheet
+import com.lab422.vkanalyzer.ui.userInfo.UserInfoBottomSheet
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_photos_near.*
 import org.koin.android.ext.android.get
@@ -206,9 +206,9 @@ class PhotosNearFragment :
                 permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(
-                    it,
-                    permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
+                it,
+                permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
         } ?: false
 
     private fun isLocationEnabled(): Boolean {
@@ -216,8 +216,8 @@ class PhotosNearFragment :
             val locationManager = ContextCompat.getSystemService(it, LocationManager::class.java)
             return locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false ||
                 locationManager?.isProviderEnabled(
-                    LocationManager.NETWORK_PROVIDER
-                ) ?: false
+                LocationManager.NETWORK_PROVIDER
+            ) ?: false
         } ?: false
     }
 

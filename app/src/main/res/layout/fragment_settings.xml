@@ -17,10 +17,10 @@
             android:id="@+id/ll_settings_points"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
             >
 
             <ImageView
@@ -28,129 +28,170 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginBottom="40dp"
-                android:src="@drawable/ic_spy"
+                app:srcCompat="@drawable/ic_settings_icon"
                 />
 
-            <TextView
-                android:id="@+id/tv_title_login"
-                style="@style/Widget.TextView.Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="40dp"
-                android:text="@string/login_main_text"
-                android:textColor="@color/colorBlack"
-                android:textSize="25sp"
-                />
-
-            <TextView
+            <LinearLayout
                 android:id="@+id/tv_support"
                 style="@style/Widget.Item"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginBottom="5dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="40dp"
                 android:clickable="true"
-                android:drawableStart="@drawable/icon_support"
-                android:drawablePadding="10dp"
                 android:focusable="true"
                 android:orientation="horizontal"
-                android:padding="20dp"
-                android:text="@string/settings_ask_support"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp"
-                />
+                >
 
-            <View
-                android:id="@+id/view_support"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="40dp"
-                android:background="@color/colorAccent"
-                />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="40dp"
+                    app:srcCompat="@drawable/ic_mail_icon"
+                    />
 
-            <TextView
+                <TextView
+                    style="@style/Widget.TextView.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="40dp"
+                    android:text="@string/settings_ask_support"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/blackAlpha87"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/tv_share_app"
                 style="@style/Widget.Item"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginBottom="5dp"
+                android:layout_height="48dp"
                 android:clickable="true"
-                android:drawableStart="@drawable/icon_share"
-                android:drawablePadding="10dp"
                 android:focusable="true"
                 android:orientation="horizontal"
-                android:padding="20dp"
-                android:text="@string/settings_share_app"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp"
-                />
+                >
 
-            <View
-                android:id="@+id/view_border_share"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="40dp"
-                android:background="@color/colorAccent"
-                />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="42dp"
+                    app:srcCompat="@drawable/ic_share_icon"
+                    />
 
-            <TextView
-                android:id="@+id/tv_app_version_title"
+                <TextView
+                    style="@style/Widget.TextView.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="40dp"
+                    android:text="@string/settings_share_app"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/blackAlpha87"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tv_dark_mode"
                 style="@style/Widget.Item"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_height="48dp"
                 android:clickable="true"
-                android:drawableStart="@drawable/icon_version"
-                android:drawablePadding="10dp"
                 android:focusable="true"
-                android:padding="20dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible"
+                >
 
-                tools:text="Версия приложения: 1.0.0"
-                />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="42dp"
+                    app:srcCompat="@drawable/ic_settings_moon"
+                    />
 
-            <View
+                <TextView
+                    style="@style/Widget.TextView.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="40dp"
+                    android:text="@string/settings_dark_mode"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/blackAlpha87"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_version_container"
+                style="@style/Widget.Item"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/colorAccent"
-                />
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                >
 
-            <TextView
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="42dp"
+                    app:srcCompat="@drawable/ic_settings_version"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_app_version_title"
+                    style="@style/Widget.TextView.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="40dp"
+                    android:text="@string/settings_dark_mode"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/blackAlpha87"
+                    android:textSize="16sp"
+                    tools:text="Версия приложения: 1.0.0"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/tv_exit_account"
                 style="@style/Widget.Item"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_height="48dp"
                 android:clickable="true"
-                android:drawableStart="@drawable/ic_logout"
-                android:drawablePadding="10dp"
                 android:focusable="true"
-                android:padding="20dp"
-                android:text="@string/settings_logout"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp"
+                android:orientation="horizontal"
+                >
 
-                tools:text="Выход"
-                />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="42dp"
+                    app:srcCompat="@drawable/ic_settings_exit"
+                    />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/colorAccent"
-                />
+                <TextView
+                    style="@style/Widget.TextView.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="40dp"
+                    android:text="@string/settings_logout"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/blackAlpha87"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

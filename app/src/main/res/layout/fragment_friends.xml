@@ -5,155 +5,106 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAlphaPrimaryLight"
-    >
+    android:background="@color/colorWhite">
 
-    <View
-        android:id="@+id/view_helper"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <TextView
-        android:id="@+id/tv_title_first_user"
-        style="@style/Widget.TextView.Regular"
+    <ImageView
+        android:id="@+id/iv_mutual_friends_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="@string/first_user_title"
-        android:textSize="16sp"
-
-        app:layout_constraintBottom_toTopOf="@+id/et_first_user"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_mutual_friends_illustration"/>
 
-    <EditText
-        android:id="@+id/et_first_user"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_first_user"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:hint="@string/first_user_hint"
-        android:inputType="text"
-        android:lines="1"
-        android:maxLines="1"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="36dp"
+        app:endIconDrawable="@drawable/ic_group_add"
+        app:endIconMode="custom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_mutual_friends_image">
 
-        app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toTopOf="@+id/tv_first_user_name"
-        app:layout_constraintEnd_toStartOf="@+id/iv_from_friends_list_first"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/tv_title_first_user"
-        />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_first_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/first_user_title"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLines="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tv_first_user_name"
         style="@style/Widget.TextView.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:textColor="@color/colorDisabled"
         android:visibility="invisible"
-
-        app:layout_constraintBottom_toTopOf="@+id/view_helper"
-        app:layout_constraintEnd_toStartOf="@+id/iv_from_friends_list_first"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/tv_title_first_user"
+        app:layout_constraintStart_toStartOf="@+id/til_first_user"
+        app:layout_constraintTop_toBottomOf="@+id/til_first_user"
 
         tools:text="Имя Фамилия"
-        tools:visibility="visible"
-        />
+        tools:visibility="visible"/>
 
-    <TextView
-        android:id="@+id/tv_title_second_user"
-        style="@style/Widget.TextView.Regular"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_second_user"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/second_user_title"
-        android:textSize="16sp"
-
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="36dp"
+        app:endIconDrawable="@drawable/ic_group_add"
+        app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_helper"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/til_first_user">
 
-    <EditText
-        android:id="@+id/et_second_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:hint="@string/second_user_hint"
-        android:inputType="text"
-        android:lines="1"
-        android:maxLines="1"
-
-        app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toStartOf="@+id/iv_from_friends_list_second"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/tv_title_second_user"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_second_user"
-        />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_second_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/second_user_title"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLines="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tv_second_user_name"
         style="@style/Widget.TextView.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:textColor="@color/colorDisabled"
         android:visibility="invisible"
-
-        app:layout_constraintEnd_toStartOf="@+id/iv_from_friends_list_second"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/tv_title_second_user"
-        app:layout_constraintTop_toBottomOf="@+id/et_second_user"
-
+        app:layout_constraintStart_toStartOf="@+id/til_second_user"
+        app:layout_constraintTop_toBottomOf="@+id/til_second_user"
         tools:text="Имя Фамилия"
-        tools:visibility="visible"
-        />
-
-    <ImageView
-        android:id="@+id/iv_from_friends_list_first"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_group_add"
-
-        app:layout_constraintBottom_toBottomOf="@+id/et_first_user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/et_first_user"
-        />
-
-    <ImageView
-        android:id="@+id/iv_from_friends_list_second"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_group_add"
-
-        app:layout_constraintBottom_toBottomOf="@+id/et_second_user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/et_second_user"
-        />
+        tools:visibility="visible"/>
 
     <Button
         android:id="@+id/btn_find_friends"
-        style="@style/MaterialButton"
+        style="@style/MaterialButton.Montserrat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="50dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:text="@string/search"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

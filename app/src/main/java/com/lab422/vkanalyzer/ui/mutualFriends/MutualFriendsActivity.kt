@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.common.StringProvider
@@ -16,7 +17,6 @@ import com.lab422.common.viewState.isLoading
 import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
-import com.lab422.vkanalyzer.ui.base.BaseItemDecoration
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
@@ -35,7 +35,8 @@ import org.koin.core.parameter.parametersOf
 class MutualFriendsActivity :
     BaseActivity(R.layout.activity_mutual_friends),
     FriendViewHolder.Listener,
-    SearchView.OnQueryTextListener {
+    SearchView.OnQueryTextListener,
+    SearchView.OnCloseListener {
 
     private lateinit var viewModel: MutualViewModel
 
@@ -62,7 +63,7 @@ class MutualFriendsActivity :
 
     override fun getToolBarViewId(): Int = R.id.toolbar_mutual_friends_list
 
-    override val toolbarName: Int = R.string.mutual_friends_list
+    override val toolbarName: Int = R.string.toolbar_text_empty
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,8 +86,15 @@ class MutualFriendsActivity :
         searchItem.setOnQueryTextListener(this)
         menuItem?.isVisible = false
 
+        searchItem.setOnSearchClickListener {
+            cl_counter_container.isVisible = false
+        }
+
+        searchItem.setOnCloseListener(this)
+
         return super.onCreateOptionsMenu(menu)
     }
+
     override fun onFriendClicked(id: Long, name: String) {
         val link = String.format("https://vk.com/id%d", id)
         tracker.openUserByLink(link)
@@ -98,6 +106,12 @@ class MutualFriendsActivity :
     override fun onQueryTextChange(newText: String): Boolean {
         viewModel.onSearchQueryTyped(newText)
         return true
+    }
+
+    override fun onClose(): Boolean {
+        cl_counter_container.isVisible = true
+
+        return false
     }
 
     override fun onBackPressed() {
@@ -117,8 +131,6 @@ class MutualFriendsActivity :
             layoutManager = activityLayoutManager
             adapter = friendsAdapter
         }
-        val divider = BaseItemDecoration(this)
-        rv_mutual_friends.addItemDecoration(divider, 0)
     }
 
     private fun initObservers() {
@@ -134,9 +146,14 @@ class MutualFriendsActivity :
         pb_mutual_friends_loading.setVisible(viewState.isLoading())
         ll_mutual_friends_error_wrapper.setVisible(viewState.isError())
         menuItem?.isVisible = viewState.isSuccess()
+        tv_user_count.isVisible = viewState.isSuccess() && viewState.data.isNullOrEmpty().not()
 
         if (viewState.isSuccess()) {
             setData(viewState.data)
+
+            if (viewState.data.isNullOrEmpty().not()) {
+                tv_user_count.text = viewState.data!!.size.toString()
+            }
         }
 
         if (viewState.isError()) {

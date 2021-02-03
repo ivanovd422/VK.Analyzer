@@ -57,4 +57,6 @@ class AppsflyerService : TrackerService {
     override fun onShareAppClicked() = Unit
     override fun onSupportClicked() = Unit
     override fun onPhotoLoadingError(error: String) = Unit
+    override fun onBoardingFinished() = Unit
+    override fun onBoardingCancelled() = Unit
 }

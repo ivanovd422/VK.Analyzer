@@ -15,5 +15,5 @@ fun provideUtilsModule(app: AnalyzerApp) = module(true) {
     single<StringProvider> { StringProviderImpl(app) }
     single<Logger> { LoggerImpl() }
     single<UserNameValidator> { UserNameValidatorImpl() }
-    single<UserPhotoDataProvider> { UserPhotoDataProviderImpl() }
+    single<UserPhotoDataProvider> { UserPhotoDataProviderImpl(get()) }
 }

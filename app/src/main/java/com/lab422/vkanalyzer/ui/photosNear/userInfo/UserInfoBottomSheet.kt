@@ -1,8 +1,12 @@
 package com.lab422.vkanalyzer.ui.photosNear.userInfo
 
+import android.app.Activity
+import android.app.Dialog
 import android.content.DialogInterface
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +16,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -19,6 +24,8 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lab422.common.viewState.ViewState
 import com.lab422.common.viewState.isError
@@ -35,6 +42,7 @@ import kotlinx.android.synthetic.main.bottom_sheet_user_info.view.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
+import java.util.Locale
 
 class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
 
@@ -49,7 +57,8 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
     private lateinit var ivUserAvatar: ImageView
     private lateinit var ivUserPhoto: ImageView
     private lateinit var tvUserName: TextView
-    private lateinit var btnOpenInVk: Button
+    private lateinit var tvUserLocation: TextView
+    private lateinit var btnOpenInVk: View
     private lateinit var btnCloseDialog: Button
     private lateinit var mapView: MapView
     private lateinit var mapContainer: View
@@ -72,6 +81,15 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
 
             return bottomSheetFragment
         }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog: Dialog = super.onCreateDialog(savedInstanceState)
+        dialog.setOnShowListener { dialogInterface ->
+            val bottomSheetDialog = dialogInterface as BottomSheetDialog
+            setupFullHeight(bottomSheetDialog)
+        }
+        return dialog
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,12 +144,16 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
         ivUserAvatar = view.iv_user_avatar
         ivUserPhoto = view.iv_user_photo
         tvUserName = view.tv_user_name
-        btnOpenInVk = view.btn_open_in_vk
+        tvUserLocation = view.tv_user_location
+        btnOpenInVk = view.ll_open_in_vk
         btnCloseDialog = view.btn_error_close
         mapView = view.map_lite_view
         mapContainer = view.container_map
 
         btnCloseDialog.setOnClickListener { dismiss() }
+
+        ivUserPhoto.layoutParams.height = getImageHeight()
+        ivUserPhoto.requestLayout()
     }
 
     private fun fillUserInfo(viewState: ViewState<UserInfoModel>) {
@@ -144,6 +166,7 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
             setPhoto(data.userAvatarPhotoUrl, ivUserAvatar, true)
             setPhoto(data.clickedPhotoUrl, ivUserPhoto, false)
             tvUserName.text = data.userName
+            tvUserLocation.text = getAddressText(data.lat, data.long)
 
             btnOpenInVk.setOnClickListener {
                 dismiss()
@@ -171,6 +194,8 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
         if (url.isNotEmpty()) {
             Glide.with(imageView.context)
                 .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .load(Uri.parse(url))
                 .apply() {
                     if (isCropCircle) {
@@ -187,6 +212,37 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
             activity?.openLink(link)
         } catch (e: Exception) {
         }
+    }
+
+    private fun setupFullHeight(bottomSheetDialog: BottomSheetDialog) {
+        val bottomSheet: View =
+            bottomSheetDialog.findViewById(R.id.design_bottom_sheet) ?: return
+        val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
+        val layoutParams: ViewGroup.LayoutParams = bottomSheet.layoutParams
+        val windowHeight = getWindowHeight()
+        layoutParams.height = windowHeight
+        bottomSheet.layoutParams = layoutParams
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
+    private fun getWindowHeight(): Int {
+        val displayMetrics = DisplayMetrics()
+        (context as Activity?)?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+        return displayMetrics.heightPixels
+    }
+
+    private fun getImageHeight(): Int = (getWindowHeight() * 0.6).toInt()
+
+    private fun getAddressText(lat: Double?, long: Double?): String? {
+        if (lat == null || long == null) {
+            return null
+        }
+
+        val addresses = Geocoder(requireContext().applicationContext, Locale("ru")).getFromLocation(lat, long, 1)
+        val firstLine = addresses[0].getAddressLine(0)
+        val postCode = firstLine.split(",").last()
+
+        return firstLine.removeSuffix(postCode).removeSuffix(",")
     }
 }
 

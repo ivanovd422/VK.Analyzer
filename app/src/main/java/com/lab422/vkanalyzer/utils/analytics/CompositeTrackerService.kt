@@ -71,4 +71,12 @@ class CompositeTrackerService(private val trackerServices: List<TrackerService>)
     override fun onPhotoLoadingError(error: String) {
         trackerServices.forEach { it.onPhotoLoadingError(error) }
     }
+
+    override fun onBoardingFinished() {
+        trackerServices.forEach { it.onBoardingFinished() }
+    }
+
+    override fun onBoardingCancelled() {
+        trackerServices.forEach { it.onBoardingCancelled() }
+    }
 }

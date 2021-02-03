@@ -8,21 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseActivity
-import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.attach
 import com.lab422.vkanalyzer.utils.extensions.detach
 import com.lab422.vkanalyzer.utils.extensions.setActive
-import com.lab422.vkanalyzer.utils.navigator.Navigator
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private lateinit var viewModel: MainViewModel
-    private val navigator: Navigator = get()
-    private val tracker: TrackerService by inject()
 
     companion object {
         fun createIntent(context: Context): Intent {
@@ -40,10 +34,6 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         setToolBar(false)
 
         initObservables()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun initObservables() {

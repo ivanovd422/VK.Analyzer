@@ -99,7 +99,7 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
 
     private fun authByVk() {
         viewModel.onLoginStart()
-        VK.login(this, arrayListOf(VKScope.FRIENDS, VKScope.PHOTOS))
+        VK.login(this, arrayListOf(VKScope.FRIENDS, VKScope.PHOTOS, VKScope.OFFLINE))
     }
 
     private fun showAuthInfoDialog() {
