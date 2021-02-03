@@ -31,7 +31,7 @@ class OnBoardingActivity : AppCompatActivity(R.layout.activity_on_boarding) {
     private val stringProvider: StringProvider = get()
 
     init {
-        pagerAdapter = OnBoardingAdapter(listOf(), stringProvider, this/*, this*/)
+        pagerAdapter = OnBoardingAdapter(listOf(), stringProvider, this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
