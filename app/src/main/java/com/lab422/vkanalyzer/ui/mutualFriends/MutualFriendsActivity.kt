@@ -32,8 +32,6 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
-
-
 class MutualFriendsActivity :
     BaseActivity(R.layout.activity_mutual_friends),
     FriendViewHolder.Listener,
