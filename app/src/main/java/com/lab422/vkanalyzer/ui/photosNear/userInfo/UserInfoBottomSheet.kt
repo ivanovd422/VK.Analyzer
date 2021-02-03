@@ -44,6 +44,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import java.util.Locale
 
+
 class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
 
     private val navigator: Navigator = get()
