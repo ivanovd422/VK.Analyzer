@@ -11,7 +11,7 @@ abstract class BaseViewModel : ViewModel() {
     protected val networkContext = viewModelScope.coroutineContext + Dispatchers.IO
 
     inline fun <T> launchOnViewModelScope(crossinline block: suspend () -> LiveData<T>): LiveData<T> {
-        return liveData(networkContext) {
+        return liveData(viewModelScope.coroutineContext) {
             emitSource(block())
         }
     }
