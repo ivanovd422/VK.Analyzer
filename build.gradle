@@ -4,6 +4,15 @@ buildscript {
     ext.kotlin_version = '1.5.21'
 
     ext {
+        versions = [
+                minSdk        : 21,
+                targetSdk     : 30,
+                compileSdk    : 30,
+                buildTools    : "30.0.3",
+
+                appVersionCode: 9,
+                appVersionName: "1.7"
+        ]
 
         androidConstraintLayoutVersion = '2.1.0'
 
@@ -59,7 +68,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.0'

@@ -7,8 +7,8 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     signingConfigs {
 
@@ -38,10 +38,12 @@ android {
     defaultConfig {
         applicationId "com.lab422.vkanalyzer"
         signingConfig signingConfigs.release
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 9
-        versionName "1.7"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+
+        versionCode versions.appVersionCode
+        versionName versions.appVersionName
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
