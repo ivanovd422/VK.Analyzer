@@ -10,8 +10,8 @@ buildscript {
                 compileSdk    : 30,
                 buildTools    : "30.0.3",
 
-                appVersionCode: 9,
-                appVersionName: "1.7"
+                appVersionCode: 10,
+                appVersionName: "1.8"
         ]
 
         androidConstraintLayoutVersion = '2.1.0'
