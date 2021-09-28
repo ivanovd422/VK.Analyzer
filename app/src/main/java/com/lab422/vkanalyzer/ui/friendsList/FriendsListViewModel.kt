@@ -32,8 +32,12 @@ class FriendsListViewModel(
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     private val userFetchingLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
+    private companion object {
+        const val DEBOUNCE_TIME = 300L
+    }
+
     init {
-        state.addSource(queryLiveData.debounce(300, viewModelScope)) {
+        state.addSource(queryLiveData.debounce(DEBOUNCE_TIME, viewModelScope)) {
             uiScope.launch {
                 val data = dataProvider.filterByQuery(rowData, FriendsListType.SelectableFriends, it)
                 state.postValue(ViewState(ViewState.Status.SUCCESS, data))

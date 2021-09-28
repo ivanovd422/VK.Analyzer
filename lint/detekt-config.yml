@@ -162,7 +162,7 @@ coroutines:
 empty-blocks:
   active: true
   EmptyCatchBlock:
-    active: true
+    active: false
     allowedExceptionNameRegex: '_|(ignore|expected).*'
   EmptyClassBlock:
     active: true
@@ -218,7 +218,7 @@ exceptions:
     active: true
     ignoreLabeled: false
   SwallowedException:
-    active: true
+    active: false
     ignoredExceptionTypes:
       - 'InterruptedException'
       - 'MalformedURLException'
@@ -258,7 +258,7 @@ exceptions:
       - 'Throwable'
     allowedExceptionNameRegex: '_|(ignore|expected).*'
   TooGenericExceptionThrown:
-    active: true
+    active: false
     exceptionNames:
       - 'Error'
       - 'Exception'
@@ -542,7 +542,7 @@ potential-bugs:
     ignoreReturnValueAnnotations:
       - '*.CanIgnoreReturnValue'
   ImplicitDefaultLocale:
-    active: true
+    active: false
   ImplicitUnitReturnType:
     active: false
     allowExplicitReturnType: true
@@ -652,7 +652,7 @@ style:
     active: true
     excludes: ['**']
   LoopWithTooManyJumpStatements:
-    active: true
+    active: false
     maxJumpCount: 1
   MagicNumber:
     active: true

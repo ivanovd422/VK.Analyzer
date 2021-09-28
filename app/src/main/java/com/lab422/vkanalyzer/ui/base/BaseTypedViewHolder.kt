@@ -5,9 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseTypedViewHolder<T : Rawable>(view: View) : RecyclerView.ViewHolder(view), Bindable<T> {
 
-    override fun onBind(model: RowDataModel<T, *>) {
-    }
+    override fun onBind(model: RowDataModel<T, *>) = Unit
 
-    override fun unBind() {
-    }
+    override fun unBind() = Unit
 }

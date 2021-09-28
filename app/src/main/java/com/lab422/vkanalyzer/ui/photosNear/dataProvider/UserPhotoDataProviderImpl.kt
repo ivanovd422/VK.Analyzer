@@ -21,6 +21,7 @@ internal class UserPhotoDataProviderImpl(
 
     private companion object {
         const val GROUP_ID = 100
+        const val DATE_MULTIPLIER = 1000
     }
 
     override fun generateUserPhotoData(
@@ -67,7 +68,7 @@ internal class UserPhotoDataProviderImpl(
                     finalUserPhotosList.add(
                         DateRowData(
                             UserPhotoRowType.Date,
-                            DatePhotosModel(convertTimestampToHumanDate(photoCell.date * 1000))
+                            DatePhotosModel(convertTimestampToHumanDate(photoCell.date * DATE_MULTIPLIER))
                         )
                     )
                     rowDate = photoCell.date

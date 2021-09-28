@@ -36,8 +36,12 @@ class MutualViewModel(
     private val userFetchingLiveData: MutableLiveData<Boolean> = MutableLiveData()
     private var rowData: MutableList<NewUser> = mutableListOf()
 
+    private companion object {
+        const val DEBOUNCE_TIME = 300L
+    }
+
     init {
-        state.addSource(queryLiveData.debounce(300, viewModelScope)) {
+        state.addSource(queryLiveData.debounce(DEBOUNCE_TIME, viewModelScope)) {
             uiScope.launch {
                 val data = dataProvider.filterByQuery(rowData, FriendsListType.Friends, it)
                 state.postValue(ViewState(ViewState.Status.SUCCESS, data))

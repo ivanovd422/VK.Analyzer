@@ -27,6 +27,7 @@ class InstaStorySlider : View {
         const val TOP_POINT_RECT = 20f
         const val BOTTOM_POINT_RECT = 24f
         const val PAINT_RADIUS = 40f
+        const val PAINT_STROKE_WIDTH = 10f
     }
 
     private val bgColor = ContextCompat.getColor(context, R.color.colorAlto)
@@ -38,13 +39,13 @@ class InstaStorySlider : View {
     private val bgPaint: Paint = Paint().apply {
         color = bgColor
         style = Paint.Style.FILL_AND_STROKE
-        strokeWidth = 10f
+        strokeWidth = PAINT_STROKE_WIDTH
     }
 
     private val frontPaint: Paint = Paint().apply {
         color = frontColor
         style = Paint.Style.FILL_AND_STROKE
-        strokeWidth = 10f
+        strokeWidth = PAINT_STROKE_WIDTH
     }
 
     // pair of start and end X coordinates
