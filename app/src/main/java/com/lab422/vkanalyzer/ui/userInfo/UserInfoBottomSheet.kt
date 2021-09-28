@@ -86,6 +86,7 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
         }
 
         const val ZOOM_SIZE = 13f
+        const val IMAGE_HEIGHT_MULTIPLIER = 0.6
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -237,7 +238,7 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
         return displayMetrics.heightPixels
     }
 
-    private fun getImageHeight(): Int = (getWindowHeight() * 0.6).toInt()
+    private fun getImageHeight(): Int = (getWindowHeight() * IMAGE_HEIGHT_MULTIPLIER).toInt()
 
     private fun getAddressText(lat: Double?, long: Double?): String? {
         if (lat == null || long == null) {

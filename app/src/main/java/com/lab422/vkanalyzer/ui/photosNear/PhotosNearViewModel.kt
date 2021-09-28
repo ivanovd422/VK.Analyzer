@@ -27,6 +27,7 @@ class PhotosNearViewModel(
     private companion object {
         const val START_OFFSET = 100
         const val MAX_OFFSET = 3000
+        const val DEBOUNCE_DURATION = 1000L
 
         val radiusList: List<Int> = listOf(800, 3000, 6000, 50000)
     }
@@ -59,7 +60,7 @@ class PhotosNearViewModel(
         userPhotosData.postValue(ViewState(ViewState.Status.LOADING))
 
         userFetchingLiveData
-            .debounce(1000, viewModelScope)
+            .debounce(DEBOUNCE_DURATION, viewModelScope)
             .switchMap { coordinates ->
                 launchOnViewModelScope {
                     photosInteractor.getPhotosByLocation(

@@ -33,6 +33,7 @@ import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
 import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.ui.photosNear.userInfo.UserInfoBottomSheet.Companion.ZOOM_LOCATION
 import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.PhotoInfoModel
 import com.lab422.vkanalyzer.ui.photosNear.userInfo.model.UserInfoModel
 import com.lab422.vkanalyzer.utils.extensions.openLink
@@ -82,6 +83,8 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
 
             return bottomSheetFragment
         }
+
+        const val ZOOM_LOCATION = 13f
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -255,7 +258,7 @@ private fun UserInfoModel.toLatLang(): LatLng? {
 
 private fun GoogleMap?.setLocation(location: LatLng) {
     this?.run {
-        moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f))
+        moveCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_LOCATION))
         addMarker(MarkerOptions().position(location))
         mapType = GoogleMap.MAP_TYPE_NORMAL
         uiSettings.isMapToolbarEnabled = false

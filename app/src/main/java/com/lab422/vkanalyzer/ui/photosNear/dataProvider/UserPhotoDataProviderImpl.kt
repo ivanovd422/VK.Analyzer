@@ -141,8 +141,8 @@ internal class UserPhotoDataProviderImpl(
         val firstDate = Date()
         val secondDate = Date()
 
-        firstDate.time = firstTime * 1000
-        secondDate.time = secondTime * 1000
+        firstDate.time = firstTime * DATE_MULTIPLIER
+        secondDate.time = secondTime * DATE_MULTIPLIER
 
         cal1.time = firstDate
         cal2.time = secondDate
