@@ -1,14 +1,20 @@
 package com.lab422.analyzerapi.models.photos
 
+import com.google.gson.annotations.SerializedName
+
 data class PhotosItemResponse(
-    val album_id: Int,
+    @SerializedName("album_id")
+    val albumId: Int,
     val date: Long,
     val id: Int,
     val lat: Double,
     val long: Double,
-    val owner_id: Int,
-    val post_id: Int,
+    @SerializedName("owner_id")
+    val ownerId: Int,
+    @SerializedName("post_id")
+    val postId: Int,
     val sizes: List<Size>,
     val text: String,
-    val user_id: Int?
+    @SerializedName("user_id")
+    val userId: Int?
 )

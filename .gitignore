@@ -21,4 +21,42 @@ analyzer.keystore
 keystore.properties
 keystore.debug.properties
 
+# analytics properties
 app/src/main/assets/analytics.properties
+
+# Gradle files
+outputs/
+local.properties
+fabric.properties
+build.properties
+
+# Studio files
+.idea/
+*.iml
+*.log
+
+# built application files
+*.apk
+*.ap_
+*.aab
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+
+# Android Studio
+*.iml
+.idea
+
+.gradle
+build/
+.navigation
+captures/
+output.json

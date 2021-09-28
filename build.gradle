@@ -63,6 +63,8 @@ buildscript {
 
         gson_version = '2.8.6'
         firebase_crashlytics_gradle_version = '2.7.1'
+
+        detekt_version = '1.18.1'
     }
 
     repositories {
@@ -76,6 +78,7 @@ buildscript {
         classpath "com.google.gms:google-services:$gms_google_services"
         // Add the Crashlytics Gradle plugin.
         classpath "com.google.firebase:firebase-crashlytics-gradle:$firebase_crashlytics_gradle_version"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
     }
 }
 
@@ -85,4 +88,6 @@ allprojects {
         google()
         jcenter()
     }
+
+    apply from: "$rootDir/lint/detekt.gradle"
 }

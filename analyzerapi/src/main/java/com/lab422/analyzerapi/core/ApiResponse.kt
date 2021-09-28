@@ -1,13 +1,18 @@
 package com.lab422.analyzerapi.core
 
+import com.google.gson.annotations.SerializedName
+
 open class ApiResponse(
     val error: Error? = null
 )
 
 data class Error(
-    val error_code: Int,
-    val error_msg: String,
-    val request_params: List<RequestParam>
+    @SerializedName("error_code")
+    val errorCode: Int,
+    @SerializedName("error_msg")
+    val errorMsg: String,
+    @SerializedName("request_params")
+    val requestParams: List<RequestParam>
 )
 
 data class RequestParam(

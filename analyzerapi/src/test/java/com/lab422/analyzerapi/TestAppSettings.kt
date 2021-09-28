@@ -3,7 +3,7 @@ package com.lab422.analyzerapi
 import com.lab422.common.AppSettings
 import com.vk.api.sdk.auth.VKAccessToken
 
-class TestAppSettings() : AppSettings {
+class TestAppSettings : AppSettings {
 
     override var accessToken: String?
         get() = TestsConfiguration.testToken

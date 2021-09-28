@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -211,6 +212,7 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
             val link = "https://vk.com/id$userId"
             activity?.openLink(link)
         } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Ошибка при попытке открыть ссылку..", Toast.LENGTH_SHORT).show()
         }
     }
 

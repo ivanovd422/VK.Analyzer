@@ -8,12 +8,12 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 abstract class ResponseInterceptorBase(
-    private val StringProvider: StringProvider,
+    private val stringProvider: StringProvider,
     private val logger: Logger
 ) : Interceptor {
 
     @Suppress("PrivatePropertyName")
-    protected val TAG = this.javaClass.name
+    protected val tag: String = this.javaClass.name
 
     abstract fun processResponse(response: Response)
 
@@ -27,15 +27,13 @@ abstract class ResponseInterceptorBase(
             processResponse(response)
 
             return response
-        } catch (e: ApiException) {
-            throw e
-        } catch (e: IOException) {
+        } catch (ioException: IOException) {
             // StreamResetException, SocketTimeoutException
             // SSLException, UnknownHostException
-            throw ApiException.networkException(e, StringProvider)
-        } catch (e: Throwable) {
-            logger.e(TAG, e)
-            throw unknownException(e)
+            throw ApiException.networkException(ioException, stringProvider)
+        } catch (exception: Throwable) {
+            logger.e(tag, exception)
+            throw unknownException(exception)
         }
     }
 }

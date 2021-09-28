@@ -3,6 +3,7 @@ package com.lab422.vkanalyzer.ui.settings
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.lab422.common.AppSettings
 import com.lab422.vkanalyzer.BuildConfig
@@ -57,6 +58,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
             context?.startActivity(shareIntent)
         } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Ошибка при попытке поделиться..", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -79,6 +81,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 }
             }
         } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Ошибка при попытке отправить письмо..", Toast.LENGTH_SHORT).show()
         }
     }
 

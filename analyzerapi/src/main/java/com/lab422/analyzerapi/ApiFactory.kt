@@ -22,7 +22,9 @@ class ApiFactory(
     private val logger: Logger
 ) {
 
-    private val timeoutSeconds: Long = 90
+    companion object {
+        const val TIME_OUT_SECONDS = 90L
+    }
 
     private inline fun <reified T> createApi(): T = retrofit.create<T>(T::class.java)
 
@@ -54,8 +56,8 @@ class ApiFactory(
     private val okHttpClient: OkHttpClient by lazy {
         val clientBuilder = OkHttpClient.Builder()
             .dispatcher(dispatcher)
-            .readTimeout(timeoutSeconds, TimeUnit.SECONDS)
-            .callTimeout(timeoutSeconds, TimeUnit.SECONDS)
+            .readTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+            .callTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
             .connectionPool(ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
             .apply {

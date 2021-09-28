@@ -67,8 +67,7 @@ abstract class BaseTypedAdapter<T : Rawable>(
         (holder as? Bindable<T>)?.onBind(adapterData.value!![holder.adapterPosition])
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-    }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = Unit
 
     override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
         val baseHolder = holder as Bindable<*>
