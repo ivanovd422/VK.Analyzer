@@ -22,6 +22,7 @@ internal class UserPhotoDataProviderImpl(
     private companion object {
         const val GROUP_ID = 100
         const val DATE_MULTIPLIER = 1000
+        const val ROWS_COUNT = 3
     }
 
     override fun generateUserPhotoData(
@@ -87,7 +88,7 @@ internal class UserPhotoDataProviderImpl(
                 // the day is the same
                 else {
 
-                    if (userPhotoRowModel.size == 3 || index == listSize - 1) {
+                    if (userPhotoRowModel.size == ROWS_COUNT || index == listSize - 1) {
                         finalUserPhotosList.add(
                             UserPhotoRowData(
                                 UserPhotoRowType.UserPhoto,
