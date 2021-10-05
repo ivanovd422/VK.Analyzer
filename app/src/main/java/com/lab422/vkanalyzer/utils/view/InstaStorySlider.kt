@@ -24,6 +24,10 @@ class InstaStorySlider : View {
         const val SIDE_INTERVAL = 12f
         const val STORY_ANIMATION_DURATION = 5000L
         const val STORIES_COUNT = 3
+        const val TOP_POINT_RECT = 20f
+        const val BOTTOM_POINT_RECT = 24f
+        const val PAINT_RADIUS = 40f
+        const val PAINT_STROKE_WIDTH = 10f
     }
 
     private val bgColor = ContextCompat.getColor(context, R.color.colorAlto)
@@ -35,13 +39,13 @@ class InstaStorySlider : View {
     private val bgPaint: Paint = Paint().apply {
         color = bgColor
         style = Paint.Style.FILL_AND_STROKE
-        strokeWidth = 10f
+        strokeWidth = PAINT_STROKE_WIDTH
     }
 
     private val frontPaint: Paint = Paint().apply {
         color = frontColor
         style = Paint.Style.FILL_AND_STROKE
-        strokeWidth = 10f
+        strokeWidth = PAINT_STROKE_WIDTH
     }
 
     // pair of start and end X coordinates
@@ -133,7 +137,9 @@ class InstaStorySlider : View {
     }
 
     private fun drawLine(canvas: Canvas, startPoint: Float, endPoint: Float, paint: Paint) {
-        canvas.drawRoundRect(RectF(startPoint, 20f, endPoint, 24f), 40f, 40f, paint)
+        canvas.drawRoundRect(
+            RectF(startPoint, TOP_POINT_RECT, endPoint, BOTTOM_POINT_RECT), PAINT_RADIUS, PAINT_RADIUS, paint
+        )
     }
 
     private fun calculateStoryPoints(count: Int): List<Pair<Float, Float>> {

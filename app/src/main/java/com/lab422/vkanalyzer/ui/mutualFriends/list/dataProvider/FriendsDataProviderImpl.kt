@@ -32,7 +32,7 @@ class FriendsDataProviderImpl : FriendsListDataProvider {
         val filteredData = mutableListOf<RowDataModel<FriendsListType, *>>()
 
         friends.forEach {
-            if (it.first_name.toLowerCase().contains(query) || it.last_name.toLowerCase().contains(query)) {
+            if (it.firstName.toLowerCase().contains(query) || it.lastName.toLowerCase().contains(query)) {
                 filteredData.add(
                     createModel(it, type)
                 )
@@ -48,7 +48,7 @@ class FriendsDataProviderImpl : FriendsListDataProvider {
             user.id.toString(),
             UserViewModel(
                 user.id,
-                "${user.first_name}  ${user.last_name}",
+                "${user.firstName}  ${user.lastName}",
                 user.online != 0,
                 user.photoUrl
             )

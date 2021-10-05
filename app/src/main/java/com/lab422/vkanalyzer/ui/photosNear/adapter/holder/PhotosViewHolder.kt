@@ -58,6 +58,8 @@ class PhotosViewHolder(
         fun getFactory(listener: Listener? = null): ViewHolderFactory {
             return Factory(listener)
         }
+
+        private const val COUNT_OF_COLUMNS = 3
     }
 
     override fun onBind(model: RowDataModel<UserPhotoRowType, *>) {
@@ -126,7 +128,7 @@ class PhotosViewHolder(
         val metrics = DisplayMetrics()
         val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
         display.getMetrics(metrics)
-        return metrics.widthPixels / 3
+        return metrics.widthPixels / COUNT_OF_COLUMNS
     }
 
     private fun setViewSquareSize(view: View, sideSize: Int) {

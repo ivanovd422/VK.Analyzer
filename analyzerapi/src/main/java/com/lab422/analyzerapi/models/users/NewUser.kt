@@ -4,11 +4,15 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class NewUser(
-    val can_access_closed: Boolean,
-    val first_name: String,
+    @SerializedName("can_access_closed")
+    val canAccessClosed: Boolean,
+    @SerializedName("first_name")
+    val firstName: String,
     val id: Long,
-    val is_closed: Boolean,
-    val last_name: String,
+    @SerializedName("is_closed")
+    val isClosed: Boolean,
+    @SerializedName("last_name")
+    val lastName: String,
     val online: Int,
     @SerializedName("photo_200") val photoUrl: String?
 ) : Serializable

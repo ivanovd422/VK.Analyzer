@@ -19,7 +19,7 @@ class DateViewHolder(
     private val tvDate = view.tv_date
 
     companion object {
-        private class Factory() : ViewHolderFactory {
+        private class Factory : ViewHolderFactory {
             @Suppress("unused")
             override fun <T> createViewHolder(
                 parent: ViewGroup,

@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -32,6 +33,7 @@ import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
 import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.ui.userInfo.UserInfoBottomSheet.Companion.ZOOM_SIZE
 import com.lab422.vkanalyzer.ui.userInfo.model.PhotoInfoModel
 import com.lab422.vkanalyzer.ui.userInfo.model.UserInfoModel
 import com.lab422.vkanalyzer.utils.extensions.openLink
@@ -82,6 +84,9 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
 
             return bottomSheetFragment
         }
+
+        const val ZOOM_SIZE = 13f
+        const val IMAGE_HEIGHT_MULTIPLIER = 0.6
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -212,6 +217,7 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
             val link = "https://vk.com/id$userId"
             activity?.openLink(link)
         } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Ошибка при попытке открыть ссылку..", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -232,7 +238,7 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
         return displayMetrics.heightPixels
     }
 
-    private fun getImageHeight(): Int = (getWindowHeight() * 0.6).toInt()
+    private fun getImageHeight(): Int = (getWindowHeight() * IMAGE_HEIGHT_MULTIPLIER).toInt()
 
     private fun getAddressText(lat: Double?, long: Double?): String? {
         if (lat == null || long == null) {
@@ -254,7 +260,7 @@ private fun UserInfoModel.toLatLang(): LatLng? {
 
 private fun GoogleMap?.setLocation(location: LatLng) {
     this?.run {
-        moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f))
+        moveCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_SIZE))
         addMarker(MarkerOptions().position(location))
         mapType = GoogleMap.MAP_TYPE_NORMAL
         uiSettings.isMapToolbarEnabled = false

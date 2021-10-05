@@ -40,10 +40,10 @@ class PhotosInteractor constructor(
 
 private fun PhotosItemResponse.convertToUserPhotoModel(): UserPhotoData =
     UserPhotoData(
-        owner_id,
+        ownerId,
         sizes.last().url,
         date.toLong(),
-        user_id,
+        userId,
         lat,
         long,
         date

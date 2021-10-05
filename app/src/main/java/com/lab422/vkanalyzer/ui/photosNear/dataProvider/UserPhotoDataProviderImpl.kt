@@ -21,6 +21,8 @@ internal class UserPhotoDataProviderImpl(
 
     private companion object {
         const val GROUP_ID = 100
+        const val DATE_MULTIPLIER = 1000
+        const val ROWS_COUNT = 3
     }
 
     override fun generateUserPhotoData(
@@ -67,7 +69,7 @@ internal class UserPhotoDataProviderImpl(
                     finalUserPhotosList.add(
                         DateRowData(
                             UserPhotoRowType.Date,
-                            DatePhotosModel(convertTimestampToHumanDate(photoCell.date * 1000))
+                            DatePhotosModel(convertTimestampToHumanDate(photoCell.date * DATE_MULTIPLIER))
                         )
                     )
                     rowDate = photoCell.date
@@ -86,7 +88,7 @@ internal class UserPhotoDataProviderImpl(
                 // the day is the same
                 else {
 
-                    if (userPhotoRowModel.size == 3 || index == listSize - 1) {
+                    if (userPhotoRowModel.size == ROWS_COUNT || index == listSize - 1) {
                         finalUserPhotosList.add(
                             UserPhotoRowData(
                                 UserPhotoRowType.UserPhoto,
@@ -139,8 +141,8 @@ internal class UserPhotoDataProviderImpl(
         val firstDate = Date()
         val secondDate = Date()
 
-        firstDate.time = firstTime * 1000
-        secondDate.time = secondTime * 1000
+        firstDate.time = firstTime * DATE_MULTIPLIER
+        secondDate.time = secondTime * DATE_MULTIPLIER
 
         cal1.time = firstDate
         cal2.time = secondDate
