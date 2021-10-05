@@ -13,7 +13,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class AnalyzerApp :         Application() {
+class AnalyzerApp : Application() {
 
     private val trackerService: TrackerService by inject()
 
