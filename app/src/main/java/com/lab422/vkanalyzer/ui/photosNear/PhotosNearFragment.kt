@@ -244,6 +244,7 @@ class PhotosNearFragment :
             val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivity(intent)
         } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Ошибка при попытке открыть настройки..", Toast.LENGTH_SHORT).show()
         }
     }
 

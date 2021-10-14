@@ -26,8 +26,10 @@ val Date.daysFromToday: Long
         return daysFrom(Date().beginningOfDay)
     }
 
+const val MILLS_IN_SEC = 1000.0
+
 fun Date.daysFrom(date: Date): Long {
-    val millsInSec = 1000.0
+    val millsInSec = MILLS_IN_SEC
     return Math.ceil((this.time - date.beginningOfDay.time) / (millsInSec * TimeInterval.day)).toLong()
 }
 

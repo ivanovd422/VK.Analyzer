@@ -49,7 +49,7 @@ class UserInfoViewModel(
 private fun NewUser.convertToUserInfoModel(photoModel: PhotoInfoModel, clickedPhotoUrl: String): UserInfoModel =
     UserInfoModel(
         id.toString(),
-        "$first_name $last_name",
+        "$firstName $lastName",
         online != 0,
         photoUrl ?: "",
         photoModel.lat,

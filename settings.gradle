@@ -1,5 +1,7 @@
-include ':app'
 rootProject.name='VK Analyzer'
-include ':analyzerapi'
-include ':common'
-include ':interactor'
+
+include ':app',
+        ':analyzerapi',
+        ':common',
+        ':interactor'
+
