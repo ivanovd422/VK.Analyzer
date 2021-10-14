@@ -2,6 +2,7 @@
 App allows you to view photos that were taken near you via VK API.
 
 STACK:
+
   CORE:
   - KOTLIN
   - MVVM
