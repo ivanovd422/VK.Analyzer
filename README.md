@@ -1,5 +1,5 @@
 # VK.Analyzer
-App allows you to view photos that were taken near you via VK API.
+App allows you to view photos that were taken near you via VK API, check mutual friends other users and so on.
 
 
 Pet project where I try some new technologies and approaches. 
