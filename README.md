@@ -1,6 +1,10 @@
 # VK.Analyzer
 App allows you to view photos that were taken near you via VK API.
-https://play.google.com/store/apps/details?id=com.lab422.vkanalyzer
+
+
+Pet project where I try some new technologies and approaches. 
+
+Link to download - https://play.google.com/store/apps/details?id=com.lab422.vkanalyzer
 
 STACK:
 
