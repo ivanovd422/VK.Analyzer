@@ -1,7 +1,6 @@
 package com.lab422.vkanalyzer.ui.photosNear.adapter.holder
 
 import android.content.Context
-import android.net.Uri
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +8,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
@@ -20,13 +16,14 @@ import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoRowModel
 import com.lab422.vkanalyzer.utils.extensions.showOrHide
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 import kotlinx.android.synthetic.main.item_user_photo_row.view.*
-
 
 
 class PhotosViewHolder(
     view: View,
-    private val listener: Listener?
+    private val listener: Listener?,
+    private val imageLoader: ImageLoader
 ) : BaseTypedViewHolder<UserPhotoRowType>(view) {
 
     interface Listener {
@@ -40,17 +37,20 @@ class PhotosViewHolder(
     private val cellSideSize = getCellWidth(view.context)
 
     companion object {
-        private class Factory(private var listener: Listener?) : ViewHolderFactory {
+        private class Factory(private val listener: Listener?) :
+            ViewHolderFactory {
             @Suppress("unused")
             override fun <T> createViewHolder(
                 parent: ViewGroup,
                 viewType: Int,
-                stringProvider: StringProvider
+                stringProvider: StringProvider,
+                imageLoader: ImageLoader
             ): RecyclerView.ViewHolder {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user_photo_row, parent, false)
                 return PhotosViewHolder(
                     view,
-                    listener
+                    listener,
+                    imageLoader
                 )
             }
         }
@@ -113,13 +113,7 @@ class PhotosViewHolder(
     }
 
     private fun setPhoto(imageView: ImageView, url: String) {
-        Glide.with(itemView.context)
-            .asBitmap()
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
-            .load(Uri.parse(url))
-            .apply(RequestOptions.centerCropTransform())
-            .into(imageView)
+        imageLoader.loadPhotoByUrl(imageView, url)
     }
 
     private fun getCellWidth(context: Context): Int {

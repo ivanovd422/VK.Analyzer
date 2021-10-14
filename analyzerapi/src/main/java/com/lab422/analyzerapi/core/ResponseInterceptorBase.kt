@@ -7,6 +7,7 @@ import java.io.IOException
 import okhttp3.Interceptor
 import okhttp3.Response
 
+//todo del it
 abstract class ResponseInterceptorBase(
     private val StringProvider: StringProvider,
     private val logger: Logger

@@ -14,7 +14,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -34,7 +33,7 @@ import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.userInfo.model.PhotoInfoModel
 import com.lab422.vkanalyzer.ui.userInfo.model.UserInfoModel
-import com.lab422.vkanalyzer.utils.extensions.openLink
+import com.lab422.vkanalyzer.utils.extensions.openLinkWithVkApp
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.navigator.Navigator
 import kotlinx.android.synthetic.main.bottom_sheet_user_info.*
@@ -131,9 +130,9 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
     }
 
     private fun initObservers() {
-        viewModel?.getUserInfoState()?.observe(
+        viewModel?.userInfoState?.observe(
             viewLifecycleOwner,
-            Observer { viewState ->
+            { viewState ->
                 fillUserInfo(viewState)
             }
         )
@@ -195,7 +194,7 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
         if (url.isNotEmpty()) {
             Glide.with(imageView.context)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true)
                 .load(Uri.parse(url))
                 .apply() {
@@ -210,8 +209,9 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
     private fun openLink(userId: String) {
         try {
             val link = "https://vk.com/id$userId"
-            activity?.openLink(link)
+            activity?.openLinkWithVkApp(link)
         } catch (e: Exception) {
+            e
         }
     }
 
@@ -239,11 +239,15 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
             return null
         }
 
-        val addresses = Geocoder(requireContext().applicationContext, Locale("ru")).getFromLocation(lat, long, 1)
-        val firstLine = addresses[0].getAddressLine(0)
-        val postCode = firstLine.split(",").last()
+        return try {
+            val addresses = Geocoder(requireContext().applicationContext, Locale("ru")).getFromLocation(lat, long, 1)
+            val firstLine = addresses[0].getAddressLine(0)
+            val postCode = firstLine.split(",").last()
 
-        return firstLine.removeSuffix(postCode).removeSuffix(",")
+            firstLine.removeSuffix(postCode).removeSuffix(",")
+        } catch (e: Exception) {
+            null
+        }
     }
 }
 

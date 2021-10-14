@@ -1,50 +1,48 @@
 package com.lab422.vkanalyzer.ui.userInfo
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.lab422.analyzerapi.models.users.NewUser
+import com.lab422.analyzerapi.onResult
 import com.lab422.common.viewState.ViewState
-import com.lab422.common.viewState.isSuccess
 import com.lab422.interactor.UserInteractor
-import com.lab422.vkanalyzer.ui.base.BaseViewModel
 import com.lab422.vkanalyzer.ui.userInfo.model.PhotoInfoModel
 import com.lab422.vkanalyzer.ui.userInfo.model.UserInfoModel
+import kotlinx.coroutines.launch
 
 class UserInfoViewModel(
     private val photoModel: PhotoInfoModel,
     private val userInteractor: UserInteractor
-) : BaseViewModel() {
+) : ViewModel() {
 
-    private val userInfoState: MediatorLiveData<ViewState<UserInfoModel>> = MediatorLiveData()
-    fun getUserInfoState(): LiveData<ViewState<UserInfoModel>> = userInfoState
-
-    private val userFetchingLiveData: MutableLiveData<ViewState<UserInfoModel>> = MutableLiveData()
+    private val _userInfoState: MutableLiveData<ViewState<UserInfoModel>> = MutableLiveData()
+    val userInfoState: LiveData<ViewState<UserInfoModel>> = _userInfoState
 
     init {
-        userInfoState.addSource(userFetchingLiveData) { userInfoState.value = it }
-        userInfoState.addSource(
-            launchOnViewModelScope {
-                userInteractor.getUserInfoById(photoModel.userId)
-            }.map {
-                return@map if (it.isSuccess() && it.data != null) {
-                    ViewState(
-                        ViewState.Status.SUCCESS,
-                        it.data!!.convertToUserInfoModel(
-                            photoModel,
-                            photoModel.clickedPhotoUrl
-                        )
-                    )
-                } else {
-                    ViewState(ViewState.Status.ERROR, error = "Ошибка")
-                }
-            }
-        ) {
-            userInfoState.value = it
-        }
+        loadUserInfo()
+    }
 
-        userFetchingLiveData.value = ViewState(ViewState.Status.LOADING)
+    private fun loadUserInfo() {
+        _userInfoState.value = ViewState(ViewState.Status.LOADING)
+        viewModelScope.launch {
+            userInteractor.getUserInfoById(photoModel.userId)
+                .onResult(
+                    isSuccess = {
+                        _userInfoState.value = ViewState(
+                            ViewState.Status.SUCCESS,
+                            it?.convertToUserInfoModel(
+                                photoModel,
+                                photoModel.clickedPhotoUrl
+                            )
+                        )
+                    },
+                    isFailure = { _, _ ->
+                        _userInfoState.value = ViewState(ViewState.Status.ERROR, error = "Ошибка")
+                    }
+                )
+        }
     }
 }
 

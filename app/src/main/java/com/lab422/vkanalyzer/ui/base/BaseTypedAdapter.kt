@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lab422.common.StringProvider
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 import java.lang.RuntimeException
 
 // todo rewrite adapter with LiveData inside
@@ -14,7 +15,8 @@ abstract class BaseTypedAdapter<T : Rawable>(
     generalDataList: List<RowDataModel<T, *>>,
     private val stringProvider: StringProvider,
     private val useDiffs: Boolean = true,
-    private val lifecycleOwner: LifecycleOwner
+    private val lifecycleOwner: LifecycleOwner,
+    private val imageLoader: ImageLoader
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var previousData: List<RowDataModel<T, *>> = generalDataList.toList()
@@ -58,7 +60,7 @@ abstract class BaseTypedAdapter<T : Rawable>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val factory = viewHolderFactories[viewType]
             ?: throw RuntimeException("Not found factory for viewType=$viewType")
-        return factory.createViewHolder<T>(parent, viewType, stringProvider)
+        return factory.createViewHolder<T>(parent, viewType, stringProvider, imageLoader)
     }
 
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {

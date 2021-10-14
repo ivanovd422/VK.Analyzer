@@ -4,8 +4,14 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel(), LifecycleObserver {
+class MainViewModel(
+    private val imageLoader: ImageLoader
+) : ViewModel(), LifecycleObserver {
 
     private val menuItems: MutableLiveData<List<BarItem>> = MutableLiveData()
     private val selectedTabState: MutableLiveData<BarItem> = MutableLiveData()
@@ -15,6 +21,7 @@ class MainViewModel : ViewModel(), LifecycleObserver {
 
     init {
         initLiveData()
+        clearGlideCache()
     }
 
     fun getBottomBarItems(): LiveData<List<BarItem>> = menuItems
@@ -39,4 +46,10 @@ class MainViewModel : ViewModel(), LifecycleObserver {
     }
 
     private fun getBarItemById(itemId: Int): BarItem = barItems.find { it.id == itemId }!!
+
+    private fun clearGlideCache() {
+        viewModelScope.launch(Dispatchers.IO) {
+            imageLoader.clearMemoryCache()
+        }
+    }
 }

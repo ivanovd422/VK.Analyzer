@@ -8,17 +8,11 @@ class OAuthInterceptor(private val accessToken: String) : Interceptor {
         var request = chain.request()
         val bodyBuilder: FormBody.Builder = FormBody.Builder()
 
-        bodyBuilder/*.addEncoded("account", "me")*/
+        bodyBuilder
             .add("access_token", accessToken)
             .add("v", "5.103")
 
-/*
-        request = request.newBuilder()
-            .header("Authorization", accessToken).build()
-*/
-
         request = request.newBuilder().post(bodyBuilder.build()).build()
-        // return chain.proceed(request);
 
         return chain.proceed(request)
     }

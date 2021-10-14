@@ -13,5 +13,5 @@ interface PhotosApi {
         @Query("offset") offset: String = "0",
         @Query("radius") radius: String,
         @Query("sort") sort: String = "0"
-    ): PhotosResponse
+    ): NetworkResponse<PhotosResponse>
 }

@@ -2,7 +2,6 @@ package com.lab422.analyzerapi
 
 import com.google.gson.GsonBuilder
 import com.lab422.analyzerapi.core.OAuthInterceptor
-import com.lab422.analyzerapi.core.ResponseInterceptor
 import com.lab422.common.AppSettings
 import com.lab422.common.BuildConfig
 import com.lab422.common.Logger
@@ -31,6 +30,7 @@ class ApiFactory(
 
         val builder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(NetworkResponseAdapter())
             .baseUrl(baseAddress)
 
         builder
@@ -44,19 +44,11 @@ class ApiFactory(
         dispatcher
     }
 
-    private val loggingInterceptor = run {
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.apply {
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        }
-    }
-
     private val okHttpClient: OkHttpClient by lazy {
         val clientBuilder = OkHttpClient.Builder()
             .dispatcher(dispatcher)
             .readTimeout(timeoutSeconds, TimeUnit.SECONDS)
             .callTimeout(timeoutSeconds, TimeUnit.SECONDS)
-            .addInterceptor(loggingInterceptor)
             .connectionPool(ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
             .apply {
                 val token = appSettings.accessToken
@@ -67,11 +59,10 @@ class ApiFactory(
 
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
+            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             clientBuilder.addInterceptor(loggingInterceptor)
         }
 
-        clientBuilder.addInterceptor(ResponseInterceptor(stringProvider, logger))
         clientBuilder.build()
     }
 

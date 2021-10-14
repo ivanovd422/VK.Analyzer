@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.common.StringProvider
 import com.lab422.common.viewState.ViewState
@@ -24,8 +23,9 @@ import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsListAdap
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.gone
-import com.lab422.vkanalyzer.utils.extensions.openLink
+import com.lab422.vkanalyzer.utils.extensions.openLinkWithVkApp
 import com.lab422.vkanalyzer.utils.extensions.setVisible
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 import kotlinx.android.synthetic.main.activity_mutual_friends.*
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
@@ -41,8 +41,10 @@ class MutualFriendsActivity :
     private lateinit var viewModel: MutualViewModel
 
     private val stringProvider: StringProvider = get()
+    private val imageLoader: ImageLoader = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
-    private var friendsAdapter: MutualFriendsListAdapter
+    private var friendsAdapter: MutualFriendsListAdapter =
+        MutualFriendsListAdapter(listOf(), stringProvider, this, this, imageLoader)
     private lateinit var searchItem: SearchView
     private var menuItem: MenuItem? = null
 
@@ -55,10 +57,6 @@ class MutualFriendsActivity :
             intent.putExtra(mutualModelKey, MutualFriendsModel(firstId, secondId))
             return intent
         }
-    }
-
-    init {
-        friendsAdapter = MutualFriendsListAdapter(listOf(), stringProvider, this, this)
     }
 
     override fun getToolBarViewId(): Int = R.id.toolbar_mutual_friends_list
@@ -98,7 +96,7 @@ class MutualFriendsActivity :
     override fun onFriendClicked(id: Long, name: String) {
         val link = String.format("https://vk.com/id%d", id)
         tracker.openUserByLink(link)
-        openLink(link)
+        openLinkWithVkApp(link)
     }
 
     override fun onQueryTextSubmit(query: String): Boolean = true
@@ -134,12 +132,9 @@ class MutualFriendsActivity :
     }
 
     private fun initObservers() {
-        viewModel.getState().observe(
-            this,
-            Observer { viewState ->
-                processState(viewState)
-            }
-        )
+        viewModel.state.observe(this, { viewState ->
+            processState(viewState)
+        })
     }
 
     private fun processState(viewState: ViewState<List<RowDataModel<FriendsListType, *>>>) {

@@ -57,7 +57,7 @@ class PhotoFullScreen : BaseActivity(R.layout.activity_photo_full_screen) {
 
             Glide.with(photo_view.context)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true)
                 .load(Uri.parse(url))
                 .into(photo_view)

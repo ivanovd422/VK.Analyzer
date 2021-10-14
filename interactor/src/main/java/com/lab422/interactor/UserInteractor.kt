@@ -1,32 +1,26 @@
 package com.lab422.interactor
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import com.lab422.analyzerapi.NetworkApiException
+import com.lab422.analyzerapi.NetworkResponse
 import com.lab422.analyzerapi.UsersApi
+import com.lab422.analyzerapi.isFailure
+import com.lab422.analyzerapi.map
 import com.lab422.analyzerapi.models.friendsList.convertToUser
 import com.lab422.analyzerapi.models.users.NewUser
+import com.lab422.analyzerapi.value
 import com.lab422.common.UserNameValidator
-import com.lab422.common.viewState.ViewState
 
 class UserInteractor constructor(
     private val usersApi: UsersApi,
     private val validator: UserNameValidator
-) : BaseInteractor() {
-    suspend fun getFriendsList(): LiveData<ViewState<List<NewUser>>> = invokeBlock {
-        val liveData = MutableLiveData<ViewState<List<NewUser>>>()
-        val friendsList = mutableListOf<NewUser>()
-        val result = usersApi.getFriendsList()
-        result.response.items.forEach { friendsList.add(it.convertToUser()) }
-        liveData.postValue(ViewState(ViewState.Status.SUCCESS, friendsList))
-
-        return@invokeBlock liveData
-    }
+) {
+    suspend fun getFriendsList(): NetworkResponse<List<NewUser>> =
+        usersApi.getFriendsList().map { response -> response.response.items.map { item -> item.convertToUser() } }
 
     suspend fun findMutualFriendsByUsersId(
         firstName: String,
         secondName: String
-    ): LiveData<ViewState<List<NewUser>>> = invokeBlock {
-        val liveData = MutableLiveData<ViewState<List<NewUser>>>()
+    ): NetworkResponse<List<NewUser>> {
         var firstUserId: String = validator.validate(firstName)
         var secondUserId: String = validator.validate(secondName)
         val isKnowFirstUserId: Boolean = validator.isId(firstUserId)
@@ -44,13 +38,12 @@ class UserInteractor constructor(
             }
 
             val idString = nicknames.joinToString(separator = ",")
-            val usersId = usersApi.getUsersByIds(idString).response.map { it.id.toString() }
+            val usersIdResponse = usersApi.getUsersByIds(idString).map { it.response.map { it.id.toString() } }
 
-            // todo throw app exception
-            if (usersId.isEmpty()) {
-                liveData.postValue(ViewState(ViewState.Status.ERROR, error = "Проверьте правильность полей"))
-                return@invokeBlock liveData
+            if (usersIdResponse.isFailure() || usersIdResponse.value().isNullOrEmpty()) {
+                return NetworkResponse.failure(NetworkApiException("Проверьте правильность полей", null, null), null)
             }
+            val usersId = usersIdResponse.value()!!
 
             firstUserId = if (isKnowFirstUserId) firstUserId else usersId.first()
             secondUserId = if (isKnowSecondUserId) secondUserId else {
@@ -63,18 +56,16 @@ class UserInteractor constructor(
         }
 
         val mutualFriendsResponse = usersApi.getMutualFriendsId(firstUserId, secondUserId)
-        val usersId = mutualFriendsResponse.response.joinToString(",")
-        val usersList = usersApi.getUsersWithInfoByIds(usersId).response
 
-        liveData.postValue(ViewState(ViewState.Status.SUCCESS, usersList))
-        return@invokeBlock liveData
+        if (mutualFriendsResponse.isFailure() || mutualFriendsResponse.value()?.response.isNullOrEmpty()) {
+            return NetworkResponse.failure(NetworkApiException("Проверьте правильность полей", null, null), null)
+        }
+
+        val usersId = mutualFriendsResponse.map { it.response.joinToString(",") }
+
+        return usersApi.getUsersWithInfoByIds(usersId.value()!!).map { it.response }
     }
 
-    suspend fun getUserInfoById(userId: String): LiveData<ViewState<NewUser>> = invokeBlock {
-        val liveData = MutableLiveData<ViewState<NewUser>>()
-        val newUser = usersApi.getUsersWithInfoByIds(userId).response.first()
-        liveData.postValue(ViewState(ViewState.Status.SUCCESS, newUser))
-
-        return@invokeBlock liveData
-    }
+    suspend fun getUserInfoById(userId: String): NetworkResponse<NewUser?> =
+        usersApi.getUsersWithInfoByIds(userId).map { it.response.firstOrNull() }
 }

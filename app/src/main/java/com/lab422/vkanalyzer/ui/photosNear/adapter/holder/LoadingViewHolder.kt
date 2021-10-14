@@ -10,6 +10,7 @@ import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 
 class LoadingViewHolder(
     view: View,
@@ -26,7 +27,8 @@ class LoadingViewHolder(
             override fun <T> createViewHolder(
                 parent: ViewGroup,
                 viewType: Int,
-                stringProvider: StringProvider
+                stringProvider: StringProvider,
+                imageLoader: ImageLoader
             ): RecyclerView.ViewHolder {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_loading_row, parent, false)
                 return LoadingViewHolder(

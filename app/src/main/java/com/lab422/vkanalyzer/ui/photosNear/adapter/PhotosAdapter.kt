@@ -7,14 +7,16 @@ import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.DateViewHolder
 import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.LoadingViewHolder
 import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.PhotosViewHolder
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 
 class PhotosAdapter(
     friends: List<RowDataModel<UserPhotoRowType, *>>,
     stringProvider: StringProvider,
     lifecycleOwner: LifecycleOwner,
     listener: PhotosViewHolder.Listener,
-    onNextLoadingListener: LoadingViewHolder.Listener
-) : BaseTypedAdapter<UserPhotoRowType>(friends, stringProvider, true, lifecycleOwner) {
+    onNextLoadingListener: LoadingViewHolder.Listener,
+    imageLoader: ImageLoader
+) : BaseTypedAdapter<UserPhotoRowType>(friends, stringProvider, true, lifecycleOwner, imageLoader) {
 
     init {
         addFactory(UserPhotoRowType.UserPhoto, PhotosViewHolder.getFactory(listener))
