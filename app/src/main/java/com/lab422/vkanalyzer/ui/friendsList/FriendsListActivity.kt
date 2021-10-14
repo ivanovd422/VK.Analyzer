@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.common.StringProvider
 import com.lab422.common.viewState.ViewState
@@ -23,6 +22,7 @@ import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.utils.extensions.gone
 import com.lab422.vkanalyzer.utils.extensions.setVisible
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 import kotlinx.android.synthetic.main.activity_friends_list.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -34,17 +34,14 @@ class FriendsListActivity :
 
     private lateinit var viewModel: FriendsListViewModel
     private val stringProvider: StringProvider = get()
+    private val imageLoader: ImageLoader = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
-    private var friendsAdapter: FriendsListAdapter
+    private var friendsAdapter = FriendsListAdapter(listOf(), stringProvider, this, this, imageLoader)
     private lateinit var searchItem: SearchView
 
     companion object {
         fun createIntent(context: Context): Intent = Intent(context, FriendsListActivity()::class.java)
         const val FRIEND_ID_KEY = "friend_id_key"
-    }
-
-    init {
-        friendsAdapter = FriendsListAdapter(listOf(), stringProvider, this, this)
     }
 
     override fun getToolBarViewId(): Int = R.id.toolbar_friends_list
@@ -100,12 +97,7 @@ class FriendsListActivity :
     }
 
     private fun initObservers() {
-        viewModel.getFriendsState().observe(
-            this,
-            Observer { viewState ->
-                processState(viewState)
-            }
-        )
+        viewModel.state.observe(this, { viewState -> processState(viewState) })
     }
 
     private fun processState(viewState: ViewState<List<RowDataModel<FriendsListType, *>>>) {

@@ -6,6 +6,8 @@ import com.lab422.common.UserNameValidator
 import com.lab422.vkanalyzer.AnalyzerApp
 import com.lab422.vkanalyzer.ui.photosNear.dataProvider.UserPhotoDataProvider
 import com.lab422.vkanalyzer.ui.photosNear.dataProvider.UserPhotoDataProviderImpl
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoaderImpl
 import com.lab422.vkanalyzer.utils.logger.LoggerImpl
 import com.lab422.vkanalyzer.utils.stringProvider.StringProviderImpl
 import com.lab422.vkanalyzer.utils.validator.UserNameValidatorImpl
@@ -16,4 +18,5 @@ fun provideUtilsModule(app: AnalyzerApp) = module(true) {
     single<Logger> { LoggerImpl() }
     single<UserNameValidator> { UserNameValidatorImpl() }
     single<UserPhotoDataProvider> { UserPhotoDataProviderImpl(get()) }
+    single<ImageLoader> { ImageLoaderImpl(get()) }
 }

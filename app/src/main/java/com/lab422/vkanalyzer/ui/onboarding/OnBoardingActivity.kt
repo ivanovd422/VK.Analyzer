@@ -12,6 +12,7 @@ import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.onboarding.adapter.OnBoardingAdapter
 import com.lab422.vkanalyzer.utils.extensions.getScreenWidth
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 import com.lab422.vkanalyzer.utils.view.InstaStorySlider
 import kotlinx.android.synthetic.main.activity_on_boarding.*
 import org.koin.android.ext.android.get
@@ -29,9 +30,10 @@ class OnBoardingActivity : AppCompatActivity(R.layout.activity_on_boarding) {
     private val viewModel: OnBoardingViewModel by inject()
 
     private val stringProvider: StringProvider = get()
+    private val imageLoader: ImageLoader = get()
 
     init {
-        pagerAdapter = OnBoardingAdapter(listOf(), stringProvider, this)
+        pagerAdapter = OnBoardingAdapter(listOf(), stringProvider, this, imageLoader)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

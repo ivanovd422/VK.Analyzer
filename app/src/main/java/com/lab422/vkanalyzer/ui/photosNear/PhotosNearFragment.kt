@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -31,6 +30,7 @@ import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.LoadingViewHolder
 import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.PhotosViewHolder
 import com.lab422.vkanalyzer.ui.userInfo.UserInfoBottomSheet
 import com.lab422.vkanalyzer.utils.extensions.setVisible
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 import kotlinx.android.synthetic.main.fragment_photos_near.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -45,6 +45,7 @@ class PhotosNearFragment :
     private var locationClientManager: FusedLocationProviderClient? = null
     private var photosAdapter: PhotosAdapter? = null
     private val stringProvider: StringProvider = get()
+    private val imageLoader: ImageLoader = get()
 
     companion object {
         const val TAG = "PhotosNearFragment"
@@ -66,9 +67,9 @@ class PhotosNearFragment :
     }
 
     private fun initObservers() {
-        viewModel?.getLocationStateAvailability()?.observe(
+        viewModel?.locationStateAvailability?.observe(
             viewLifecycleOwner,
-            Observer { viewState ->
+            { viewState ->
                 viewState.data?.let { isLocationAvailable ->
                     container_permissions.setVisible(isLocationAvailable.not())
                     container_main.setVisible(isLocationAvailable)
@@ -76,16 +77,16 @@ class PhotosNearFragment :
             }
         )
 
-        viewModel?.getUserPhotosDataState()?.observe(
+        viewModel?.userPhotosData?.observe(
             viewLifecycleOwner,
-            Observer { viewState ->
+            { viewState ->
                 processState(viewState)
             }
         )
 
-        viewModel?.isCoordinatesExist()?.observe(
+        viewModel?.coordinatesState?.observe(
             viewLifecycleOwner,
-            Observer { isCoordinatesExist ->
+            { isCoordinatesExist ->
                 if (isCoordinatesExist.not()) {
                     if (checkPermissions()) {
                         getLastLocation()
@@ -125,7 +126,8 @@ class PhotosNearFragment :
             stringProvider,
             this,
             this,
-            this
+            this,
+            imageLoader
         )
 
         btn_request_permissions.setOnClickListener {
@@ -206,9 +208,9 @@ class PhotosNearFragment :
                 permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(
-                it,
-                permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+                    it,
+                    permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
         } ?: false
 
     private fun isLocationEnabled(): Boolean {
@@ -216,8 +218,8 @@ class PhotosNearFragment :
             val locationManager = ContextCompat.getSystemService(it, LocationManager::class.java)
             return locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false ||
                 locationManager?.isProviderEnabled(
-                LocationManager.NETWORK_PROVIDER
-            ) ?: false
+                    LocationManager.NETWORK_PROVIDER
+                ) ?: false
         } ?: false
     }
 

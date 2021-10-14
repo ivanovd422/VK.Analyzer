@@ -2,7 +2,6 @@ package com.lab422.analyzerapi
 
 import com.google.gson.GsonBuilder
 import com.lab422.analyzerapi.core.OAuthInterceptor
-import com.lab422.analyzerapi.core.ResponseInterceptor
 import com.lab422.common.AppSettings
 import com.lab422.common.BuildConfig
 import com.lab422.common.Logger
@@ -22,9 +21,7 @@ class ApiFactory(
     private val logger: Logger
 ) {
 
-    companion object {
-        const val TIME_OUT_SECONDS = 90L
-    }
+    private val timeoutSeconds: Long = 90
 
     private inline fun <reified T> createApi(): T = retrofit.create<T>(T::class.java)
 
@@ -33,6 +30,7 @@ class ApiFactory(
 
         val builder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(NetworkResponseAdapter())
             .baseUrl(baseAddress)
 
         builder
@@ -46,19 +44,11 @@ class ApiFactory(
         dispatcher
     }
 
-    private val loggingInterceptor = run {
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.apply {
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        }
-    }
-
     private val okHttpClient: OkHttpClient by lazy {
         val clientBuilder = OkHttpClient.Builder()
             .dispatcher(dispatcher)
-            .readTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
-            .callTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
-            .addInterceptor(loggingInterceptor)
+            .readTimeout(timeoutSeconds, TimeUnit.SECONDS)
+            .callTimeout(timeoutSeconds, TimeUnit.SECONDS)
             .connectionPool(ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
             .apply {
                 val token = appSettings.accessToken
@@ -69,11 +59,10 @@ class ApiFactory(
 
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
+            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             clientBuilder.addInterceptor(loggingInterceptor)
         }
 
-        clientBuilder.addInterceptor(ResponseInterceptor(stringProvider, logger))
         clientBuilder.build()
     }
 

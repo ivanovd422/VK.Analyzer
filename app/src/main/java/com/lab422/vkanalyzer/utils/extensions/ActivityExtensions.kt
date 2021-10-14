@@ -15,16 +15,18 @@ fun Activity.overridePendingTransitionAsTopOut() {
 
 private const val VK_APP_PACKAGE_ID = "com.vkontakte.android"
 
-fun Activity.openLink(url: String?) {
+fun Activity.openLinkWithVkApp(url: String?) {
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
     val resInfo = packageManager.queryIntentActivities(intent, 0)
-    if (resInfo.isEmpty()) return
-    for (info in resInfo) {
-        if (info.activityInfo == null) continue
-        if (VK_APP_PACKAGE_ID == info.activityInfo.packageName) {
-            intent.setPackage(info.activityInfo.packageName)
-            break
+    if (resInfo.isEmpty()) {
+        for (info in resInfo) {
+            if (info.activityInfo == null) continue
+            if (VK_APP_PACKAGE_ID == info.activityInfo.packageName) {
+                intent.setPackage(info.activityInfo.packageName)
+                break
+            }
         }
     }
+
     startActivity(intent)
 }

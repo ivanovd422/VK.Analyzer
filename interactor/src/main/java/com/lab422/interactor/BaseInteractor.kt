@@ -6,6 +6,7 @@ import com.lab422.analyzerapi.core.AnalyzerApiException
 import com.lab422.common.api.NetworkException
 import com.lab422.common.viewState.ViewState
 
+//todo delete it5
 open class BaseInteractor {
 
     protected suspend fun <T> invokeBlock(block: suspend () -> LiveData<ViewState<T>>): LiveData<ViewState<T>> {

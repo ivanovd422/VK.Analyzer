@@ -9,6 +9,7 @@ import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 import kotlinx.android.synthetic.main.item_onboarding_holder.view.*
 
 class OnBoardingHolder(
@@ -25,7 +26,8 @@ class OnBoardingHolder(
             override fun <T> createViewHolder(
                 parent: ViewGroup,
                 viewType: Int,
-                stringProvider: StringProvider
+                stringProvider: StringProvider,
+                imageLoader: ImageLoader
             ): RecyclerView.ViewHolder {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_onboarding_holder, parent, false)
                 return OnBoardingHolder(view)

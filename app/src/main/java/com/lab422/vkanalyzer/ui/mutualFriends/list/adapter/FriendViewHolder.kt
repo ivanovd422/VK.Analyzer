@@ -17,6 +17,7 @@ import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewModel
+import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 
 class FriendViewHolder(
     private val view: View,
@@ -38,7 +39,8 @@ class FriendViewHolder(
             override fun <T> createViewHolder(
                 parent: ViewGroup,
                 viewType: Int,
-                stringProvider: StringProvider
+                stringProvider: StringProvider,
+                imageLoader: ImageLoader
             ): RecyclerView.ViewHolder {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_mutual_friend, parent, false)
                 return FriendViewHolder(view, listener)
@@ -79,7 +81,7 @@ class FriendViewHolder(
             Glide.with(itemView.context)
                 .asBitmap()
                 .load(Uri.parse(item.photoUrl))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true)
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivUserPhoto)
