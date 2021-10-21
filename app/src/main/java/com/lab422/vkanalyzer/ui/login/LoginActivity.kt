@@ -4,9 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.lifecycle.Observer
+import androidx.appcompat.widget.Toolbar
 import com.lab422.common.viewState.isLoading
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.databinding.ActivityLoginBinding
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.setVisible
@@ -14,10 +15,9 @@ import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
-import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.inject
 
-class LoginActivity : BaseActivity(R.layout.activity_login) {
+class LoginActivity : BaseActivity() {
 
     private val viewModel: LoginViewModel by inject()
     private val tracker: TrackerService by inject()
@@ -28,12 +28,16 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
         }
     }
 
-    override fun getToolBarViewId(): Int = R.id.toolbar_login
+    private lateinit var binding: ActivityLoginBinding
+
+    override fun getToolBarViewId(): Toolbar = binding.toolbarLogin.toolbarDefault
 
     override val toolbarName: Int = R.string.toolbar_text_login
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setToolBar(false)
         initViews()
         initObservers()
@@ -61,39 +65,43 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
     private fun initObservers() {
         viewModel.getErrorState().observe(
             this,
-            Observer {
+            {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         )
 
         viewModel.getState().observe(
             this,
-            Observer { viewState ->
+            { viewState ->
                 showLoading(viewState.isLoading())
             }
         )
 
         viewModel.getAuthInfoDialog().observe(
             this,
-            Observer {
+            {
                 showAuthInfoDialog()
             }
         )
     }
 
     private fun showLoading(isLoading: Boolean) {
-        tv_title_login.setVisible(!isLoading)
-        btn_auth_by_vk.setVisible(!isLoading)
-        btn_why_should_auth.setVisible(!isLoading)
-        pb_auth_loading.setVisible(isLoading)
+        with(binding) {
+            tvTitleLogin.setVisible(!isLoading)
+            btnAuthByVk.setVisible(!isLoading)
+            btnWhyShouldAuth.setVisible(!isLoading)
+            pbAuthLoading.setVisible(isLoading)
+        }
     }
 
     private fun initViews() {
-        btn_auth_by_vk.setOnClickListener {
-            authByVk()
-        }
-        btn_why_should_auth.setOnClickListener {
-            showAuthInfoDialog()
+        with(binding) {
+            btnAuthByVk.setOnClickListener {
+                authByVk()
+            }
+            btnWhyShouldAuth.setOnClickListener {
+                showAuthInfoDialog()
+            }
         }
     }
 

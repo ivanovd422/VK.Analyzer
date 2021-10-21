@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.lab422.common.StringProvider
-import kotlinx.android.synthetic.main.item_mutual_friend.view.*
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.databinding.ItemMutualFriendBinding
 import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
@@ -23,11 +23,8 @@ class FriendViewHolder(
     private val view: View,
     private val listener: Listener?
 ) : BaseTypedViewHolder<FriendsListType>(view) {
-    private val tvUserName = view.tv_user_name
-    private val tvUserStatus = view.tv_user_status
-    private val ivUserPhoto = view.iv_friend_photo
-    private val tvUserId = view.tv_user_id
 
+    private val binding = ItemMutualFriendBinding.bind(itemView)
 
     interface Listener {
         fun onFriendClicked(id: Long, name: String)
@@ -70,12 +67,12 @@ class FriendViewHolder(
 
         view.setOnClickListener { listener?.onFriendClicked(item.id, item.userName) }
 
-        tvUserName.text = item.userName
-
-        tvUserStatus.text = textStatus
-        tvUserStatus.setTextColor(ContextCompat.getColor(itemView.context, statusColor))
-
-        tvUserId.text = String.format(textIdPattern, item.id)
+        with(binding) {
+            tvUserName.text = item.userName
+            tvUserStatus.text = textStatus
+            tvUserStatus.setTextColor(ContextCompat.getColor(itemView.context, statusColor))
+            tvUserId.text = String.format(textIdPattern, item.id)
+        }
 
         if (item.photoUrl.isNullOrEmpty().not()) {
             Glide.with(itemView.context)
@@ -84,7 +81,7 @@ class FriendViewHolder(
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true)
                 .apply(RequestOptions.circleCropTransform())
-                .into(ivUserPhoto)
+                .into(binding.ivFriendPhoto)
         }
     }
 }

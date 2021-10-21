@@ -4,17 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.databinding.ActivityMainBinding
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.utils.extensions.attach
 import com.lab422.vkanalyzer.utils.extensions.detach
 import com.lab422.vkanalyzer.utils.extensions.setActive
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-class MainActivity : BaseActivity(R.layout.activity_main) {
+class MainActivity : BaseActivity() {
 
     private lateinit var viewModel: MainViewModel
 
@@ -24,12 +24,16 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         }
     }
 
-    override fun getToolBarViewId(): Int = R.id.main_activity_bar_toolbar
+    private lateinit var binding: ActivityMainBinding
+
+    override fun getToolBarViewId(): Toolbar = binding.mainActivityBarToolbar.toolbarDefault
 
     override val toolbarName: Int = R.string.main_screen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         viewModel = getViewModel()
         setToolBar(false)
 
@@ -39,21 +43,21 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     private fun initObservables() {
         viewModel.getBottomBarItems().observe(
             this,
-            Observer {
+            {
                 initNavigationBar(it)
             }
         )
 
         viewModel.getCurrentTab().observe(
             this,
-            Observer {
+            {
                 selectTab(it)
             }
         )
     }
 
     private fun initNavigationBar(barItems: List<BarItem>) {
-        bottom_navigation.apply {
+        binding.bottomNavigation.apply {
             for (barItem in barItems) {
                 menu.add(Menu.NONE, barItem.id, Menu.NONE, barItem.itemTitle).setIcon(barItem.icon)
             }
@@ -75,7 +79,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             supportFragmentManager.executePendingTransactions()
         }
 
-        bottom_navigation.setActive(item.id)
+        binding.bottomNavigation.setActive(item.id)
 
         item.toolbarTitle?.let { setToolbar(it) }
     }

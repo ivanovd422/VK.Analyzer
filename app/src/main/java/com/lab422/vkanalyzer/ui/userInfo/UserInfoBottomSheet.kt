@@ -10,16 +10,12 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -31,13 +27,12 @@ import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
 import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.databinding.BottomSheetUserInfoBinding
 import com.lab422.vkanalyzer.ui.userInfo.model.PhotoInfoModel
 import com.lab422.vkanalyzer.ui.userInfo.model.UserInfoModel
 import com.lab422.vkanalyzer.utils.extensions.openLinkWithVkApp
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.navigator.Navigator
-import kotlinx.android.synthetic.main.bottom_sheet_user_info.*
-import kotlinx.android.synthetic.main.bottom_sheet_user_info.view.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -51,19 +46,9 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
     private var viewModel: UserInfoViewModel? = null
     private var googleMap: GoogleMap? = null
     private var latLng: LatLng? = null
-
-    private lateinit var pbUserInfoLoading: ProgressBar
-    private lateinit var contentContainer: View
-    private lateinit var ivUserAvatar: ImageView
-    private lateinit var ivUserPhoto: ImageView
-    private lateinit var tvUserName: TextView
-    private lateinit var tvUserLocation: TextView
-    private lateinit var btnOpenInVk: View
-    private lateinit var btnCloseDialog: Button
-    private lateinit var mapView: MapView
-    private lateinit var mapContainer: View
-
     private var model: PhotoInfoModel? = null
+
+    private lateinit var binding: BottomSheetUserInfoBinding
 
     companion object {
         private const val PHOTO_INFO_MODEL_KEY = "PHOTO_INFO_MODEL_KEY"
@@ -105,8 +90,9 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.bottom_sheet_user_info, container, false)
-        initViews(view)
+        binding = BottomSheetUserInfoBinding.inflate(inflater, container, false)
+        val view = binding.root
+        initViews()
         initObservers()
         return view
     }
@@ -138,56 +124,46 @@ class UserInfoBottomSheet : BottomSheetDialogFragment(), OnMapReadyCallback {
         )
     }
 
-    private fun initViews(view: View) {
-        pbUserInfoLoading = view.pb_user_info_loading
-        contentContainer = view.content_container
-        ivUserAvatar = view.iv_user_avatar
-        ivUserPhoto = view.iv_user_photo
-        tvUserName = view.tv_user_name
-        tvUserLocation = view.tv_user_location
-        btnOpenInVk = view.ll_open_in_vk
-        btnCloseDialog = view.btn_error_close
-        mapView = view.map_lite_view
-        mapContainer = view.container_map
-
-        btnCloseDialog.setOnClickListener { dismiss() }
-
-        ivUserPhoto.layoutParams.height = getImageHeight()
-        ivUserPhoto.requestLayout()
+    private fun initViews() {
+        with(binding) {
+            btnErrorClose.setOnClickListener { dismiss() }
+            ivUserPhoto .layoutParams.height = getImageHeight()
+            ivUserPhoto.requestLayout()
+        }
     }
 
     private fun fillUserInfo(viewState: ViewState<UserInfoModel>) {
-        pbUserInfoLoading.setVisible(viewState.isLoading())
-        contentContainer.setVisible(viewState.isSuccess())
+        binding.pbUserInfoLoading.setVisible(viewState.isLoading())
+        binding.contentContainer.setVisible(viewState.isSuccess())
 
         if (viewState.isSuccess() && viewState.data != null) {
             val data = viewState.data!!
 
-            setPhoto(data.userAvatarPhotoUrl, ivUserAvatar, true)
-            setPhoto(data.clickedPhotoUrl, ivUserPhoto, false)
-            tvUserName.text = data.userName
-            tvUserLocation.text = getAddressText(data.lat, data.long)
+            setPhoto(data.userAvatarPhotoUrl, binding.ivUserAvatar, true)
+            setPhoto(data.clickedPhotoUrl, binding.ivUserPhoto, false)
+            binding.tvUserName.text = data.userName
+            binding.tvUserLocation.text = getAddressText(data.lat, data.long)
 
-            btnOpenInVk.setOnClickListener {
+            binding.llOpenInVk.setOnClickListener {
                 dismiss()
                 openLink(data.userId)
             }
 
             latLng = data.toLatLang()
             val shouldShowMap = latLng != null
-            mapContainer.setVisible(shouldShowMap)
+            binding.containerMap.setVisible(shouldShowMap)
 
             if (shouldShowMap) {
-                mapView.onCreate(null)
-                mapView.getMapAsync(this)
+                binding.mapLiteView.onCreate(null)
+                binding.mapLiteView.getMapAsync(this)
             }
 
-            ivUserPhoto.setOnClickListener {
+            binding.ivUserPhoto.setOnClickListener {
                 navigator.openFullScreen(data.clickedPhotoUrl)
             }
         }
 
-        error_container.setVisible(viewState.isError())
+        binding.errorContainer.setVisible(viewState.isError())
     }
 
     private fun setPhoto(url: String, imageView: ImageView, isCropCircle: Boolean) {

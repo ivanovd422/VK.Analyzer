@@ -3,14 +3,17 @@ package com.lab422.vkanalyzer.ui.settings
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.lab422.common.AppSettings
 import com.lab422.vkanalyzer.BuildConfig
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.databinding.FragmentSettingsBinding
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.navigator.Navigator
-import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.android.ext.android.get
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -24,24 +27,33 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val navigator: Navigator = get()
     private val appSettings: AppSettings = get()
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private lateinit var binding: FragmentSettingsBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
         initViews()
+        return binding.root
     }
 
     private fun initViews() {
-        tv_support.setOnClickListener {
-            sendEmail()
-        }
-        tv_share_app.setOnClickListener {
-            shareApp()
-        }
+        with(binding) {
+            tvSupport.setOnClickListener {
+                sendEmail()
+            }
+            tvShareApp.setOnClickListener {
+                shareApp()
+            }
 
-        val codeVersion = BuildConfig.VERSION_NAME
-        tv_app_version_title.text = "${getString(R.string.settings_app_version)} $codeVersion"
+            val codeVersion = BuildConfig.VERSION_NAME
+            tvAppVersionTitle.text = "${getString(R.string.settings_app_version)} $codeVersion"
 
-        tv_exit_account.setOnClickListener {
-            logout()
+            tvExitAccount.setOnClickListener {
+                logout()
+            }
         }
     }
 

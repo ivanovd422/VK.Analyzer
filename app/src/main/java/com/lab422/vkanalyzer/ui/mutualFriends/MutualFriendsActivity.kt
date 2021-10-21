@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.common.StringProvider
@@ -15,6 +16,7 @@ import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
 import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.databinding.ActivityMutualFriendsBinding
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
@@ -26,14 +28,13 @@ import com.lab422.vkanalyzer.utils.extensions.gone
 import com.lab422.vkanalyzer.utils.extensions.openLinkWithVkApp
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
-import kotlinx.android.synthetic.main.activity_mutual_friends.*
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
 class MutualFriendsActivity :
-    BaseActivity(R.layout.activity_mutual_friends),
+    BaseActivity(),
     FriendViewHolder.Listener,
     SearchView.OnQueryTextListener,
     SearchView.OnCloseListener {
@@ -50,6 +51,8 @@ class MutualFriendsActivity :
 
     private val tracker: TrackerService by inject()
 
+    private lateinit var binding: ActivityMutualFriendsBinding
+
     companion object {
         private const val mutualModelKey = "mutualModelKey"
         fun createIntent(context: Context, firstId: String, secondId: String): Intent {
@@ -59,12 +62,14 @@ class MutualFriendsActivity :
         }
     }
 
-    override fun getToolBarViewId(): Int = R.id.toolbar_mutual_friends_list
+    override fun getToolBarViewId(): Toolbar = binding.toolbarMutualFriendsList
 
     override val toolbarName: Int = R.string.toolbar_text_empty
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMutualFriendsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setToolBar()
         viewModel = getViewModel {
             parametersOf(intent.extras?.getParcelable<MutualFriendsModel>(mutualModelKey))
@@ -85,7 +90,7 @@ class MutualFriendsActivity :
         menuItem?.isVisible = false
 
         searchItem.setOnSearchClickListener {
-            cl_counter_container.isVisible = false
+            binding.clCounterContainer.isVisible = false
         }
 
         searchItem.setOnCloseListener(this)
@@ -107,7 +112,7 @@ class MutualFriendsActivity :
     }
 
     override fun onClose(): Boolean {
-        cl_counter_container.isVisible = true
+        binding.clCounterContainer.isVisible = true
 
         return false
     }
@@ -122,12 +127,14 @@ class MutualFriendsActivity :
     }
 
     private fun initViews() {
-        ll_mutual_friends_error_wrapper.gone()
-        btn_return.setOnClickListener { onSupportNavigateUp() }
+        with(binding) {
+            llMutualFriendsErrorWrapper.gone()
+            btnReturn.setOnClickListener { onSupportNavigateUp() }
 
-        rv_mutual_friends.run {
-            layoutManager = activityLayoutManager
-            adapter = friendsAdapter
+            rvMutualFriends.run {
+                layoutManager = activityLayoutManager
+                adapter = friendsAdapter
+            }
         }
     }
 
@@ -138,16 +145,18 @@ class MutualFriendsActivity :
     }
 
     private fun processState(viewState: ViewState<List<RowDataModel<FriendsListType, *>>>) {
-        pb_mutual_friends_loading.setVisible(viewState.isLoading())
-        ll_mutual_friends_error_wrapper.setVisible(viewState.isError())
-        menuItem?.isVisible = viewState.isSuccess()
-        tv_user_count.isVisible = viewState.isSuccess() && viewState.data.isNullOrEmpty().not()
+        with(binding) {
+            pbMutualFriendsLoading.setVisible(viewState.isLoading())
+            llMutualFriendsErrorWrapper.setVisible(viewState.isError())
+            menuItem?.isVisible = viewState.isSuccess()
+            tvUserCount.isVisible = viewState.isSuccess() && viewState.data.isNullOrEmpty().not()
+        }
 
         if (viewState.isSuccess()) {
             setData(viewState.data)
 
             if (viewState.data.isNullOrEmpty().not()) {
-                tv_user_count.text = viewState.data!!.size.toString()
+                binding.tvUserCount.text = viewState.data!!.size.toString()
             }
         }
 
