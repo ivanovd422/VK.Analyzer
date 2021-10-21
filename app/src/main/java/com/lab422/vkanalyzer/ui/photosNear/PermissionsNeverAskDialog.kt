@@ -5,9 +5,10 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
-import com.lab422.vkanalyzer.R
-import kotlinx.android.synthetic.main.dialog_permissions_never_ask.view.*
+import com.lab422.vkanalyzer.databinding.DialogPermissionsNeverAskBinding
 
 class PermissionsNeverAskDialog : AppCompatDialogFragment() {
 
@@ -15,13 +16,20 @@ class PermissionsNeverAskDialog : AppCompatDialogFragment() {
         fun onOpenPermissionsSettingsClicked()
     }
 
+    private lateinit var binding: DialogPermissionsNeverAskBinding
+
     private var listener: OpenPermissionsSettingsAction? = null
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val inputView = LayoutInflater.from(activity).inflate(R.layout.dialog_permissions_never_ask, null)
-        val builder = AlertDialog.Builder(activity).setView(inputView)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return DialogPermissionsNeverAskBinding.inflate(inflater, container, false).also {
+            binding = it
+        }.root
+    }
 
-        inputView.btn_accept.setOnClickListener {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(activity).setView(binding.root)
+
+        binding.btnAccept.setOnClickListener {
             listener?.onOpenPermissionsSettingsClicked()
             this.dismiss()
         }

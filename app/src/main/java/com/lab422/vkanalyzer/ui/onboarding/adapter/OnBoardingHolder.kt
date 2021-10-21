@@ -6,19 +6,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.databinding.ItemOnboardingHolderBinding
 import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
-import kotlinx.android.synthetic.main.item_onboarding_holder.view.*
 
 class OnBoardingHolder(
     view: View
 ) : BaseTypedViewHolder<OnBoardingType>(view) {
 
-    private val tvTitle = view.tv_on_boarding_title
-    private val tvSubTitle = view.tv_on_boarding_subtitle
-    private val ivImage = view.iv_on_boarding_image
+    private val binding = ItemOnboardingHolderBinding.bind(itemView)
 
     companion object {
         private class Factory : ViewHolderFactory {
@@ -40,9 +38,11 @@ class OnBoardingHolder(
     override fun onBind(model: RowDataModel<OnBoardingType, *>) {
         super.onBind(model)
         with(model.value as OnBoardingViewData) {
-            tvTitle.setText(title)
-            tvSubTitle.setText(subTitle)
-            ivImage.setImageResource(icon)
+            with(binding) {
+                tvOnBoardingTitle.setText(title)
+                tvOnBoardingSubtitle.setText(subTitle)
+                ivOnBoardingImage.setImageResource(icon)
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab422.common.StringProvider
 import com.lab422.common.viewState.ViewState
@@ -15,6 +16,7 @@ import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
 import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.databinding.ActivityFriendsListBinding
 import com.lab422.vkanalyzer.ui.base.BaseActivity
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.friendsList.adapter.FriendsListAdapter
@@ -23,12 +25,11 @@ import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.utils.extensions.gone
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
-import kotlinx.android.synthetic.main.activity_friends_list.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class FriendsListActivity :
-    BaseActivity(R.layout.activity_friends_list),
+    BaseActivity(),
     FriendViewHolder.Listener,
     SearchView.OnQueryTextListener {
 
@@ -44,12 +45,16 @@ class FriendsListActivity :
         const val FRIEND_ID_KEY = "friend_id_key"
     }
 
-    override fun getToolBarViewId(): Int = R.id.toolbar_friends_list
+    override fun getToolBarViewId(): Toolbar = binding.toolbarFriendsList
 
     override val toolbarName: Int = R.string.friends_list
 
+    private lateinit var binding: ActivityFriendsListBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityFriendsListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setToolBar()
         viewModel = getViewModel()
         initViews()
@@ -87,12 +92,14 @@ class FriendsListActivity :
     }
 
     private fun initViews() {
-        ll_friends_list_error_wrapper.gone()
-        btn_friends_list_return.setOnClickListener { finish() }
+        with(binding) {
+            llFriendsListErrorWrapper.gone()
+            btnFriendsListReturn.setOnClickListener { finish() }
 
-        rv_friends_list.run {
-            layoutManager = activityLayoutManager
-            adapter = friendsAdapter
+            rvFriendsList.run {
+                layoutManager = activityLayoutManager
+                adapter = friendsAdapter
+            }
         }
     }
 
@@ -101,8 +108,10 @@ class FriendsListActivity :
     }
 
     private fun processState(viewState: ViewState<List<RowDataModel<FriendsListType, *>>>) {
-        pb_friends_list_loading.setVisible(viewState.isLoading())
-        ll_friends_list_error_wrapper.setVisible(viewState.isError())
+        with(binding) {
+            pbFriendsListLoading.setVisible(viewState.isLoading())
+            llFriendsListErrorWrapper.setVisible(viewState.isError())
+        }
 
         if (viewState.isSuccess()) {
             setData(viewState.data)

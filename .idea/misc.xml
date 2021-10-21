@@ -3,7 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout/activity_friends_list.xml" value="0.36822916666666666" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.36822916666666666" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.36822916666666666" />
+        <entry key="app/src/main/res/layout/activity_mutual_friends.xml" value="0.36822916666666666" />
+        <entry key="app/src/main/res/layout/dialog_permissions_never_ask.xml" value="0.36822916666666666" />
+        <entry key="app/src/main/res/layout/item_mutual_friend.xml" value="0.36822916666666666" />
         <entry key="app/src/main/res/layout/view_shimmer_photo_near_small.xml" value="0.36822916666666666" />
+        <entry key="app/src/main/res/layout/view_toolbar.xml" value="0.36822916666666666" />
       </map>
     </option>
   </component>

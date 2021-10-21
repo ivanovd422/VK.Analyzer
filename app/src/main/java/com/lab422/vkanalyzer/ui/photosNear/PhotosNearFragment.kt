@@ -7,7 +7,9 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -22,7 +24,7 @@ import com.lab422.common.StringProvider
 import com.lab422.common.viewState.ViewState
 import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
-import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.databinding.FragmentPhotosNearBinding
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.PhotosAdapter
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
@@ -31,12 +33,11 @@ import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.PhotosViewHolder
 import com.lab422.vkanalyzer.ui.userInfo.UserInfoBottomSheet
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
-import kotlinx.android.synthetic.main.fragment_photos_near.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class PhotosNearFragment :
-    Fragment(R.layout.fragment_photos_near),
+    Fragment(),
     PermissionsNeverAskDialog.OpenPermissionsSettingsAction,
     PhotosViewHolder.Listener,
     LoadingViewHolder.Listener {
@@ -47,10 +48,22 @@ class PhotosNearFragment :
     private val stringProvider: StringProvider = get()
     private val imageLoader: ImageLoader = get()
 
+    private lateinit var binding: FragmentPhotosNearBinding
+
+
     companion object {
         const val TAG = "PhotosNearFragment"
         const val LOCATION_PERMISSION_ID = 10001
         fun newInstance() = PhotosNearFragment()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentPhotosNearBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,8 +84,8 @@ class PhotosNearFragment :
             viewLifecycleOwner,
             { viewState ->
                 viewState.data?.let { isLocationAvailable ->
-                    container_permissions.setVisible(isLocationAvailable.not())
-                    container_main.setVisible(isLocationAvailable)
+                    binding.containerPermissions.setVisible(isLocationAvailable.not())
+                    binding.containerMain.setVisible(isLocationAvailable)
                 }
             }
         )
@@ -105,7 +118,7 @@ class PhotosNearFragment :
     }
 
     private fun processState(viewState: ViewState<List<RowDataModel<UserPhotoRowType, *>>>) {
-        swipe_to_refresh_photos.isRefreshing = viewState.isLoading()
+        binding.swipeToRefreshPhotos.isRefreshing = viewState.isLoading()
 
         setData(viewState.data)
 
@@ -130,17 +143,19 @@ class PhotosNearFragment :
             imageLoader
         )
 
-        btn_request_permissions.setOnClickListener {
-            requestLocationPermissions()
-        }
+        with(binding) {
+            btnRequestPermissions.setOnClickListener {
+                requestLocationPermissions()
+            }
 
-        rv_photos_near.run {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = photosAdapter
-        }
+            rvPhotosNear.run {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = photosAdapter
+            }
 
-        swipe_to_refresh_photos.setOnRefreshListener {
-            viewModel?.onReloadClicked()
+            swipeToRefreshPhotos.setOnRefreshListener {
+                viewModel?.onReloadClicked()
+            }
         }
     }
 

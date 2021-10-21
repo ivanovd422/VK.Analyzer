@@ -6,18 +6,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.R
+import com.lab422.vkanalyzer.databinding.ItemPhotosDateBinding
 import com.lab422.vkanalyzer.ui.base.BaseTypedViewHolder
 import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.base.ViewHolderFactory
 import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
-import kotlinx.android.synthetic.main.item_photos_date.view.*
 
 class DateViewHolder(
     view: View
 ) : BaseTypedViewHolder<UserPhotoRowType>(view) {
 
-    private val tvDate = view.tv_date
+    private val binding = ItemPhotosDateBinding.bind(itemView)
 
     companion object {
         private class Factory : ViewHolderFactory {
@@ -39,6 +39,6 @@ class DateViewHolder(
     override fun onBind(model: RowDataModel<UserPhotoRowType, *>) {
         super.onBind(model)
         val item = model.value as String
-        tvDate.text = item
+        binding.tvDate.text = item
     }
 }

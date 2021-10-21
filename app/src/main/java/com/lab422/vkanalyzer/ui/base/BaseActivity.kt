@@ -1,16 +1,15 @@
 package com.lab422.vkanalyzer.ui.base
 
 import android.os.Bundle
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.lab422.vkanalyzer.utils.extensions.overridePendingTransitionAsSlideOut
 
-abstract class BaseActivity(@LayoutRes layout: Int) : AppCompatActivity(layout) {
+abstract class BaseActivity : AppCompatActivity() {
 
-    protected val toolbar: Toolbar by lazy { findViewById<Toolbar>(getToolBarViewId()) }
+    protected val toolbar: Toolbar by lazy { getToolBarViewId() }
 
-    protected abstract fun getToolBarViewId(): Int
+    protected abstract fun getToolBarViewId(): Toolbar
 
     protected abstract val toolbarName: Int
 
