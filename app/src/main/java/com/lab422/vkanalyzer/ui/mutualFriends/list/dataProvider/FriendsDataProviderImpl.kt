@@ -1,9 +1,8 @@
 package com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider
 
 import com.lab422.analyzerapi.models.users.NewUser
-import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
-import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewModel
+import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -12,12 +11,12 @@ class FriendsDataProviderImpl : FriendsListDataProvider {
     override fun generateFriendsListData(
         friends: List<NewUser>,
         type: FriendsListType
-    ): List<RowDataModel<FriendsListType, *>> {
-        val friendsList = mutableListOf<RowDataModel<FriendsListType, *>>()
+    ): List<UserViewData> {
+        val friendsList = mutableListOf<UserViewData>()
 
         friends.forEach {
             friendsList.add(
-                createModel(it, type)
+                createModel(it)
             )
         }
 
@@ -28,13 +27,13 @@ class FriendsDataProviderImpl : FriendsListDataProvider {
         friends: List<NewUser>,
         type: FriendsListType,
         query: String
-    ): List<RowDataModel<FriendsListType, *>> = withContext(Dispatchers.Default) {
-        val filteredData = mutableListOf<RowDataModel<FriendsListType, *>>()
+    ): List<UserViewData> = withContext(Dispatchers.Default) {
+        val filteredData = mutableListOf<UserViewData>()
 
         friends.forEach {
             if (it.firstName.toLowerCase().contains(query) || it.lastName.toLowerCase().contains(query)) {
                 filteredData.add(
-                    createModel(it, type)
+                    createModel(it)
                 )
             }
         }
@@ -42,15 +41,11 @@ class FriendsDataProviderImpl : FriendsListDataProvider {
         filteredData
     }
 
-    private fun createModel(user: NewUser, type: FriendsListType): RowDataModel<FriendsListType, *> =
-        RowDataModel(
-            type,
-            user.id.toString(),
-            UserViewModel(
-                user.id,
-                "${user.firstName}  ${user.lastName}",
-                user.online != 0,
-                user.photoUrl
-            )
+    private fun createModel(user: NewUser): UserViewData =
+        UserViewData(
+            user.id,
+            "${user.firstName}  ${user.lastName}",
+            user.online != 0,
+            user.photoUrl
         )
 }

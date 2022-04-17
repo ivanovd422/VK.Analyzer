@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_mutual_friends_list"
@@ -14,23 +15,25 @@
         android:elevation="0dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/Analyzer.Toolbar"
-        app:popupTheme="@style/Analyzer.Toolbar.Popup">
+        app:popupTheme="@style/Analyzer.Toolbar.Popup"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_counter_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <TextView
                 android:id="@+id/tv_mutual_friends_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/mutual_friends_list"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"
-                android:text="@string/mutual_friends_list"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
             <TextView
@@ -49,15 +52,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_mutual_friends"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_mutual_friends_list"
 
-        tools:listitem="@layout/item_mutual_friend"
         tools:itemCount="3"
+        tools:listitem="@layout/item_mutual_friend"
         />
 
     <LinearLayout
@@ -66,7 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <TextView
             android:id="@+id/tv_error"
@@ -74,7 +77,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
 
-            tools:text="Ошибка"/>
+            tools:text="Ошибка"
+            />
 
         <Button
             android:id="@+id/btn_return"
@@ -84,7 +88,8 @@
             android:layout_marginTop="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            android:text="@string/error_back"/>
+            android:text="@string/error_back"
+            />
     </LinearLayout>
 
     <ProgressBar
@@ -92,5 +97,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        />
 </RelativeLayout>

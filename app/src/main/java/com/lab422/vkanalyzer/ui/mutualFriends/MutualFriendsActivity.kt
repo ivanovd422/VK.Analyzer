@@ -10,7 +10,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lab422.common.StringProvider
 import com.lab422.common.viewState.ViewState
 import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
@@ -18,11 +17,10 @@ import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.databinding.ActivityMutualFriendsBinding
 import com.lab422.vkanalyzer.ui.base.BaseActivity
-import com.lab422.vkanalyzer.ui.base.RowDataModel
+import com.lab422.vkanalyzer.ui.friendsList.adapter.FriendsListAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
-import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
-import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.MutualFriendsListAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
+import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewData
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.extensions.gone
 import com.lab422.vkanalyzer.utils.extensions.openLinkWithVkApp
@@ -41,11 +39,11 @@ class MutualFriendsActivity :
 
     private lateinit var viewModel: MutualViewModel
 
-    private val stringProvider: StringProvider = get()
     private val imageLoader: ImageLoader = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
-    private var friendsAdapter: MutualFriendsListAdapter =
-        MutualFriendsListAdapter(listOf(), stringProvider, this, this, imageLoader)
+    private val friendsAdapter: FriendsListAdapter by lazy {
+        FriendsListAdapter(this@MutualFriendsActivity, imageLoader)
+    }
     private lateinit var searchItem: SearchView
     private var menuItem: MenuItem? = null
 
@@ -139,12 +137,12 @@ class MutualFriendsActivity :
     }
 
     private fun initObservers() {
-        viewModel.state.observe(this, { viewState ->
+        viewModel.state.observe(this) { viewState ->
             processState(viewState)
-        })
+        }
     }
 
-    private fun processState(viewState: ViewState<List<RowDataModel<FriendsListType, *>>>) {
+    private fun processState(viewState: ViewState<List<UserViewData>>) {
         with(binding) {
             pbMutualFriendsLoading.setVisible(viewState.isLoading())
             llMutualFriendsErrorWrapper.setVisible(viewState.isError())
@@ -165,9 +163,9 @@ class MutualFriendsActivity :
         }
     }
 
-    private fun setData(data: List<RowDataModel<FriendsListType, *>>?) {
+    private fun setData(data: List<UserViewData>?) {
         data?.let {
-            friendsAdapter.reload(data)
+            friendsAdapter.submitList(data)
         }
     }
 }

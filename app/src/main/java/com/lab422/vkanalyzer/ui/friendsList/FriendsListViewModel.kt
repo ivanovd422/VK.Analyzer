@@ -9,9 +9,9 @@ import com.lab422.analyzerapi.models.users.NewUser
 import com.lab422.analyzerapi.onResult
 import com.lab422.common.viewState.ViewState
 import com.lab422.interactor.UserInteractor
-import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider.FriendsListDataProvider
+import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,8 +21,8 @@ class FriendsListViewModel(
     private val userInteractor: UserInteractor
 ) : ViewModel(), LifecycleObserver {
 
-    private val _state: MutableLiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = MutableLiveData()
-    val state: LiveData<ViewState<List<RowDataModel<FriendsListType, *>>>> = _state
+    private val _state: MutableLiveData<ViewState<List<UserViewData>>> = MutableLiveData()
+    val state: LiveData<ViewState<List<UserViewData>>> = _state
 
     private var rowData: MutableList<NewUser> = mutableListOf()
     private var friendsFilteredJob: Job? = null

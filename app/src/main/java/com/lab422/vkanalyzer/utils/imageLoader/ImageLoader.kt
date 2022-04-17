@@ -13,7 +13,11 @@ import java.lang.ref.WeakReference
 interface ImageLoader {
     suspend fun clearMemoryCache()
 
-    fun loadPhotoByUrl(imageView: ImageView, url: String)
+    fun loadPhotoByUrl(
+        imageView: ImageView,
+        url: String,
+        options: RequestOptions? = null
+    )
 }
 
 class ImageLoaderImpl(private val context: Context) : ImageLoader {
@@ -34,8 +38,13 @@ class ImageLoaderImpl(private val context: Context) : ImageLoader {
         Glide.get(context).clearDiskCache()
     }
 
-    override fun loadPhotoByUrl(imageView: ImageView, url: String) {
+    override fun loadPhotoByUrl(
+        imageView: ImageView,
+        url: String,
+        options: RequestOptions?
+    ) {
         val weakImageView: WeakReference<ImageView> = WeakReference(imageView)
+        val requestOptions = options ?: RequestOptions.centerCropTransform()
 
         weakImageView.get()?.let {
             Glide.with(context)
@@ -44,7 +53,7 @@ class ImageLoaderImpl(private val context: Context) : ImageLoader {
                 .placeholder(shimmerDrawable)
                 .skipMemoryCache(true)
                 .load(Uri.parse(url))
-                .apply(RequestOptions.centerCropTransform())
+                .apply(requestOptions)
                 .into(imageView)
         }
     }

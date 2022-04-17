@@ -9,8 +9,6 @@ import com.lab422.analyzerapi.onResult
 import com.lab422.common.viewState.ViewState
 import com.lab422.interactor.PhotosInteractor
 import com.lab422.interactor.model.UserPhotoData
-import com.lab422.vkanalyzer.ui.base.RowDataModel
-import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.dataProvider.UserPhotoDataProvider
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import kotlinx.coroutines.Job
@@ -39,11 +37,8 @@ class PhotosNearViewModel(
     private val _locationStateAvailability: MutableLiveData<ViewState<Boolean>> = MutableLiveData()
     val locationStateAvailability: LiveData<ViewState<Boolean>> = _locationStateAvailability
 
-    private val _userPhotosData: MutableLiveData<
-        ViewState<List<RowDataModel<UserPhotoRowType, *>>>
-        > = MutableLiveData()
-
-    val userPhotosData: LiveData<ViewState<List<RowDataModel<UserPhotoRowType, *>>>> = _userPhotosData
+    private val _userPhotosData: MutableLiveData<ViewState<List<Any>>> = MutableLiveData()
+    val userPhotosData: LiveData<ViewState<List<Any>>> = _userPhotosData
 
     private val _coordinatesState: MutableLiveData<Boolean> = MutableLiveData(false)
     val coordinatesState: LiveData<Boolean> = _coordinatesState

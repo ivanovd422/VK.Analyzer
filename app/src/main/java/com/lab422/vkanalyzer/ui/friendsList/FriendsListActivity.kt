@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lab422.common.StringProvider
 import com.lab422.common.viewState.ViewState
 import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
@@ -18,10 +17,9 @@ import com.lab422.common.viewState.isSuccess
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.databinding.ActivityFriendsListBinding
 import com.lab422.vkanalyzer.ui.base.BaseActivity
-import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.friendsList.adapter.FriendsListAdapter
 import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendViewHolder
-import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
+import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewData
 import com.lab422.vkanalyzer.utils.extensions.gone
 import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
@@ -34,10 +32,12 @@ class FriendsListActivity :
     SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: FriendsListViewModel
-    private val stringProvider: StringProvider = get()
     private val imageLoader: ImageLoader = get()
     private var activityLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
-    private var friendsAdapter = FriendsListAdapter(listOf(), stringProvider, this, this, imageLoader)
+
+    private val friendsAdapter: FriendsListAdapter by lazy {
+        FriendsListAdapter(this@FriendsListActivity, imageLoader)
+    }
     private lateinit var searchItem: SearchView
 
     companion object {
@@ -104,10 +104,10 @@ class FriendsListActivity :
     }
 
     private fun initObservers() {
-        viewModel.state.observe(this, { viewState -> processState(viewState) })
+        viewModel.state.observe(this) { viewState -> processState(viewState) }
     }
 
-    private fun processState(viewState: ViewState<List<RowDataModel<FriendsListType, *>>>) {
+    private fun processState(viewState: ViewState<List<UserViewData>>) {
         with(binding) {
             pbFriendsListLoading.setVisible(viewState.isLoading())
             llFriendsListErrorWrapper.setVisible(viewState.isError())
@@ -122,9 +122,9 @@ class FriendsListActivity :
         }
     }
 
-    private fun setData(data: List<RowDataModel<FriendsListType, *>>?) {
+    private fun setData(data: List<UserViewData>?) {
         data?.let {
-            friendsAdapter.reload(data)
+            friendsAdapter.submitList(data)
         }
     }
 }

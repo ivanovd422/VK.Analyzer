@@ -20,14 +20,11 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.lab422.common.StringProvider
 import com.lab422.common.viewState.ViewState
 import com.lab422.common.viewState.isError
 import com.lab422.common.viewState.isLoading
 import com.lab422.vkanalyzer.databinding.FragmentPhotosNearBinding
-import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.PhotosAdapter
-import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.LoadingViewHolder
 import com.lab422.vkanalyzer.ui.photosNear.adapter.holder.PhotosViewHolder
 import com.lab422.vkanalyzer.ui.userInfo.UserInfoBottomSheet
@@ -45,7 +42,6 @@ class PhotosNearFragment :
     private var viewModel: PhotosNearViewModel? = null
     private var locationClientManager: FusedLocationProviderClient? = null
     private var photosAdapter: PhotosAdapter? = null
-    private val stringProvider: StringProvider = get()
     private val imageLoader: ImageLoader = get()
 
     private lateinit var binding: FragmentPhotosNearBinding
@@ -70,8 +66,8 @@ class PhotosNearFragment :
         super.onViewCreated(view, savedInstanceState)
         context?.let { locationClientManager = LocationServices.getFusedLocationProviderClient(it) }
         viewModel = getViewModel()
-        initObservers()
         initViews()
+        initObservers()
     }
 
     override fun onResume() {
@@ -81,32 +77,29 @@ class PhotosNearFragment :
 
     private fun initObservers() {
         viewModel?.locationStateAvailability?.observe(
-            viewLifecycleOwner,
-            { viewState ->
-                viewState.data?.let { isLocationAvailable ->
-                    binding.containerPermissions.setVisible(isLocationAvailable.not())
-                    binding.containerMain.setVisible(isLocationAvailable)
-                }
+            viewLifecycleOwner
+        ) { viewState ->
+            viewState.data?.let { isLocationAvailable ->
+                binding.containerPermissions.setVisible(isLocationAvailable.not())
+                binding.containerMain.setVisible(isLocationAvailable)
             }
-        )
+        }
 
         viewModel?.userPhotosData?.observe(
-            viewLifecycleOwner,
-            { viewState ->
-                processState(viewState)
-            }
-        )
+            viewLifecycleOwner
+        ) { viewState ->
+            processState(viewState)
+        }
 
         viewModel?.coordinatesState?.observe(
-            viewLifecycleOwner,
-            { isCoordinatesExist ->
-                if (isCoordinatesExist.not()) {
-                    if (checkPermissions()) {
-                        getLastLocation()
-                    }
+            viewLifecycleOwner
+        ) { isCoordinatesExist ->
+            if (isCoordinatesExist.not()) {
+                if (checkPermissions()) {
+                    getLastLocation()
                 }
             }
-        )
+        }
     }
 
     override fun onPhotoClicked(id: Int, lat: Double?, long: Double?, clickedPhotoUrl: String) {
@@ -117,7 +110,7 @@ class PhotosNearFragment :
         viewModel?.onNextPhotosLoad()
     }
 
-    private fun processState(viewState: ViewState<List<RowDataModel<UserPhotoRowType, *>>>) {
+    private fun processState(viewState: ViewState<List<Any>>) {
         binding.swipeToRefreshPhotos.isRefreshing = viewState.isLoading()
 
         setData(viewState.data)
@@ -127,20 +120,17 @@ class PhotosNearFragment :
         }
     }
 
-    private fun setData(data: List<RowDataModel<UserPhotoRowType, *>>?) {
+    private fun setData(data: List<Any>?) {
         data?.let {
-            photosAdapter?.reload(data)
+            photosAdapter?.submitList(data)
         }
     }
 
     private fun initViews() {
         photosAdapter = PhotosAdapter(
-            listOf(),
-            stringProvider,
-            this,
-            this,
-            this,
-            imageLoader
+            listener = this,
+            onNextLoadingListener = this,
+            imageLoader = imageLoader
         )
 
         with(binding) {

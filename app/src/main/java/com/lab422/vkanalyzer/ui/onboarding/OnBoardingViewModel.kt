@@ -3,9 +3,7 @@ package com.lab422.vkanalyzer.ui.onboarding
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lab422.common.AppSettings
-import com.lab422.vkanalyzer.ui.base.RowDataModel
 import com.lab422.vkanalyzer.ui.onboarding.adapter.OnBoardingScreensProvider
-import com.lab422.vkanalyzer.ui.onboarding.adapter.OnBoardingType
 import com.lab422.vkanalyzer.ui.onboarding.adapter.OnBoardingViewData
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import com.lab422.vkanalyzer.utils.navigator.Navigator
@@ -28,11 +26,11 @@ class OnBoardingViewModel(
     private val screensCount = OnBoardingScreensProvider.getScreensCount()
 
     val onBoardingPositionEvent: MutableLiveData<Int> = MutableLiveData()
-    val onBoardingImages: MutableLiveData<List<RowDataModel<OnBoardingType, *>>> = MutableLiveData()
+    val onBoardingImages: MutableLiveData<List<OnBoardingViewData>> = MutableLiveData()
     val onScrollForwardDirection: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
-        onBoardingImages.value = generateViewData(OnBoardingScreensProvider.getOnBoardingScreenViewData())
+        onBoardingImages.value = OnBoardingScreensProvider.getOnBoardingScreenViewData()
         onBoardingPositionEvent.value = currentScreenPosition
     }
 
@@ -109,13 +107,4 @@ class OnBoardingViewModel(
             }
         }
     }
-
-    private fun generateViewData(viewData: List<OnBoardingViewData>): List<RowDataModel<OnBoardingType, *>> =
-        viewData.map { data ->
-            RowDataModel(
-                OnBoardingType.OnBoarding,
-                data.title.toString(),
-                data
-            )
-        }
 }

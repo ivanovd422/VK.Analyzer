@@ -7,13 +7,10 @@ import android.os.Bundle
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lab422.common.StringProvider
 import com.lab422.vkanalyzer.databinding.ActivityOnBoardingBinding
 import com.lab422.vkanalyzer.ui.onboarding.adapter.OnBoardingAdapter
 import com.lab422.vkanalyzer.utils.extensions.getScreenWidth
-import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 import com.lab422.vkanalyzer.utils.view.InstaStorySlider
-import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
 class OnBoardingActivity : AppCompatActivity() {
@@ -24,17 +21,9 @@ class OnBoardingActivity : AppCompatActivity() {
         }
     }
 
-    private var pagerAdapter: OnBoardingAdapter
+    private var pagerAdapter = OnBoardingAdapter()
     private val viewModel: OnBoardingViewModel by inject()
-
-    private val stringProvider: StringProvider = get()
-    private val imageLoader: ImageLoader = get()
-
     private lateinit var binding: ActivityOnBoardingBinding
-
-    init {
-        pagerAdapter = OnBoardingAdapter(listOf(), stringProvider, this, imageLoader)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,30 +70,27 @@ class OnBoardingActivity : AppCompatActivity() {
 
     private fun initObservers() {
         viewModel.onBoardingPositionEvent.observe(
-            this,
-            {
-                binding.rvOnBoarding.scrollToPosition(it)
-            }
-        )
+            this
+        ) {
+            binding.rvOnBoarding.scrollToPosition(it)
+        }
 
         viewModel.onBoardingImages.observe(
-            this,
-            { data ->
-                data?.let {
-                    pagerAdapter.reload(data)
-                }
+            this
+        ) { data ->
+            data?.let {
+                pagerAdapter.submitList(data)
             }
-        )
+        }
 
         viewModel.onScrollForwardDirection.observe(
-            this,
-            { isForwardDirection ->
-                if (isForwardDirection) {
-                    binding.viewStoriesSlider.scrollToNextStory()
-                } else {
-                    binding.viewStoriesSlider.scrollToPreviousStory()
-                }
+            this
+        ) { isForwardDirection ->
+            if (isForwardDirection) {
+                binding.viewStoriesSlider.scrollToNextStory()
+            } else {
+                binding.viewStoriesSlider.scrollToPreviousStory()
             }
-        )
+        }
     }
 }

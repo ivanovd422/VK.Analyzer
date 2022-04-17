@@ -3,10 +3,8 @@ package com.lab422.vkanalyzer.ui.photosNear.dataProvider
 import com.lab422.common.StringProvider
 import com.lab422.interactor.model.UserPhotoData
 import com.lab422.vkanalyzer.R
-import com.lab422.vkanalyzer.ui.base.Rawable
-import com.lab422.vkanalyzer.ui.base.RowDataModel
-import com.lab422.vkanalyzer.ui.photosNear.adapter.UserPhotoRowType
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.DatePhotosModel
+import com.lab422.vkanalyzer.ui.photosNear.adapter.model.LoadingModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoCellModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoRowModel
 import com.lab422.vkanalyzer.utils.extensions.daysFromToday
@@ -28,8 +26,8 @@ internal class UserPhotoDataProviderImpl(
     override fun generateUserPhotoData(
         userPhotoList: List<UserPhotoData>,
         shouldShowLoading: Boolean
-    ): List<RowDataModel<UserPhotoRowType, *>> {
-        val finalUserPhotosList = mutableListOf<RowDataModel<UserPhotoRowType, *>>()
+    ): List<Any> {
+        val finalUserPhotosList = mutableListOf<Any>()
         val photos = mutableListOf<String>()
         val listSize: Int
         var userPhotoRowModel: MutableList<UserPhotoCellModel> = mutableListOf()
@@ -58,29 +56,20 @@ internal class UserPhotoDataProviderImpl(
                     // check if list did not inserted then add it and clear list
                     if (userPhotoRowModel.isNotEmpty()) {
                         finalUserPhotosList.add(
-                            UserPhotoRowData(
-                                UserPhotoRowType.UserPhoto,
-                                UserPhotoRowModel(userPhotoRowModel)
-                            )
+                            UserPhotoRowModel(userPhotoRowModel)
                         )
                         userPhotoRowModel = mutableListOf()
                     }
 
                     finalUserPhotosList.add(
-                        DateRowData(
-                            UserPhotoRowType.Date,
-                            DatePhotosModel(convertTimestampToHumanDate(photoCell.date * DATE_MULTIPLIER))
-                        )
+                        DatePhotosModel(convertTimestampToHumanDate(photoCell.date * DATE_MULTIPLIER))
                     )
                     rowDate = photoCell.date
                     userPhotoRowModel.add(photoCell)
 
                     if (index == listSize - 1) {
                         finalUserPhotosList.add(
-                            UserPhotoRowData(
-                                UserPhotoRowType.UserPhoto,
-                                UserPhotoRowModel(userPhotoRowModel)
-                            )
+                            UserPhotoRowModel(userPhotoRowModel)
                         )
                         userPhotoRowModel = mutableListOf()
                     }
@@ -90,10 +79,7 @@ internal class UserPhotoDataProviderImpl(
 
                     if (userPhotoRowModel.size == ROWS_COUNT || index == listSize - 1) {
                         finalUserPhotosList.add(
-                            UserPhotoRowData(
-                                UserPhotoRowType.UserPhoto,
-                                UserPhotoRowModel(userPhotoRowModel)
-                            )
+                            UserPhotoRowModel(userPhotoRowModel)
                         )
                         userPhotoRowModel = mutableListOf()
                     }
@@ -104,9 +90,7 @@ internal class UserPhotoDataProviderImpl(
 
         if (shouldShowLoading && finalUserPhotosList.isNotEmpty()) {
             finalUserPhotosList.add(
-                LoadingRowData(
-                    UserPhotoRowType.Loading
-                )
+                LoadingModel()
             )
         }
 
@@ -150,19 +134,4 @@ internal class UserPhotoDataProviderImpl(
         return cal1[Calendar.DAY_OF_YEAR] == cal2[Calendar.DAY_OF_YEAR] &&
             cal1[Calendar.YEAR] == cal2[Calendar.YEAR]
     }
-}
-
-@Suppress("FunctionName")
-fun <T : Rawable> UserPhotoRowData(rowType: T, p: UserPhotoRowModel): RowDataModel<T, Any> {
-    return RowDataModel(rowType, "UserPhotoRowModel-{${p.userPhotosCells}", p)
-}
-
-@Suppress("FunctionName")
-fun <T : Rawable> LoadingRowData(rowType: T): RowDataModel<T, Any> {
-    return RowDataModel(rowType, "Loading", null)
-}
-
-@Suppress("FunctionName")
-fun <T : Rawable> DateRowData(rowType: T, model: DatePhotosModel): RowDataModel<T, Any> {
-    return RowDataModel(rowType, "Date-${model.date}", model.date)
 }
