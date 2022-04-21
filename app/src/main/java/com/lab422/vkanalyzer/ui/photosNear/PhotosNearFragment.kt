@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.view.LayoutInflater
@@ -33,6 +34,8 @@ import com.lab422.vkanalyzer.utils.extensions.setVisible
 import com.lab422.vkanalyzer.utils.imageLoader.ImageLoader
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import java.util.concurrent.TimeUnit
+import java.lang.Exception
 
 class PhotosNearFragment :
     Fragment(),
@@ -44,6 +47,8 @@ class PhotosNearFragment :
     private var locationClientManager: FusedLocationProviderClient? = null
     private var photosAdapter: PhotosAdapter? = null
     private val imageLoader: ImageLoader = get()
+    private val delayHandler = Handler(Looper.getMainLooper())
+    private var delayRunnable: Runnable? = null
 
     private lateinit var binding: FragmentPhotosNearBinding
 
@@ -52,6 +57,8 @@ class PhotosNearFragment :
         const val TAG = "PhotosNearFragment"
         const val LOCATION_PERMISSION_ID = 10001
         fun newInstance() = PhotosNearFragment()
+
+        private val DELAY_TIME = TimeUnit.SECONDS.toMillis(1)
     }
 
     override fun onCreateView(
@@ -108,7 +115,19 @@ class PhotosNearFragment :
     }
 
     override fun onNextLoading() {
-        viewModel?.onNextPhotosLoad()
+        delayRunnable?.let {
+            delayHandler.removeCallbacks(it)
+        }
+
+        delayRunnable = Runnable {
+            viewModel?.onNextPhotosLoad()
+        }
+
+        try {
+            delayHandler.postDelayed(delayRunnable!!, DELAY_TIME)
+        } catch (e: Exception) {
+            //todo log error to firebase from here
+        }
     }
 
     private fun processState(viewState: ViewState<List<Any>>) {

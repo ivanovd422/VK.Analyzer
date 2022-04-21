@@ -93,7 +93,13 @@ class PhotosNearViewModel(
     }
 
     private fun startLoading(lat: String, long: String) {
-        _userPhotosData.value = ViewState(ViewState.Status.LOADING, shimmerData)
+
+        // should pass shimmer data only for empty photos list. Instead we'll lose position at our recycler view
+        if (rawData.isEmpty()) {
+            _userPhotosData.value = ViewState(ViewState.Status.LOADING, shimmerData)
+        } else {
+            _userPhotosData.value = ViewState(ViewState.Status.LOADING)
+        }
 
         loadingJob?.cancel()
         loadingJob = viewModelScope.launch {
