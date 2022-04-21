@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -113,11 +114,15 @@ class PhotosNearFragment :
     private fun processState(viewState: ViewState<List<Any>>) {
         binding.swipeToRefreshPhotos.isRefreshing = viewState.isLoading()
 
-        setData(viewState.data)
-
         if (viewState.isError() && viewState.error.isNullOrEmpty().not()) {
             Toast.makeText(requireContext(), viewState.error, Toast.LENGTH_SHORT).show()
+            binding.llPhotosError.isVisible = true
+            setData(emptyList())
+            return
         }
+
+        setData(viewState.data)
+        binding.llPhotosError.isVisible = false
     }
 
     private fun setData(data: List<Any>?) {
@@ -144,6 +149,10 @@ class PhotosNearFragment :
             }
 
             swipeToRefreshPhotos.setOnRefreshListener {
+                viewModel?.onReloadClicked()
+            }
+
+            btnRepeatLoadPhotos.setOnClickListener {
                 viewModel?.onReloadClicked()
             }
         }

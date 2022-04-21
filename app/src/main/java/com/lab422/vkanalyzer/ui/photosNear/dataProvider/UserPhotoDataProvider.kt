@@ -7,4 +7,6 @@ interface UserPhotoDataProvider {
         userPhotoList: List<UserPhotoData>,
         shouldShowLoading: Boolean
     ): List<Any>
+
+    fun generateShimmerUserPhotoData(): List<Any>
 }

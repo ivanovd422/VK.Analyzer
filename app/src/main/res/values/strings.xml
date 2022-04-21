@@ -51,6 +51,8 @@
         \nактивировать «Местоположение».
     </string>
     <string name="photos_near_permissions_never_ask_dialog_accept">Разрешить</string>
+    <string name="photos_near_text_error">Упс! Что-то пошло не так..</string>
+    <string name="photos_near_error_button">Повторить</string>
 
     <!-- User near -->
     <string name="user_info_close_dialog">Хорошо</string>

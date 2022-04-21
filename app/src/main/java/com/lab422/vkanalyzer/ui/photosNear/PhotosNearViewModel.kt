@@ -9,6 +9,7 @@ import com.lab422.analyzerapi.onResult
 import com.lab422.common.viewState.ViewState
 import com.lab422.interactor.PhotosInteractor
 import com.lab422.interactor.model.UserPhotoData
+import com.lab422.interactor.model.UserPhotoResponse
 import com.lab422.vkanalyzer.ui.photosNear.dataProvider.UserPhotoDataProvider
 import com.lab422.vkanalyzer.utils.analytics.TrackerService
 import kotlinx.coroutines.Job
@@ -44,6 +45,8 @@ class PhotosNearViewModel(
     val coordinatesState: LiveData<Boolean> = _coordinatesState
 
     private var loadingJob: Job? = null
+
+    private val shimmerData by lazy { dataProvider.generateShimmerUserPhotoData() }
 
     override fun onCleared() {
         super.onCleared()
@@ -90,7 +93,8 @@ class PhotosNearViewModel(
     }
 
     private fun startLoading(lat: String, long: String) {
-        _userPhotosData.value = ViewState(ViewState.Status.LOADING)
+        _userPhotosData.value = ViewState(ViewState.Status.LOADING, shimmerData)
+
         loadingJob?.cancel()
         loadingJob = viewModelScope.launch {
             photosInteractor.getPhotosByLocation(
@@ -100,24 +104,7 @@ class PhotosNearViewModel(
                 currentRadius.toString()
             ).onResult(
                 isSuccess = { result ->
-                    val photoList = result.userPhotosData
-                    userPhotosCount = result.count
-                    offset += photoList.size
-                    rawData.addAll(photoList)
-                    val data = dataProvider.generateUserPhotoData(rawData, isEnoughLoaded())
-
-                    if (data.isEmpty()) {
-                        if (currentRadius == radiusList.last()) {
-                            val msg = "Список пуст"
-                            tracker.loadPhotoNearby(false, errorMessage = msg)
-                            _userPhotosData.value = ViewState(ViewState.Status.ERROR, error = msg)
-                        } else {
-                            repeatSearchWithIncreasedRadius()
-                        }
-                    } else {
-                        tracker.loadPhotoNearby(true, data.size)
-                        _userPhotosData.value = ViewState(ViewState.Status.SUCCESS, data)
-                    }
+                    onSuccessLoading(result)
                 },
                 isFailure = { error, _ ->
                     tracker.loadPhotoNearby(false, errorMessage = error.message)
@@ -126,6 +113,28 @@ class PhotosNearViewModel(
             )
         }
     }
+
+    private fun onSuccessLoading(result: UserPhotoResponse) {
+        val photoList = result.userPhotosData
+        userPhotosCount = result.count
+        offset += photoList.size
+        rawData.addAll(photoList)
+        val data = dataProvider.generateUserPhotoData(rawData, isEnoughLoaded())
+
+        if (data.isEmpty()) {
+            if (currentRadius == radiusList.last()) {
+                val msg = "Список пуст"
+                tracker.loadPhotoNearby(false, errorMessage = msg)
+                _userPhotosData.value = ViewState(ViewState.Status.ERROR, error = msg)
+            } else {
+                repeatSearchWithIncreasedRadius()
+            }
+        } else {
+            tracker.loadPhotoNearby(true, data.size)
+            _userPhotosData.value = ViewState(ViewState.Status.SUCCESS, data)
+        }
+    }
+
 
     private fun isEnoughLoaded(): Boolean = rawData.size < userPhotosCount && offset < MAX_OFFSET
 }

@@ -5,6 +5,8 @@ import com.lab422.interactor.model.UserPhotoData
 import com.lab422.vkanalyzer.R
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.DatePhotosModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.LoadingModel
+import com.lab422.vkanalyzer.ui.photosNear.adapter.model.ShimmerDatePhotosModel
+import com.lab422.vkanalyzer.ui.photosNear.adapter.model.ShimmerUserPhotoModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoCellModel
 import com.lab422.vkanalyzer.ui.photosNear.adapter.model.UserPhotoRowModel
 import com.lab422.vkanalyzer.utils.extensions.daysFromToday
@@ -95,6 +97,23 @@ internal class UserPhotoDataProviderImpl(
         }
 
         return finalUserPhotosList
+    }
+
+    override fun generateShimmerUserPhotoData(): List<Any> {
+        return listOf(
+            ShimmerDatePhotosModel(),
+            ShimmerUserPhotoModel(),
+            ShimmerUserPhotoModel(),
+            ShimmerUserPhotoModel(),
+            ShimmerUserPhotoModel(),
+            ShimmerUserPhotoModel(),
+            ShimmerUserPhotoModel(),
+            ShimmerUserPhotoModel(),
+            ShimmerUserPhotoModel(),
+            ShimmerUserPhotoModel(),
+            ShimmerUserPhotoModel(),
+            ShimmerUserPhotoModel(),
+        )
     }
 
     private fun convertTimestampToHumanDate(unix: Long): String =

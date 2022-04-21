@@ -29,4 +29,7 @@
 
     <color name="colorAlto">#e0e0e0</color>
     <color name="colorSilver">#c5c5c5</color>
+
+    <color name="shimmer_background">#e0e0e0</color>
+    <color name="shimmer_placeholder">#EDEEF0</color>
 </resources>

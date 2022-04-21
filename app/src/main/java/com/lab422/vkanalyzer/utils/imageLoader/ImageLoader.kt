@@ -51,8 +51,8 @@ class ImageLoaderImpl(private val appContext: Context) : ImageLoader {
             setShimmer(
                 Shimmer.AlphaHighlightBuilder()
                     .setDuration(1000)
-                    .setBaseAlpha(0.7f)
-                    .setHighlightAlpha(0.6f)
+                    .setBaseAlpha(0.9f)
+                    .setHighlightAlpha(0.8f)
                     .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
                     .setAutoStart(true)
                     .build()
