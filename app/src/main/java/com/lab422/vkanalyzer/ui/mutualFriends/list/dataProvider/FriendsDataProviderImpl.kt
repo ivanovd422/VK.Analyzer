@@ -1,7 +1,6 @@
 package com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider
 
 import com.lab422.analyzerapi.models.users.NewUser
-import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -10,7 +9,6 @@ class FriendsDataProviderImpl : FriendsListDataProvider {
 
     override fun generateFriendsListData(
         friends: List<NewUser>,
-        type: FriendsListType
     ): List<UserViewData> {
         val friendsList = mutableListOf<UserViewData>()
 
@@ -25,7 +23,6 @@ class FriendsDataProviderImpl : FriendsListDataProvider {
 
     override suspend fun filterByQuery(
         friends: List<NewUser>,
-        type: FriendsListType,
         query: String
     ): List<UserViewData> = withContext(Dispatchers.Default) {
         val filteredData = mutableListOf<UserViewData>()

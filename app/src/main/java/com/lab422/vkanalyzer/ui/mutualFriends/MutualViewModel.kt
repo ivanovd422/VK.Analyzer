@@ -9,7 +9,6 @@ import com.lab422.analyzerapi.models.users.NewUser
 import com.lab422.analyzerapi.onResult
 import com.lab422.common.viewState.ViewState
 import com.lab422.interactor.UserInteractor
-import com.lab422.vkanalyzer.ui.mutualFriends.list.adapter.FriendsListType
 import com.lab422.vkanalyzer.ui.mutualFriends.list.dataProvider.FriendsListDataProvider
 import com.lab422.vkanalyzer.ui.mutualFriends.model.MutualFriendsModel
 import com.lab422.vkanalyzer.ui.mutualFriends.model.UserViewData
@@ -45,7 +44,7 @@ class MutualViewModel(
         friendsFilteredJob?.cancel()
         friendsFilteredJob = viewModelScope.launch {
             delay(300)
-            val data = dataProvider.filterByQuery(rowData, FriendsListType.Friends, text)
+            val data = dataProvider.filterByQuery(rowData, text)
             _state.value = ViewState(ViewState.Status.SUCCESS, data)
         }
     }
@@ -85,7 +84,7 @@ class MutualViewModel(
         rowData.clear()
         rowData.addAll(result)
 
-        val data = dataProvider.generateFriendsListData(rowData, FriendsListType.Friends)
+        val data = dataProvider.generateFriendsListData(rowData)
         if (data.isEmpty()) {
             showError("Нет общих друзей")
         } else {

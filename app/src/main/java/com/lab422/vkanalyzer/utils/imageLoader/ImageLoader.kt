@@ -20,22 +20,10 @@ interface ImageLoader {
     )
 }
 
-class ImageLoaderImpl(private val context: Context) : ImageLoader {
-
-    private val shimmer = Shimmer.AlphaHighlightBuilder()
-        .setDuration(1800)
-        .setBaseAlpha(0.7f)
-        .setHighlightAlpha(0.6f)
-        .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
-        .setAutoStart(true)
-        .build()
-
-    private val shimmerDrawable = ShimmerDrawable().apply {
-        setShimmer(shimmer)
-    }
+class ImageLoaderImpl(private val appContext: Context) : ImageLoader {
 
     override suspend fun clearMemoryCache() {
-        Glide.get(context).clearDiskCache()
+        Glide.get(appContext).clearDiskCache()
     }
 
     override fun loadPhotoByUrl(
@@ -46,15 +34,29 @@ class ImageLoaderImpl(private val context: Context) : ImageLoader {
         val weakImageView: WeakReference<ImageView> = WeakReference(imageView)
         val requestOptions = options ?: RequestOptions.centerCropTransform()
 
-        weakImageView.get()?.let {
-            Glide.with(context)
+        weakImageView.get()?.let { safeImageView ->
+            Glide.with(safeImageView.context)
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(shimmerDrawable)
+                .placeholder(getShimmerAnimation())
                 .skipMemoryCache(true)
                 .load(Uri.parse(url))
                 .apply(requestOptions)
-                .into(imageView)
+                .into(safeImageView)
+        }
+    }
+
+    private fun getShimmerAnimation(): ShimmerDrawable {
+        return ShimmerDrawable().apply {
+            setShimmer(
+                Shimmer.AlphaHighlightBuilder()
+                    .setDuration(1000)
+                    .setBaseAlpha(0.7f)
+                    .setHighlightAlpha(0.6f)
+                    .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+                    .setAutoStart(true)
+                    .build()
+            )
         }
     }
 }
